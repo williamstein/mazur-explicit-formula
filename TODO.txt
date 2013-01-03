@@ -1,0 +1,13 @@
+[ ] Write code (explicit.pyx) to automate computation of each of the
+    following:
+
+  * Animation that illustrates behavior of the mean of raw data, for
+    various curves.
+
+  * Animations that illustrate computing sums over zeros for elliptic
+    curves having various interesting symmetric power L-function
+    properties.
+
+  * Race four types of primes... for two elliptic curves.
+
+[ ] Run code for interesting curves, using powerful computers.
