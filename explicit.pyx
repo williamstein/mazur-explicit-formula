@@ -114,6 +114,7 @@ class OscillatoryTerm(object):
         if not isinstance(Xvals, list):
             raise TypeError, "Xvals must be a list"
 
+        print("using %s cpus"%ncpus)
         @parallel(ncpus)
         def f(X):
             return self(X)
