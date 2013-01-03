@@ -5,8 +5,9 @@
 #   (c) William Stein, 2013
 #########################################################
 
-from sage.all import prime_range, line
-import math
+import math, os
+
+from sage.all import prime_range, line, tmp_dir, parallel, text
 
 cdef extern from "math.h":
     double log(double)
@@ -15,13 +16,19 @@ cdef extern from "math.h":
 
 cdef double pi = math.pi
 
+################################################
+# The raw data -- means
+################################################
+
 def raw_data(E, B):
     """
     Return the list of pairs (p, D_E(p)), for all primes p < B, and
     another list of pairs (p, running_average).
 
-    E -- an elliptic curve over QQ
-    B -- positive integer
+    INPUT:
+
+    - E -- an elliptic curve over QQ
+    - B -- positive integer
     """
     result = []; avgs = []
     aplist = E.aplist(B)
@@ -47,7 +54,7 @@ def raw_data(E, B):
         avgs.append((primes[i], running_sum/X))
     return result, avgs
 
-def the_mean(r, vanishing_symmetric_powers):
+def theoretical_mean(r, vanishing_symmetric_powers):
     """
     INPUT:
 
@@ -62,54 +69,68 @@ def the_mean(r, vanishing_symmetric_powers):
 def draw_plot(E, B, vanishing_symmetric_powers=None):
     if vanishing_symmetric_powers is None:
         vanishing_symmetric_powers = []
-    mean = the_mean(E.rank(), vanishing_symmetric_powers)
+    mean = theoretical_mean(E.rank(), vanishing_symmetric_powers)
     d, running_average = raw_data(E, B)
     g = line(d)
     g += line([(0,mean), (d[-1][0],mean)], color='darkred')
     g += line(running_average, color='green')
     return g
 
-class ZeroSums(object):
+############################################################
+# Plots of error term got by taking partial sum over zeros
+############################################################
+
+class OscillatoryTerm(object):
+    """
+    The Oscillatory Term is a real-valued function of a real variable
+
+        S_n(X) = (1/log(X)) * sum(X^(i*gamma_j)/(i*gamma_j) for j<=n)
+
+    where gamma are the imaginary parts of zeros on the critical strip.
+
+    Return object that when evaluated at a specific number X,
+    returns the sequence S_1(X), S_2(X), ..., of partial sums.
+    """
     def __init__(self, E, zeros):
         self.E = E
         if not isinstance(zeros, list):
             zeros = E.lseries().zeros(zeros)
-        self.zeros = [float(x) for x in zeros]
+        self.zeros = [float(x) for x in zeros if x>0]  # only include *complex* zeros.
 
-    def partial_sums(self, double X):  
+    def __call__(self, double X):
         cdef int i
         cdef double logX = log(X), running_sum = 0
         result = []
         for i in range(len(self.zeros)):
             running_sum += cos(logX*self.zeros[i])/self.zeros[i]/logX
-            result.append((i, running_sum))
+            result.append(running_sum)
         return result
 
-# NOTHING TO SEE HERE -- THIS NEVER HAPPENED -- not clear if it is meaningful
-# def zero_sums(E, zeros, B, prec=10000):
-#     #
-#     # E -- elliptic curve
-#     # B -- positive integer
-#     # zeroes -- list of imag parts of zeros or an integer (in which case list is computed)
-#     #           it takes about 5 seconds to compute 1000 zeros...
-#     #
-#     if not isinstance(zeros, list):
-#         zeros = E.lseries().zeros(zeros)
+    def plot(self, double X, **kwds):
+        v = self(X)
+        return line(enumerate(v), **kwds)
 
-#     # we evaluate at primes up to B.
-#     primes = prime_range(B)
-#     log_primes = [log(p) for p in primes]
+    def animation(self, Xvals, output_pdf, ncpus=1, **kwds):
+        if not isinstance(Xvals, list):
+            raise TypeError, "Xvals must be a list"
 
-#     def zero_sum(double x):
-#         return 2*sum(cos(g*x) for g in zeros)
+        @parallel(ncpus)
+        def f(X):
+            return self(X)
 
-#     zero_sums_function = []
-#     running_average_function = []
-#     cdef int i
-#     cdef double z, sum_so_far=0
-#     for i in range(len(primes)):
-#         z = zero_sum(log_primes[i])
-#         sum_so_far += z*(primes[i]-primes[i-1])
-#         n += 1
-#         zero_sums_function.append((i, z))
-        
+        V = list(f(Xvals))
+        ymax = max([max(v[1]) for v in V])
+        ymin = min([min(v[1]) for v in V])
+        path = tmp_dir()
+        fnames = []
+        for X, v in V:
+            frame = ( line(enumerate(v), ymax=ymax, ymin=ymin, **kwds) +
+                      text("X = %s"%X[0], (len(v)//6, ymax/2.0), color='black', fontsize=16) )
+            fname = "%s.pdf"%X[0]
+            frame.save(os.path.join(path, fname))
+            fnames.append(fname)
+        cmd = "cd '%s' && gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE='%s' -dBATCH %s"%(
+            path, os.path.abspath(output_pdf), ' '.join(fnames))
+        print(cmd)
+        os.system(cmd)
+

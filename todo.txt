@@ -1,5 +1,9 @@
+[x] example that illustrates embedding animation in pdf, so that we'll
+    generate graphs that are useful.
+
 [ ] Write code (explicit.pyx) to automate computation of each of the
-    following:
+    following.  Each animation will be generated and stored as a
+    single pdf file, with 1 page per frame.
 
   * Animation that illustrates behavior of the mean of raw data, for
     various curves.
