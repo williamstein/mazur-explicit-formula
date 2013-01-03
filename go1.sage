@@ -2,7 +2,7 @@ attach "explicit.pyx"
 
 ncpus = sage.parallel.ncpus.ncpus()
 
-def f(label, xvals=5, zeros=5):
+def f(label, xvals=200, zeros=5000):
     print(label)
     o = OscillatoryTerm(EllipticCurve(label), zeros)
     for n in [3,4,5,6]:
