@@ -284,38 +284,40 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
 	</table>
 
 	<div class="well">
-	  The fun here is that there are clean conjectures for the values of the
-	  <em>means</em> (relative to $dX/X$)
-	  <div class="center">-- i.e., the <em>biases</em>-- </div> of the three
-	  "sums of local data" and clean expectations of
-	  their <em>variances</em>:<br>
-	  <div id="conj-inst" class="lighten center">
-	    (Use mouse to hover over definition above to see a conjecture.)
+	  <div id="conj-inst">
+	    The fun here is that there are clean conjectures for the values of the
+	    <em>means</em> (relative to $dX/X$)
+	    <div class="center">-- i.e., the <em>biases</em>-- </div> of the three
+	    "sums of local data" and clean expectations of
+	    their <em>variances</em>:<br>
+	    <div class="lighten center">
+	      (Use mouse to hover over definition above to see a conjecture.)
+	    </div>
 	  </div>
 	  <div class="row">
 	    <div class="well">
 	      <div class="hide" id="well-conj">
-		<h4>The well-done data:</h4> 
+		<h4>The well-done data:</h4>
 		<div class="center">
 		  The mean is (conjecturally)
 		  $-r :=$ where $r=r_E$ is the <em>analytic rank</em> of $E$.
 		</div>
 	      </div>
 	      <div class="hide" id="medium-conj">
-		<h4>The medium-rare data:</h4> 
+		<h4>The medium-rare data:</h4>
 		<div class="center">
 		  The mean is (conjecturally) $1-2r$.
-		</div>		
+		</div>
 	      </div>
 	      <div class="hide" id="raw-conj">
-		<h4>The raw data:</h4> 
+		<h4>The raw data: The mean is (conjecturally)</h4>
 		<div class="center">
-		  The mean is (conjecturally)
-		  ${\frac{2}{\pi}}- {\frac{16}{3\pi}}r +  {\frac{4}{\pi}} \sum_{k=1}^{\infty}  (-1)^{k+1}\big[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\big]r({2k+1}),$
+		  
+		  <div class="eq">{\frac{2}{\pi}}- {\frac{16}{3\pi}}r +  {\frac{4}{\pi}} \sum_{k=1}^{\infty}  (-1)^{k+1}\left[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\right]r({2k+1}),</div>
 		  where
 $r(n) := r_{f_E}(n) =$ the order of vanishing of $L(\text{symm}^n f_E, s)$
 at $s=1/2$, with $f_E$ the newform corresponding to $E$ and $s=1/2$
-is the central point. 
+is the central point.
 		</div>
 	      </div>
 	    </div>
