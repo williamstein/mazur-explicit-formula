@@ -1,0 +1,311 @@
+\documentclass[12pt]{beamer}
+
+\setbeamertemplate{navigation symbols}{\insertbackfindforwardnavigationsymbol} 
+\mode<presentation>
+\usetheme{Madrid}
+\usecolortheme{wolverine}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+
+\usepackage{amssymb}
+\usepackage[cmtip,all]{xy}
+
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage[all]{xy}
+
+
+\newtheorem*{thm}{Theorem}
+\newtheorem*{lem}{Lemma}
+\newtheorem*{rem}{Remark}
+\newtheorem*{cor}{Corollary}
+\newtheorem*{cor1}{Corollary 1}
+\newtheorem*{cor2}{Corollary 2}
+\newtheorem*{conj}{Conjecture}
+\newtheorem*{prop}{Proposition}
+\newtheorem*{STKconj}{Conjecture $\ST(K)$}
+
+\theoremstyle{definition}
+\newtheorem*{defn}{Definition}
+
+\newtheorem*{exa}{Example}
+\newtheorem*{exs}{Examples}
+
+\newfont{\cyrr}{wncyr10}
+\def\Sh{\mbox{\cyrr Sh}}
+\def\S{\mathcal S}
+\def\Z{\mathbb{Z}}
+\def\Q{\bf {Q}}
+\def\F{\mathbb{F}}
+\def\R{\mathbb{R}}
+\def\P{\mathbb{P}}
+\def\x{\mathbf{x}}
+\def\sp{{\rm Spec}}
+
+\def\Zp{\Z_p}
+
+\def\Fp{\F_p}
+\def\Ftwo{\F_2}
+\def\K{\mathcal{K}}
+\def\cH{\mathcal{H}}
+\def\A{\mathcal{A}}
+\def\E{\mathcal{E}}
+\def\O{\mathcal{O}}
+\def\cR{\mathcal{R}}
+\def\cS{\mathcal{S}}
+\def\cP{\mathcal{P}}
+\def\cN{\mathcal{N}}
+\def\X{\mathcal{X}}
+\def\ld{\mathcal{h}}
+\def\rd{\mathcal{i}}
+
+\def\mf{\mathfrak{f}}
+\def\l{\mathfrak{l}}
+\def\m{\mathfrak{m}}
+\def\p{\mathfrak{p}}
+\def\q{\mathfrak{q}}
+\def\a{\mathfrak{a}}
+\def\D{\mathfrak{d}}
+\def\Pp{\mathfrak{P}}
+
+\def\k{\Bbbk}
+
+\def\Hom{\text{Hom}}
+\def\Gal{\text{Gal}}
+\def\rk{\text{rank}\,}
+\def\ord{\text{ord}}
+\def\ab{\text{ab}}
+\def\tors{\text{tors}}
+\def\coker{\text{coker}}
+\def\Aut{\text{Aut}}
+\def\Sel{\text{Sel}}
+\def\End{\text{End}}
+\def\Res{\text{Res}}
+\def\Frob{\text{Frob}}
+%\def\f{\text{f}}
+\def\wc{\text{WC}}
+\def\GL{\text{GL}}
+\def\sign{\text{sign}}
+\def\ST{\Sh\text{T}_2}
+\def\jac{\text{Jac}}
+\def\new{\text{new}}
+
+\def\N{\mathbf{N}}
+
+\def\too{\longrightarrow}
+\def\map#1{\;\xrightarrow{#1}\;}
+\def\isom{\xrightarrow{\sim}}
+\def\hookto{\hookrightarrow}
+\def\onto{\twoheadrightarrow}
+\def\dirsum#1{\underset{#1}{\textstyle\bigoplus}}
+\def\tens#1{\underset{#1}{\textstyle\bigotimes}}
+%\def\cf{\mathrm{cond}_{\mathrm{f}}}
+\def\cf{\mathrm{cond}}
+\def\ls{\Omega}
+\def\aug#1{{#1}^0}
+%\def\Hf{H^1_\f}
+\def\dens{\mathrm{density}}
+
+\def\bmu{\boldsymbol{\mu}}
+
+
+\title[How explicit is the Explicit Formula?] 
+{How explicit is the Explicit Formula?}
+
+
+\author[Barry Mazur and William Stein]{ Barry Mazur and William Stein\vskip30pt  {\it Rough notes for our combined talk at the  AMS Special Session on Arithmetic Statistics}}
+
+%\institute[UCI]{\includegraphics[height=.3in]{formal-288.pdf}} 
+
+%\date{}
+%\date[July 6, 2012]
+
+
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor%~~(\insertshortinstitute)
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{4em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\begin{document}
+
+
+\begin{frame}
+\titlepage
+\end{frame}
+\begin{frame}\vskip30pt 
+{\Large The`Explicit Formulas' in analytic number theory deal with  {\it arithmetically interesting quantities}, often given as partial sums---the summands  corresponding to primes $p$---up to some cutoff value, $X$. We'll call them {``{\it Sums\ of\ local\ data},"}
+\vskip40pt
+\centerline{Again:}}
+\end{frame}
+\begin{frame}\vskip20pt
+{\Large 
+   A  {``{\it Sum\ of\ local\ data},"} is a sum of contributions for each prime $ p \le X$:
+
+  $$\delta(X):=\ \ \  \sum_{p\le X}G(p)$$
+  
+  where the rules of the game require the value $G(p)$ to be determined by only {\it local }considerations at the prime $p$.} \end{frame}\begin{frame}\vskip20pt
+{\Large 
+
+We will be concentrating on  {\it sums\ of\ local\ data}  attached to elliptic curves without CM over ${\Q}$,   $$\delta_E(X):=\sum_{p\le X}g_E(p)$$ where the weighting function $$p \mapsto g_E(p)$$   is a specific function of $p$ and $a_E(p)$, the $p$-th Fourier coefficient of the eigenform of weight two parametrizing the elliptic curve.}  \end{frame}\begin{frame}\vskip20pt
+{\Large 
+
+  We will  be interested in  {\it issues of bias.} \vskip40pt  \centerline{\bf Weighted Biases}} \end{frame}\begin{frame}\vskip20pt
+{\Large  \vskip20pt
+
+Our Aim: to examine computations of these biases, following the classical `Explicit Formula," and the work of:
+ 
+\vskip40pt
+Sarnak, \ Granville,\  Rubenstein,\ Watkins,\vskip30pt \hskip40pt Martin,\ Fiorilli,\ Conrey-Snaith$\dots$ } \end{frame}\begin{frame}\vskip20pt
+{\Large  \vskip20pt 
+ For our elliptic curves $E$,\vskip20pt
+ {\it ROUGHLY}---half the Fourier coefficients  $a_E(p)$ are positive and half negative.  } \end{frame}\begin{frame}\vskip20pt
+{\Large \vskip20pt  That is: there are roughly as many $p$'s for which the number of rational points of $E$ over ${\bf F}_p$ is \vskip20pt \centerline{\it greater than $p+1$}  \vskip30pt \centerline{as there are primes for which it is} \vskip20pt \ \centerline{\it less than $p+1$}.       }  \end{frame}
+
+\begin{frame}
+ \vskip40pt {\Large   So let's study  finer statistical issues related to this symmetric distribution.   For example,  we can ask the {\it raw question:}  which of these classes of primes are winning the race, and how often? I.e., what can one say about   }  \end{frame}
+
+\begin{frame}
+ \vskip40pt {\Large  
+ $$\Delta_E(X) =$$  \vskip20pt $$ \#\{p \ {\rm such\ that\ } |E({\bf F}_p| > p+1\}$$ \vskip10pt \centerline{minus} \vskip10pt  $$ \#\{p \ {\rm such\ that\ } |E({\bf F}_p| < p+1\}?$$}  \end{frame}
+
+\begin{frame}
+ \vskip40pt {\Large  Equivalently, putting:\begin{itemize} \item $\gamma_E(p)=0$ if $p$ is a bad or supersingular prime for $E$ and\vskip20pt \item i$\gamma_E(p)= -1$ if $E$ has more than $p+1$  ${\bf F}_p$-rational points, and \vskip20pt \item $\gamma_E(p) = +1$ if less.\end{itemize}}\end{frame}\begin{frame}\vskip20pt
+{\Large \vskip40pt 
+ So:\vskip20pt
+   $$\Delta_E(X): =\sum_{p\le X}\gamma_E(p).$$
+ 
+ 
+ More generally we might consider  weighting functions $p \mapsto g_E(p)$ that have the property that }  \end{frame}\begin{frame}\vskip20pt
+{\Large \vskip40pt 
+\begin{itemize} \item for all primes $p$, $g_E(p)$ is an {\it odd} function of the value  $a_E(p)$, and \vskip20pt \item the {\it sum\ of\ local\ data}  $$\delta_E(X):=\sum_{p\le X}g_E(p)$$ has---or can be convincingly conjectured to have---a finite  {\it mean}.\end{itemize}}\end{frame}
+%\end{document}
+\begin{frame}\vskip20pt
+{\Large \vskip40pt 
+Any such  $$p \mapsto  g_E(p)$$ represents a version of a `bias race'.
+\vskip20pt
+To illustrate specific features of the `Explicit Formula' we focus on three examples of such races for an elliptic curve $E$. }\end{frame}
+  %\end{document}
+\begin{frame}\vskip20pt
+{\Large  \vskip20pt  Form  these 'sums of local data' ---\vskip20pt
+
+We'll call them \vskip10pt  \centerline{the {\it raw},}\vskip10pt  \centerline{the {\it medium-rare}, and }\vskip10pt \centerline{the {\it well-done}}\vskip20pt 'sums of local data' }\end{frame}
+  %\end{document}
+\begin{frame}\vskip20pt
+{\Large  \vskip20pt
+ \centerline{\bf RAW:} \vskip20pt  $$\Delta_E(X): =\sum_{p\le X}\gamma_E(p)$$} \end{frame}
+%\end{document}
+\begin{frame}\vskip20pt
+{\Large  \vskip20pt
+ \centerline{\bf MEDIUM-RARE:}  \vskip20pt$${\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}}$$} \end{frame}
+%\end{document}
+\begin{frame}\vskip20pt
+{\Large  \vskip20pt
+  \centerline{\bf WELL-DONE:} \vskip20pt$${D}_E(X):= {\frac{1}{\log\ X}}\sum_{p \le X}{\frac{a_E(p)\log p}{ p}}$$} \end{frame}
+  
+ \begin{frame}\vskip20pt
+{\Large  \vskip20pt 
+    
+   The fun here is that there are clean conjectures for\vskip20pt the values of the {\it means} (relative to $dX/X$)\vskip20pt \centerline{---i.e., the {\it biases}---}\vskip20pt of the three `sums of local data' \vskip20pt and clean expectations of their {\it variances}:} \end{frame}
+  
+ \begin{frame}\vskip20pt
+{\Large  \vskip20pt 
+    
+   
+    \begin{itemize}
+   \item {\bf The well-done data:} the  mean is (conjecturally) $-r:=$  where $r= r_E$ is the {\it analytic rank} of $E$.  \vskip20pt 
+    
+    \item {\bf The medium-rare data:} the  mean is  (conjecturally)  $1-2r$ and   \end{itemize} } \end{frame}
+  
+ \begin{frame}\vskip20pt
+{\Large  \vskip20pt 
+    
+      \centerline{\bf The raw data:}\vskip5pt  The  mean is  (conjecturally) $$
+{\frac{2}{\pi}}- {\frac{16}{3\pi}}r$$ \vskip5pt \centerline{ + }  \vskip5pt $$ {\frac{4}{\pi}} \sum_{k=1}^{\infty}  (-1)^{k+1}\big[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\big]r({2k+1}).
+$$ \centerline{  where }  } \end{frame}
+  
+ \begin{frame}\vskip20pt
+{\Large  \vskip20pt $$r(n):= \ r_{f_E}(n)\ =$$ \\
+$$=\ \  {\rm the\ order\ of\ vanishing\ of\ }$$
+
+$$L(symm^nf_E, s)\ {\rm at}\ s=1/2,$$ \vskip20pt with $f_E:=$ the newform  corresponding to  $E$; and where  $s=1/2$ is the `central point.'  } \end{frame}
+  
+ \begin{frame}
+{\Large  \vskip20pt  \centerline{ \bf Comments}
+\vskip20pt {\bf(1)}  The (conjectured) distinction in the variances of the three formats.\vskip20pt
+  \begin{itemize} \item   The raw data has {\it infinite variance} \item The medium-rare and well-done data have {\it finite variance}\end{itemize}} \end{frame}
+ \begin{frame}
+{\Large  \vskip20pt   {\bf(2)} The numbers \vskip20pt $$n \mapsto r_E(n)$$ \vskip20pt (for $n$ odd) conjecturally determine {\it all biases}!} \vskip20pt \centerline{\it Discuss}\end{frame}
+ \begin{frame}\vskip20pt  
+{\Large  \vskip20pt  \centerline{\it For example$\dots$}  \vskip20pt   If    $g(t)$ is a continuous function on $[-1,+1]$  with---appropriately defined---Fourier coefficients $\{c_n\}_n$, then the {\it mean} of the sum of local data,  $$G(X):= \sum_{p\le X}g\big(a(p)/2{\sqrt p}\big)$$  is conjecturally}\end{frame}
+ \begin{frame}\vskip20pt  
+{\Large  \vskip20pt    $$\sum_{n=1}^{\infty}  c_n\big(2r_E(n)+(-1)^n\big).$$\vskip20pt  
+$$\{ {\rm{\it  \  Means\ of\ }} G(X){\rm{\it 's}}\} \ \ \  {\leftrightarrow}\ \ \  \{r_E(n){\rm{\it 's}}\}$$}\end{frame}
+ \begin{frame}\vskip20pt
+{\Large  \vskip20pt
+  {\bf(3)} We have the beginnings of some data for those numbers, $n \mapsto r_E(n)$
+ \vskip20pt
+ but {\it nothing systematic}.  \vskip20pt
+  {\bf(4)} And no firm conjectures yet.}\end{frame}
+  
+   
+ \begin{frame}\vskip20pt
+{\Large  \vskip20pt {\bf A very qualitative look at {\it the} Explicit Formula for our three `sums of local data'}
+ 
+ 
+  $${\rm{\it Sum\ of\ local\ data\  }}  \ = $$
+   \vskip20pt 
+  $$  {\rm the\ {\it ``bias"}}\ + \  {\rm{\it  Oscillatory\ term}}\ + \  {\rm{\it  Error\ term}}.$$ }\end{frame}
+   
+ \begin{frame}\vskip20pt
+{\Large  \vskip20pt   E.G., for the Well-done data,
+
+$${D}_E(X):= {\frac{1}{\log\ X}}\sum_{p \le X}{\frac{a_E(p)\log p}{ p}}$$
+the Explicit Formula gives ${D}_E(X)$ as  a sum of three contributions:
+
+$$-r_E\ \ \  +\ \ \  S_E(X)\ \ \  +\ \ \  O(1/\log X)$$}\end{frame}
+
+
+ \begin{frame}\vskip20pt
+{\Large  \vskip20pt 
+where the `{\rm{\it  Oscillatory\ term}}'  $S_E(X) $ is the wild card (even assuming GRH) and we take it to be the limit  ($Y \to {\infty}$) of these generalized trigonometric sums:  \vskip20pt 
+ $$S_E(X,Y) = {\frac{1}{\log X}}\sum_{|\gamma| \le Y}{\frac{X^{i\gamma}}{i\gamma}},$$
+}\end{frame}
+
+
+ \begin{frame}\vskip20pt
+{\Large  \vskip20pt  the sum being over the imaginary parts of the complex zeroes of  $L(f_E, s)\ {\rm at}\ s=1/2.$}\end{frame}
+
+ \begin{frame}\vskip20pt
+{\Large  \vskip20pt  
+ It has been tentatively conjectured   that:
+  
+  $$\lim_{X,Y \to \infty}S_E(X,Y) = 0,$$  but for computations it would be good to know something more {\it explicit}.}\end{frame}
+
+ \begin{frame}\vskip20pt
+{\Large  \vskip20pt   
+{\bf In sum, two issues needing conjectures, and computations:}
+ \vskip20pt 
+ 
+ What should be conjectured about:
+ 
+ \begin{enumerate}\item  the distribution of the $r_E(n)$'s?
+
+ \vskip20pt \item the convergence of $\lim_{X,Y \to \infty}S_E(X,Y)$?\end{enumerate}}\end{frame}
+
+  
+\end{document}
