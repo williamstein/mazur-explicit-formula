@@ -136,29 +136,35 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
     </section>
 
     <section>
-      <h2>Sign of the $a_E(p)$ -- table</h2>
-<!--
-def f(label):
-    E = EllipticCurve(label)
-    v = E.aplist(10^7)
-    pos = len([x for x in v if x > 0]); neg= len([x for x in v if x < 0])
-    print "<tr><td>%s (rank %s)</td><td>%s</td><td>%s</td></tr>"%(
-         label, E.rank(), pos, neg) 
--->
-
+      <h2>Sign of the $a_E(p)$ - a table</h2>
+      <!-- See apsign_counts in code.sage -->
       <div>
+	<br><br>
 	<table class="table table-bordered table-hover">
 	  <tr><th>$\text{Curve}$</th><th>$\text{Positive } a_E(p)\text{ for }p<10^7$</th><th>$\text{Negative }a_E(p)\text{ for }p<10^7$</th></tr>
           <tr><td>11a (rank 0)</td><td>332169</td><td>332119</td></tr>
-	  <tr><td>32a (rank 0; CM)</td><td>19613</td><td>19562</td></tr>
-	  <tr><td>37a (rank 1)</td><td>39126</td><td>39290</td></tr>
-	  <tr><td>389a (rank 2)</td><td>39117</td><td>39309</td></tr>
-	  <tr><td>5077a (rank 3)</td><td>39040</td><td>39366</td></tr>
+	  <tr><td>32a (rank 0; CM)</td><td>166054</td><td>166126</td></tr>
+	  <tr><td>37a (rank 1)</td><td>332127</td><td>332240</td></tr>
+	  <tr><td>389a (rank 2)</td><td>332317</td><td>332022</td></tr>
+	  <tr><td>5077a (rank 3)</td><td>331706</td><td>332632</td></tr>
 	</table>
       </div>
 
     </section>
 
+    <section>
+      <h2>Finer Statistical Issues</h2>
+
+      <div>
+	So let's study finer statistical issues related to this symmetric
+	distribution.  For example, we can ask the <em>raw question:</em>
+	which of these classes of primes are winning the race, and how often?
+	I.e., what can one say about:
+      </div>
+
+
+
+    </section>
 
   </body>
 
