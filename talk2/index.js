@@ -28,6 +28,7 @@
     $(".eq").mathjax({
       display: true
     });
+    $("section").addClass('slide');
     return $.deck('.slide');
   });
 

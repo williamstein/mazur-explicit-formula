@@ -20,5 +20,6 @@ $.fn.extend
 
 $(() ->
     $(".eq").mathjax(display:true)
+    $("section").addClass('slide')
     $.deck('.slide')
 )
