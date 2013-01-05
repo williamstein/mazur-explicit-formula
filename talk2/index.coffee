@@ -24,4 +24,11 @@ $(() ->
     $("[rel=tooltip]").tooltip
         delay: {show: 1000, hide: 100}
     $(".eq").mathjax(display:true)
+
+    for x in ['raw', 'medium', 'well']
+        $("##{x}-defn").hover(
+            (() -> $(this).data('conj').show(); $("#conj-inst").hide()),
+            (() -> $(this).data('conj').hide(); $("#conj-inst").show())
+        ).data("conj", $("##{x}-conj"))
+
 )

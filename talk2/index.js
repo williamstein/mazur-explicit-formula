@@ -25,6 +25,7 @@
   });
 
   $(function() {
+    var x, _i, _len, _ref, _results;
     $("section").addClass('slide');
     $.deck('.slide');
     $("[rel=tooltip]").tooltip({
@@ -33,9 +34,22 @@
         hide: 100
       }
     });
-    return $(".eq").mathjax({
+    $(".eq").mathjax({
       display: true
     });
+    _ref = ['raw', 'medium', 'well'];
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      x = _ref[_i];
+      _results.push($("#" + x + "-defn").hover((function() {
+        $(this).data('conj').show();
+        return $("#conj-inst").hide();
+      }), (function() {
+        $(this).data('conj').hide();
+        return $("#conj-inst").show();
+      })).data("conj", $("#" + x + "-conj")));
+    }
+    return _results;
   });
 
 }).call(this);

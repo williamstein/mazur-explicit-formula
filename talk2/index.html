@@ -229,6 +229,120 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
 
     </section>
 
+    <section>
+      <h2>More General Weighting Functions</h2>
+      <div class="well">
+	Consider weighting functions $p\mapsto g_E(p)$ that have the property that:
+	<ul>
+	  <li>for all primes $p$, the number $g_E(p)$ is an <em>odd</em> function of the value $a_E(p)$</li>
+	  <li>the <em>sum of local data</em>
+	    <div class="eq">
+	      \delta_E(X) := \sum_{p\leq X} g_E(p)
+	    </div>
+	    has--or can be convincingly conjectured to have--a finite <em>mean</em>.
+	  </li>
+	</ul>
+      </div>
+      <div class="well">
+	Any such $p \mapsto g_E(p)$ represents a version of a "bias race".
+	<br><br>
+	  To illustrate specific features of the "Explicit Formula" we focus on
+	  three examples of such races for an elliptic curve $E$.
+      </div>
+    </section>
+
+    <section>
+      <h2>Three Sums of Local Data</h2>
+      <div>
+	<table class="table table-hover">
+	  <tr id="raw-defn">
+	    <td>
+	      <h4>RAW</h4>
+	    </td>
+	    <td>
+	      $\Delta_E(X): =\sum_{p\le X}\gamma_E(p)$
+	    </td>
+	  </tr>
+
+	  <tr  id="medium-defn">
+	    <td>
+	      <h4>MEDIUM-RARE</h4>
+	    </td>
+	    <td>
+		${\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}}$
+	    </td>
+ 	  </tr>
+
+	  <tr  id="well-defn">
+	    <td>
+	      <h4>WELL-DONE</h4>
+	    </td>
+	    <td>
+	      ${D}_E(X):= {\frac{1}{\log X}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}}$
+	    </td>
+	  </tr>
+	</table>
+
+	<div class="well">
+	  The fun here is that there are clean conjectures for the values of the
+	  <em>means</em> (relative to $dX/X$)
+	  <div class="center">-- i.e., the <em>biases</em>-- </div> of the three
+	  "sums of local data" and clean expectations of
+	  their <em>variances</em>:<br>
+	  <div id="conj-inst" class="lighten center">
+	    (Use mouse to hover over definition above to see a conjecture.)
+	  </div>
+	  <div class="row">
+	    <div class="well">
+	      <div class="hide" id="well-conj">
+		<h4>The well-done data:</h4> 
+		<div class="center">
+		  The mean is (conjecturally)
+		  $-r :=$ where $r=r_E$ is the <em>analytic rank</em> of $E$.
+		</div>
+	      </div>
+	      <div class="hide" id="medium-conj">
+		<h4>The medium-rare data:</h4> 
+		<div class="center">
+		  The mean is (conjecturally) $1-2r$.
+		</div>		
+	      </div>
+	      <div class="hide" id="raw-conj">
+		<h4>The raw data:</h4> 
+		<div class="center">
+		  The mean is (conjecturally)
+		  ${\frac{2}{\pi}}- {\frac{16}{3\pi}}r +  {\frac{4}{\pi}} \sum_{k=1}^{\infty}  (-1)^{k+1}\big[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\big]r({2k+1}),$
+		  where
+$r(n) := r_{f_E}(n) =$ the order of vanishing of $L(\text{symm}^n f_E, s)$
+at $s=1/2$, with $f_E$ the newform corresponding to $E$ and $s=1/2$
+is the central point. 
+		</div>
+	      </div>
+	    </div>
+	  </div>
+      </div>
+    </section>
+
+    <section>
+      <h2> </h2>
+    </section>
+
+    <section>
+      <h2> </h2>
+    </section>
+
+    <section>
+      <h2> </h2>
+    </section>
+
+    <section>
+      <h2> </h2>
+    </section>
+
+    <section>
+      <h2> </h2>
+    </section>
+
   </body>
 
 </html>
