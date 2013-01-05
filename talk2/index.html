@@ -14,8 +14,8 @@
 tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
 });
     </script>
-
     <script type="text/javascript" src="mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
 
     <script type="text/javascript" src="jquery/jquery.min.js"></script>
 
@@ -99,19 +99,67 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
 	We will  be interested in  <em>issues of bias.</em>
       </div>
 
-      <h3>Our Aim</h3> 
-<div>
-      Examine computations of these biases, following
-      the classical "Explicit Formula," and the work of:
-</div>
-<div class="well center">
-Sarnak, Granville,  Rubenstein, Watkins, Martin, Fiorilli, Conrey-Snaith, ...
-</div>
-
-
+      <h3>Our Aim</h3>
+      <div>
+	Examine computations of these biases, following
+	the classical "Explicit Formula," and the work of:
+      </div>
+      <div class="well center">
+	Sarnak, Granville,  Rubenstein, Watkins, Martin, Fiorilli, Conrey-Snaith, ...
+      </div>
 
     </section>
- 
+
+    <section>
+      <h2>Sign of $a_E(p)$</h2>
+
+      <div>
+	<h3>
+	  Four our elliptic curves $E$:
+	</h3>
+
+	<div class="well">
+	  ROUGHLY - half the Fourier coefficients $a_E(p)$ are positive and half negative.
+	</div>
+
+	That is: there are roughly as many $p$'s for which the number of rational points of $E$ over $\mathbf{F}_p$ is
+	<div class="well center">
+	  greater than $p+1$
+	</div>
+	as there are primes for which it is
+	<div class="well center">
+	  less than $p+1$.
+	</div>
+
+      </div>
+
+    </section>
+
+    <section>
+      <h2>Sign of the $a_E(p)$ -- table</h2>
+<!--
+def f(label):
+    E = EllipticCurve(label)
+    v = E.aplist(10^7)
+    pos = len([x for x in v if x > 0]); neg= len([x for x in v if x < 0])
+    print "<tr><td>%s (rank %s)</td><td>%s</td><td>%s</td></tr>"%(
+         label, E.rank(), pos, neg) 
+-->
+
+      <div>
+	<table class="table table-bordered table-hover">
+	  <tr><th>$\text{Curve}$</th><th>$\text{Positive } a_E(p)\text{ for }p<10^7$</th><th>$\text{Negative }a_E(p)\text{ for }p<10^7$</th></tr>
+          <tr><td>11a (rank 0)</td><td>332169</td><td>332119</td></tr>
+	  <tr><td>32a (rank 0; CM)</td><td>19613</td><td>19562</td></tr>
+	  <tr><td>37a (rank 1)</td><td>39126</td><td>39290</td></tr>
+	  <tr><td>389a (rank 2)</td><td>39117</td><td>39309</td></tr>
+	  <tr><td>5077a (rank 3)</td><td>39040</td><td>39366</td></tr>
+	</table>
+      </div>
+
+    </section>
+
+
   </body>
 
 </html>

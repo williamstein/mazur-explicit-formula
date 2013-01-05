@@ -19,7 +19,9 @@ $.fn.extend
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, element[0]])
 
 $(() ->
-    $(".eq").mathjax(display:true)
     $("section").addClass('slide')
     $.deck('.slide')
+    $("[rel=tooltip]").tooltip
+        delay: {show: 1000, hide: 100}
+    $(".eq").mathjax(display:true)
 )

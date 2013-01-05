@@ -25,11 +25,17 @@
   });
 
   $(function() {
-    $(".eq").mathjax({
+    $("section").addClass('slide');
+    $.deck('.slide');
+    $("[rel=tooltip]").tooltip({
+      delay: {
+        show: 1000,
+        hide: 100
+      }
+    });
+    return $(".eq").mathjax({
       display: true
     });
-    $("section").addClass('slide');
-    return $.deck('.slide');
   });
 
 }).call(this);
