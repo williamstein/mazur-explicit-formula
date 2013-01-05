@@ -8,10 +8,13 @@
     <meta name="description" content="How explicit is the Explicit Formula?">
     <meta name="author" content="Barry Mazur and William Stein">
     <meta name="viewport" content="width=1024, user-scalable=no">
-
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-    </script>
     <script type="text/javascript" src="mathjax/MathJax.js?config=TeX-AMS_HTML"></script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+});
+    </script>
 
     <script type="text/javascript" src="jquery/jquery.min.js"></script>
 
@@ -37,6 +40,7 @@
     <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 
     <link href="index.css" rel="stylesheet">
+    <script src="index.js"></script>
 
   </head>
 
@@ -54,32 +58,40 @@
 
     <section class="slide">
       <h2>The Explicit Formulas</h2>
-      <p>
+      <div>
 	The "Explicit Formulas" in analytic number theory deal with
 	<em>arithmetically interesting quantities</em>, often given as
 	partial sums-the summands  corresponding to primes $p$-up
 	to some cutoff value $X$. We'll call them <em>"Sums of local data"</em>.
-      </p>
+      </div>
       <h3>Again:</h3>
-      <p>
+      <div>
 	A <em>"Sum of local data"</em> is a sum of contributions for each prime $p\leq X$:
-<br><br>$$\delta(X) := \sum_{p\le X}G(p)$$<br>
+	<div class="eq">
+	  \delta(X) := \sum_{p\le X}G(p)
+	</div>
 	where the rules of the game require the values $G(p)$
 	to be determined by only <em>local</em> considerations at the prime $p$.
-      </p>
+      </div>
     </section>
 
     <section class="slide">
-
+      <h2>Sums of Local Data</h2>
+      <div>
+	We will be concentrating on  <em>sums of local data</em>
+	attached to elliptic curves without CM over $\mathbf{Q}$,
+	<div class="eq">
+	  \delta_E(X):=\sum_{p\le X}g_E(p)
+	</div>
+	where the weighting function
+	<div class="eq">
+	  p \mapsto g_E(p)
+	</div>
+	is a specific function of $p$ and $a_E(p)$,
+	the $p$-th Fourier coefficient of the eigenform of weight two parametrizing the elliptic curve.
+      </div>
     </section>
 
-
-    <!-- Initialize the deck -->
-    <script>
-      $(function() {
-      $.deck('.slide');
-      });
-    </script>
   </body>
 
 </html>
