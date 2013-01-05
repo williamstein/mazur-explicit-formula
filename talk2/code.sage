@@ -23,7 +23,7 @@ def delta_E(E, B):
 
 def delta_E_plot(E,B):
     v = delta_E(E,B)
-    line(v).save('svg/delta_E-%s-%s.svg'%(E.cremona_label(),B), figsize=[8,2])
+    line(v).save('svg/delta_E-%s-%s.svg'%(E.cremona_label(),B), figsize=[8,1.5])
 
 def delta_E_step_plot(E, B):
     v = delta_E(E,B)
