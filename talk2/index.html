@@ -159,10 +159,49 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
 	So let's study finer statistical issues related to this symmetric
 	distribution.  For example, we can ask the <em>raw question:</em>
 	which of these classes of primes are winning the race, and how often?
+	<br>
 	I.e., what can one say about:
       </div>
+      <div class="well center">
+	<div class="eq">
+	  \Delta_E(X) =
+	</div>
+	<div class="eq">
+	  \#\{p \text{ such that } |E(\mathbf{F}_p)| > p+1\}
+	</div>
+        minus
+	<div class="eq">
+	  \#\{p \text{ such that } |E(\mathbf{F}_p)| < p+1\}?
+	</div>
+      </div>
 
+    </section>
 
+    <section>
+      <h2>Equivalently, putting:</h2>
+      <div class="eq">
+\gamma_E(p) = \begin{cases}
+0 & \text{if $p$ is a bad or supersingular prime for $E$},\\
+-1 & \text{if $E$ has more than $p+1$ points rational over $\mathbf{F}_p$},\\
++1 & \text{if less}
+\end{cases}
+      </div>
+
+      <div class="eq">
+	\Delta_E(X) = \sum_{p\leq X} \gamma_E(p)
+      </div>
+      <div class="well">
+	Rank 0 curve 11a ($p<1000$):<br>
+	<img src="svg/delta_E-11a1-step-1000.svg" width=100%>
+      </div>
+
+    </section>
+
+    <section>
+      <div class="well">
+	Rank 0 curve 11a ($p < 10^6$):<br>
+	<img src="svg/delta_E-11a1-1000000.svg" width=100%>
+      </div>
 
     </section>
 

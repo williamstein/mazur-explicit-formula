@@ -18,7 +18,7 @@
         } else {
           tex = "\\({" + tex + "}\\)";
         }
-        element = t.text(tex);
+        element = t.html(tex);
         return MathJax.Hub.Queue(["Typeset", MathJax.Hub, element[0]]);
       });
     }
