@@ -18,6 +18,10 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
 
 
     <script type="text/javascript" src="jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery/jquery-ui/js/jquery-ui.min.js"></script>
+
+
+    <link rel="stylesheet" href="jquery/jquery-ui/css/humanity/jquery-ui.css"> 
 
     <link rel="stylesheet" href="deck/core/deck.core.css">
     <link rel="stylesheet" href="deck/extensions/menu/deck.menu.css">
@@ -295,46 +299,84 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
 	    </div>
 	  </div>
 	  <div class="row">
-	    <div class="well">
-	      <div class="hide" id="well-conj">
-		<h4>The well-done data:</h4>
-		<div class="center">
-		  The mean is (conjecturally)
-		  $-r :=$ where $r=r_E$ is the <em>analytic rank</em> of $E$.
-		</div>
+	    <div class="hide" id="well-conj">
+	      <h4>The well-done data:</h4>
+	      <div class="center">
+		The mean is (conjecturally)
+		$-r :=$ where $r=r_E$ is the <em>analytic rank</em> of $E$.
 	      </div>
-	      <div class="hide" id="medium-conj">
-		<h4>The medium-rare data:</h4>
-		<div class="center">
-		  The mean is (conjecturally) $1-2r$.
-		</div>
+	    </div>
+	    <div class="hide" id="medium-conj">
+	      <h4>The medium-rare data:</h4>
+	      <div class="center">
+		The mean is (conjecturally) $1-2r$.
 	      </div>
-	      <div class="hide" id="raw-conj">
-		<h4>The raw data: The mean is (conjecturally)</h4>
-		<div class="center">
-		  
-		  <div class="eq">{\frac{2}{\pi}}- {\frac{16}{3\pi}}r +  {\frac{4}{\pi}} \sum_{k=1}^{\infty}  (-1)^{k+1}\left[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\right]r({2k+1}),</div>
-		  where
-$r(n) := r_{f_E}(n) =$ the order of vanishing of $L(\text{symm}^n f_E, s)$
-at $s=1/2$, with $f_E$ the newform corresponding to $E$ and $s=1/2$
-is the central point.
-		</div>
+	    </div>
+	    <div class="hide" id="raw-conj">
+	      <h4>The raw data: The mean is (conjecturally)</h4>
+	      <div class="center">
+		<div class="eq">{\frac{2}{\pi}}- {\frac{16}{3\pi}}r +  {\frac{4}{\pi}} \sum_{k=1}^{\infty}  (-1)^{k+1}\left[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\right]r({2k+1}),</div>
+		where
+		$r(n) := r_{f_E}(n) =$ the order of vanishing of $L(\text{symm}^n f_E, s)$
+		at $s=1/2$, with $f_E$ the newform corresponding to $E$ and $s=1/2$
+		is the central point.
 	      </div>
 	    </div>
 	  </div>
+	</div>
+    </section>
+
+    <section>
+      <div class="row">
+	<div class="pull-right lighten small draggable">
+	  $\Delta_E(X): =\sum_{p\le X}\gamma_E(p), \quad
+{\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}},\quad
+{D}_E(X):= {\frac{1}{\log X}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}}$
+	</div>
+	<h2>Comments</h2>
+      </div>
+      <ol>
+	<li>The (conjectured) distinction in the variances of the three formats:
+	  <ul>
+	    <li>The raw data has <em>infinite variance</em></li>
+	    <li>The medium-rare and well-done data have <em>finite variance</em></li>
+	  </ul>
+	</li>
+	<li> The numbers <div class="eq">n\mapsto r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
+		\text{ at }s=1/2</div>
+	  (for $n$ odd) conjecturally determine <em>all biases</em>!
+	</li>
+	<li>We have the beginnings of some data for those numbers, $n\mapsto r_E(n)$, but
+	  <em>nothing systematic</em>.</li>
+	<li>And no firm conjectures yet.</li>
+      </ol>
+    </section>
+
+    <section>
+	<div class="pull-right lighten small draggable eq">
+r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
+		\text{ at }s=1/2
+	</div>
+
+      <h2>For example...</h2>
+
+      <div class="well">
+	If $g(t)$ is a continuous function on $[-1,+1]$ with&mdash;appropriately defined&mdash;Fourier coefficients $\{c_n\}_n$, then the <em>mean</em> of the sum of local data
+	<div class="eq">
+	  G(X) := \sum_{p\leq X} g(a(p)/(2\sqrt{p}))
+	</div>
+	is conjecturally
+	<div class="eq">
+	  \sum_{n=1}^{\infty} c_n(2 r_E(n) + (-1)^n).
+	</div>
+	Thus
+	<div class="eq">
+	  \left\{\text{ Means of }G(X)'s\right\} \longleftrightarrow \left\{ r_E(n)'s \right\}
+	</div>
       </div>
     </section>
 
     <section>
-      <h2> </h2>
-    </section>
-
-    <section>
-      <h2> </h2>
-    </section>
-
-    <section>
-      <h2> </h2>
     </section>
 
     <section>

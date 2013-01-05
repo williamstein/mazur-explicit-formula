@@ -31,4 +31,6 @@ $(() ->
             (() -> $(this).data('conj').hide(); $("#conj-inst").show())
         ).data("conj", $("##{x}-conj"))
 
+    $(".draggable").draggable()
+
 )

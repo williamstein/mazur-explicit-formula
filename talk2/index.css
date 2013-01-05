@@ -23,3 +23,15 @@ h3 {
 .lighten {
     color: #888;
 }
+
+.small {
+    font-size:12pt !important;
+}
+
+.draggable {
+    box-shadow: 2px 2px 1px #bbb;
+}
+
+.draggable:hover {
+    border: 1px dashed black;
+}

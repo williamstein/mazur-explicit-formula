@@ -25,7 +25,7 @@
   });
 
   $(function() {
-    var x, _i, _len, _ref, _results;
+    var x, _i, _len, _ref;
     $("section").addClass('slide');
     $.deck('.slide');
     $("[rel=tooltip]").tooltip({
@@ -38,18 +38,17 @@
       display: true
     });
     _ref = ['raw', 'medium', 'well'];
-    _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       x = _ref[_i];
-      _results.push($("#" + x + "-defn").hover((function() {
+      $("#" + x + "-defn").hover((function() {
         $(this).data('conj').show();
         return $("#conj-inst").hide();
       }), (function() {
         $(this).data('conj').hide();
         return $("#conj-inst").show();
-      })).data("conj", $("#" + x + "-conj")));
+      })).data("conj", $("#" + x + "-conj"));
     }
-    return _results;
+    return $(".draggable").draggable();
   });
 
 }).call(this);
