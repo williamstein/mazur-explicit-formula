@@ -1,6 +1,6 @@
 .well {
     padding: 10px !important;
-    margin: 10px !important;
+    margin: 0px !important;
     box-shadow: 5px 5px 3px #ddd;
 }
 
@@ -22,6 +22,10 @@ h3 {
 
 .lighten {
     color: #888;
+}
+
+.smallish {
+    font-size:16pt !important;
 }
 
 .small {

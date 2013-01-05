@@ -20,7 +20,6 @@ $.fn.extend
 
 $(() ->
     $("section").addClass('slide')
-    $.deck('.slide')
     $("[rel=tooltip]").tooltip
         delay: {show: 1000, hide: 100}
     $(".eq").mathjax(display:true)
@@ -33,4 +32,8 @@ $(() ->
 
     $(".draggable").draggable()
 
+    f = () ->
+        $.deck('.slide')
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub])
+    MathJax.Hub.Queue(f)
 )

@@ -25,9 +25,8 @@
   });
 
   $(function() {
-    var x, _i, _len, _ref;
+    var f, x, _i, _len, _ref;
     $("section").addClass('slide');
-    $.deck('.slide');
     $("[rel=tooltip]").tooltip({
       delay: {
         show: 1000,
@@ -48,7 +47,12 @@
         return $("#conj-inst").show();
       })).data("conj", $("#" + x + "-conj"));
     }
-    return $(".draggable").draggable();
+    $(".draggable").draggable();
+    f = function() {
+      return $.deck('.slide');
+    };
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    return MathJax.Hub.Queue(f);
   });
 
 }).call(this);
