@@ -1,6 +1,6 @@
 .well {
-    padding: 10px !important;
-    margin: 0px !important;
+    padding: 12px !important;
+    margin: 5px !important;
     box-shadow: 5px 5px 3px #ddd;
 }
 
@@ -10,6 +10,11 @@ h3 {
 
 .center {
     text-align:center;
+}
+
+.display {
+    margin-top:1em !important;
+    margin-bottom:1em !important;;
 }
 
 .eq {

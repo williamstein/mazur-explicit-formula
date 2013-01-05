@@ -53,12 +53,17 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
 
     <section>
       <h2>How explicit is the Explicit Formula?</h2>
+      <br>
       <h3 class="center">Barry Mazur and William Stein</h3>
       <br>
       <h4 class="well">
-	Rough notes for our combined talk at the AMS Special Session on
+	Notes for a talk at the AMS Special Session on
 	Arithmetic Statistics
       </h4>
+      <br><br><br>
+      <div class="center lighten">
+	(Change slides with left and right arrows.  Type "m" to see all slides.)
+      </div>
     </section>
 
     <section>
@@ -123,19 +128,19 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
 	</h3>
 
 	<div class="well">
-	  ROUGHLY - half the Fourier coefficients $a_E(p)$ are positive and half negative.
-	</div>
+	  ROUGHLY &mdash; half the Fourier coefficients $a_E(p)$ are positive and half negative.
 
-	That is: there are roughly as many $p$'s for which the number of rational points of $E$ over $\mathbf{F}_p$ is
-	<div class="well center">
-	  greater than $p+1$
-	</div>
-	as there are primes for which it is
-	<div class="well center">
-	  less than $p+1$.
-	</div>
+	  <br><br>
+	  That is: there are roughly as many $p$'s for which the number of rational points of $E$ over $\mathbf{F}_p$ is<br><br>
+	  <div class="center">
+	    greater than $p+1$<br><br>
+	  </div>
+	  as there are primes for which it is<br><br>
+	  <div class="center">
+	    less than $p+1$.
+	  </div>
 
-      </div>
+	</div>
 
     </section>
 
@@ -243,11 +248,11 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
 	    <div class="eq">
 	      \delta_E(X) := \sum_{p\leq X} g_E(p)
 	    </div>
-	    has--or can be convincingly conjectured to have--a finite <em>mean</em>.
+	    has&mdash;or can be convincingly conjectured to have&mdash;a finite <em>mean</em>.
 	  </li>
 	</ul>
-      </div>
-      <div class="well">
+	<hr>
+
 	Any such $p \mapsto g_E(p)$ represents a version of a "bias race".
 	<br><br>
 	  To illustrate specific features of the "Explicit Formula" we focus on
@@ -291,7 +296,7 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
 	  <div id="conj-inst">
 	    The fun here is that there are clean conjectures for the values of the
 	    <em>means</em> (relative to $dX/X$)
-	    <div class="center">-- i.e., the <em>biases</em>-- </div> of the three
+	    <div class="center display">&mdash;i.e., the <em>biases</em>&mdash;</div> of the three
 	    "sums of local data" and clean expectations of
 	    their <em>variances</em>:<br>
 	    <div class="lighten center">
@@ -330,8 +335,9 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
       <div class="row">
 	<div class="pull-right lighten small draggable">
 	  $\Delta_E(X): =\sum_{p\le X}\gamma_E(p), \quad
-{\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}},\quad
-{D}_E(X):= {\frac{1}{\log X}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}}$
+{\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}} \to 1-2r,\quad
+{D}_E(X):= {\frac{1}{\log X}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}} \to -r$
+&nbsp;&nbsp;&nbsp;
 	</div>
 	<h2>Comments</h2>
       </div>
@@ -401,15 +407,40 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 	</div>
 
       </div>
-
     </section>
 
     <section>
-      <h2> </h2>
+	<div class="pull-right lighten small draggable eq">
+	  S_E(X,Y) = \frac{1}{\log X} \sum_{|\gamma|\leq Y} \frac{X^{i\gamma}}{i\gamma}
+\quad\text{(sum over zeros)}
+	</div>
+
+      <h2>A Tentative Conjecture</h2>
+      <div class="well">
+	It has been tentatively conjectured that
+	<div class="eq">
+	  \lim_{X,Y\to\infty} S_E(X,Y) = 0,
+	</div>
+	but for computations it would be good to know
+	something more <em>explicit</em>.
     </section>
 
     <section>
-      <h2> </h2>
+	<div class="pull-right lighten small draggable eq">
+r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
+		\text{ at }s=1/2,
+\qquad S_E(X,Y) = \frac{1}{\log X} \sum_{|\gamma|\leq Y} \frac{X^{i\gamma}}{i\gamma}
+	</div>
+
+      <h2>Two issues needing conjectures, and computations:</h2>
+
+      <div class="well">
+	What should be conjectured about:
+	<ol>
+	  <li>the distribution of the $r_{E}(n)$'s</li>
+	  <li>the convergence of $\lim_{X,Y\to\infty} S_E(X,Y) = 0$</li>
+	</ol>
+      </div>
     </section>
 
   </body>
