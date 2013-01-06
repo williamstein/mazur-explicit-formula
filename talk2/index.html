@@ -79,9 +79,9 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
       <div>
 	A <em>"Sum of local data"</em> is a sum of contributions for each prime $p\leq X$:
 	<div class="eq">
-	  \delta(X) := \sum_{p\le X}G(p)
+	  \delta(X) := \sum_{p\le X}\delta(p)
 	</div>
-	where the rules of the game require the values $G(p)$
+	where the rules of the game require the values $\delta(p)$
 	to be determined by only <em>local</em> considerations at the prime $p$.
       </div>
     </section>
@@ -240,6 +240,49 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
     </section>
 
     <section>
+	<div class="pull-right lighten small draggable">
+	  $\Delta_E(X): =\sum_{p\le X}\gamma_E(p)$&nbsp;&nbsp;&nbsp;
+	</div>
+
+      <h2>"Means" and "Percentages of positive (or negative) support"</h2>
+      <div>
+	<div class="row">
+	  <div class="span8">
+	    Recall that to say that 
+	    <div class="eq">\delta(X) = \sum_{p\le X}g(x)</div>
+	    <em>possesses a limiting distribution $\mu_\delta$ with respect to the multiplicative measure $dX/X$</em>
+	    means that  for continuous bounded functions $f$ on $\mathbf{R}$ we have:
+	    <div class="eq smaller">
+	      \lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^Xf(\delta(x))dx  = \int_{\mathbf{R}}f(x)d\mu_\delta(x).
+	    </div>
+
+	    The <em>mean</em> of $\delta(X)$ is by definition:
+	    <div class="eq smaller">
+	      {\mathcal E} : = \lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^X\delta(x)dx  =  \int_{\mathbf{R}}d\mu_\delta(x).
+	    </div>
+	  </div>
+	  <div class="span1">
+	    &nbsp;
+	  </div>
+	  <div class="span7" style="border-left:1px solid #888 !important; padding: 1em !important;">
+	    In the work of Sarnak and Fiorilli, another measure for understanding "bias behavior" is given by what one might call <em>the percentage of positive  support</em> (relative to the multiplicative measure $dX/X$). Namely:
+	    <div class="eq">
+	      \begin{align*}
+	      {\mathcal P} & :=  \lim {\rm inf}_{X\to \infty}{\frac{1}{\log X}}\int_{2\le x \le X; \delta(x)\le 0}dx/x\\
+	      \quad &=   \lim {\rm sup}_{X\to \infty}{\frac{1}{\log X}}\int_{2\le x \le X; \delta(x)\le 0}dx/x
+	      \end{align*}
+	    </div>
+
+	    It is indeed a conjecture, in specific instances interesting to us, that these limits ${\mathcal E} $ and ${\mathcal P}$  exist.
+	    <div class="center lighten smallish">(Discuss a beautiful result of Fiorilli about  ${\mathcal P}$)</div>
+
+	  </div>
+	</div>
+      </div>
+
+    </section>
+
+    <section>
       <h2>More General Weighting Functions</h2>
       <div class="well">
 	Consider weighting functions $p\mapsto g_E(p)$ that have the property that:
@@ -376,7 +419,7 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
       <div class="well">
 	If $g(t)$ is a continuous function on $[-1,+1]$ with&mdash;appropriately defined&mdash;Fourier coefficients $\{c_n\}_n$, then the <em>mean</em> of the sum of local data
 	<div class="eq">
-	  G(X) := \sum_{p\leq X} g(a(p)/(2\sqrt{p}))
+	  \delta(X) := \sum_{p\leq X} g(a(p)/(2\sqrt{p}))
 	</div>
 	is conjecturally
 	<div class="eq">
@@ -384,14 +427,14 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 	</div>
 	Thus
 	<div class="eq">
-	  \left\{\text{ Means of }G(X)'s\right\} \longleftrightarrow \left\{ r_E(n)'s \right\}
+	  \left\{\text{ Means of }\delta(X)'s\right\} \longleftrightarrow \left\{ r_E(n)'s \right\}
 	</div>
       </div>
     </section>
 
     <section>
 	<div class="pull-right lighten small draggable eq">
-r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
+	  r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 		\text{ at }s=1/2
 	</div>
 	<h2>More on the Raw Data mean</h2>

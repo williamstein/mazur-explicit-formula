@@ -37,6 +37,10 @@ h3 {
     font-size:12pt !important;
 }
 
+.smaller {
+    font-size:18pt !important;
+}
+
 .larger {
     font-size:26pt !important;
 }
