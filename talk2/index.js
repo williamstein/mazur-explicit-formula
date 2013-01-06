@@ -6,12 +6,21 @@
   Animation = (function() {
 
     function Animation(elt, opts) {
+      this.toggle_running = __bind(this.toggle_running, this);
+
+      this.stop = __bind(this.stop, this);
+
       this.start = __bind(this.start, this);
 
       this.update = __bind(this.update, this);
 
       var frame, img, _i, _len, _ref;
+      this.running = false;
       this.frames = [];
+      if (!(opts.fps != null)) {
+        opts.fps = 1;
+      }
+      this.fps = opts.fps;
       _ref = opts.frames;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         frame = _ref[_i];
@@ -26,6 +35,8 @@
       }
       this.n = 0;
       elt.append(this.frames[0]);
+      elt.attr("rel", "tooltip").attr("title", " Click to animate ").tooltip();
+      elt.click(this.toggle_running);
     }
 
     Animation.prototype.update = function() {
@@ -35,8 +46,30 @@
       return this.n = m;
     };
 
-    Animation.prototype.start = function(fps) {
-      return setInterval(this.update, 1000.0 / fps);
+    Animation.prototype.start = function() {
+      console.log('start');
+      if (this.running) {
+        return;
+      }
+      this.running = true;
+      return this.interval_timer = setInterval(this.update, 1000.0 / this.fps);
+    };
+
+    Animation.prototype.stop = function() {
+      console.log('stop');
+      if (!this.running) {
+        return;
+      }
+      this.running = false;
+      return clearInterval(this.interval_timer);
+    };
+
+    Animation.prototype.toggle_running = function() {
+      if (this.running) {
+        return this.stop();
+      } else {
+        return this.start();
+      }
     };
 
     return Animation;
@@ -48,17 +81,13 @@
       if (opts == null) {
         opts = {};
       }
-      if (!(opts.fps != null)) {
-        opts.fps = 1;
-      }
       if (!(opts.frames != null)) {
         console.log("Empty animation?");
         return;
       }
       return this.each(function() {
         var ani;
-        ani = new Animation($(this), opts);
-        return ani.start(opts.fps);
+        return ani = new Animation($(this), opts);
       });
     }
   });

@@ -5,7 +5,11 @@
 
 class Animation
     constructor: (elt, opts) ->
+        @running = false
         @frames = []
+        if not opts.fps?
+            opts.fps = 1
+        @fps = opts.fps
         for frame in opts.frames
             img = $("<img>").attr("src",frame)
             if opts.width?
@@ -15,26 +19,42 @@ class Animation
             @frames.push(img)
         @n = 0
         elt.append(@frames[0])
+        elt.attr("rel","tooltip").attr("title", " Click to animate ").tooltip()
+        elt.click(@toggle_running)
 
     update: () =>
         m = (@n + 1)%(@frames.length)
         @frames[@n].replaceWith(@frames[m])
         @n = m
 
-    start: (fps) =>
-        setInterval(@update, 1000.0/fps)
+    start: () =>
+        console.log('start')
+        if @running
+            return
+        @running = true
+        @interval_timer = setInterval(@update, 1000.0/@fps)
+
+    stop: () =>
+        console.log('stop')
+        if not @running
+            return
+        @running = false
+        clearInterval(@interval_timer)
+
+    toggle_running: () =>
+        if @running
+            @stop()
+        else
+            @start()
 
 
 $.fn.extend
     animate: (opts={}) ->   # fps, frames (array of filenames), width, height
-        if not opts.fps?
-            opts.fps = 1
         if not opts.frames?
             console.log("Empty animation?")
             return  # no point!
         @each () ->
             ani = new Animation($(this), opts)
-            ani.start(opts.fps)
 
 
 $.fn.extend
