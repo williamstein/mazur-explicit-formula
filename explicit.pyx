@@ -7,7 +7,7 @@
 
 import math, os
 
-from sage.all import prime_range, line, tmp_dir, parallel, text
+from sage.all import prime_range, line, tmp_dir, parallel, text, cached_method, nth_prime, load, EllipticCurve
 
 cdef extern from "math.h":
     double log(double)
@@ -20,7 +20,7 @@ cdef double pi = math.pi
 # The raw data -- means
 ################################################
 
-def raw_data(E, B):
+def raw_data(E, B=None, aplist=None):
     """
     Return the list of pairs (p, D_E(p)), for all primes p < B, and
     another list of pairs (p, running_average).
@@ -29,11 +29,20 @@ def raw_data(E, B):
 
     - E -- an elliptic curve over QQ
     - B -- positive integer
+    - aplist -- list of Fourier coefficients a_p
     """
     result = []; avgs = []
-    aplist = E.aplist(B)
+    if B is None:
+        if aplist is not None:
+            B = nth_prime(len(aplist))+1
+        else:
+            B = 1000
+    if aplist is None:
+        aplist = E.aplist(B)
     primes = prime_range(B)
+    
     assert len(aplist) == len(primes)
+
     cdef double X, running_sum = 0, val = 0
     cdef int i, cnt = 0
     for i in range(len(aplist)):
@@ -157,4 +166,24 @@ class OscillatoryTerm(object):
             path, os.path.abspath(output_pdf), ' '.join(fnames))
         print(cmd)
         os.system(cmd)
+
+
+
+
+############################################################
+# Plots of data suitable for display (so number of recorded
+# sample points is smaller), which benefit from having a
+# pre-computed aplist table.
+############################################################
+
+class DataPlots(object):
+    def __init__(self, lbl, B, data_path):
+        self.data_path = data_path
+        self.B = B
+        self.E = EllipticCurve(lbl)
+        self.aplist = load('%s/%s-aplist-%s.sobj'%(data_path,lbl,B))
+
+    @cached_method
+    def raw_data(self):
+        return raw_data(self.E, B=self.B, aplist=self.aplist)
 

@@ -248,7 +248,7 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
       <div>
 	<div class="row">
 	  <div class="span8">
-	    Recall that to say that 
+	    Recall that to say that
 	    <div class="eq">\delta(X) = \sum_{p\le X}g(x)</div>
 	    <em>possesses a limiting distribution $\mu_\delta$ with respect to the multiplicative measure $dX/X$</em>
 	    means that  for continuous bounded functions $f$ on $\mathbf{R}$ we have:
@@ -305,7 +305,14 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
     </section>
 
     <section>
-      <h2>Three Sums of Local Data</h2>
+      <div class="pull-right lighten small draggable eq">
+	\gamma_E(p) = \begin{cases}
+	0 & \text{if $p$ is a bad or supersingular prime for $E$},\\
+	-1 & \text{if $E$ has more than $p+1$ points rational over $\mathbf{F}_p$},\\
+	+1 & \text{if less}
+	\end{cases}
+      </div>
+      <h2>Sums of Local Data</h2>
       <div>
 	<table class="table table-hover">
 	  <tr id="raw-defn">
@@ -349,20 +356,20 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
 	  </div>
 	  <div class="row">
 	    <div class="hide" id="well-conj">
-	      <h4>The well-done data:</h4>
-	      <div class="center">
-		The mean is (conjecturally)
-		$-r :=$ where $r=r_E$ is the <em>analytic rank</em> of $E$.
+	      <h4>The well-done data&mdash;the mean is (conjecturally)</h4>
+	      <div class="eq">
+		-r,
 	      </div>
+	      where $r=r_E$ is the <em>analytic rank</em> of $E$.
 	    </div>
 	    <div class="hide" id="medium-conj">
-	      <h4>The medium-rare data:</h4>
-	      <div class="center">
-		The mean is (conjecturally) $1-2r$.
+	      <h4>The medium-rare data&mdash;the mean is (conjecturally)</h4>
+	      <div class="eq">
+		 1-2r
 	      </div>
 	    </div>
 	    <div class="hide" id="raw-conj">
-	      <h4>The raw data: The mean is (conjecturally)</h4>
+	      <h4>The raw data&mdash;the mean is (conjecturally)</h4>
 	      <div class="center">
 		<div class="eq">{\frac{2}{\pi}}- {\frac{16}{3\pi}}r +  {\frac{4}{\pi}} \sum_{k=1}^{\infty}  (-1)^{k+1}\left[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\right]r({2k+1}),</div>
 		where
@@ -403,7 +410,7 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
       </ol>
       <div class="lighten">
 	Numerically, instead of simply looking at examples of curves of various ranks, we instead look
-	for curves with interesting $r_E(n)$...
+	for curves with interesting $r_E(n)$ and focus on the <em>mean</em>...
       </div>
     </section>
 
@@ -433,17 +440,25 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
     </section>
 
     <section>
+      <div class="pull-right lighten small draggable eq">
+	\gamma_E(p) = \begin{cases}
+	0 & \text{if $p$ is a bad or supersingular prime for $E$},\\
+	-1 & \text{if $E$ has more than $p+1$ points rational over $\mathbf{F}_p$},\\
+	+1 & \text{if less}
+	\end{cases}
+      </div>
 	<div class="pull-right lighten small draggable eq">
 	  r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 		\text{ at }s=1/2
 	</div>
+
 	<h2>More on the Raw Data mean</h2>
 	<div>Parity of $r_E(2k+1)$ is independent of $k$, i.e., $r_E(2k+1)\equiv r_E$ mod $2$ for all $k\geq 0$.  Define $s_E(2k+1)$:</div>
 	<div class="eq">
             r_E(2k+1) = \text{(rank of $E$ modulo $2$)} + 2 \cdot s_E(2k+1)
 	</div>
 	<div class="well">
-	  <h4>Conjecture: The Raw Data Mean is</h4>
+	  <h4>Conjecture&mdash;the Raw Data Mean $\sum \gamma_E(p)$ is:</h4>
 	  <div class="eq">
 	    {\mathcal E}  := {\frac{2}{3\pi}}\left(4+(-1)^{r+1} -  8r\right) + {\mathcal Z}
 	  </div>
@@ -470,7 +485,7 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
       <h2>Higher order vanishing of L-functions of symmetric powers (Martin and Watkins)</h2>
       <div class="center">
       <table class="table table-hover" style="width:100%">
-	<tr><th style="width: 15%;">$E$</th> <th style="width:15%;">rank</th> <th style="width: 10%;">$k$</th> <th  style="width: 15%">$s_E(2k+1)$</th>  <th style="width:15%" rel="tooltip" title="Assuming all other s<sub>E</sub> are 0">RAW?</th> <th style="width:15%">MEDIUM</th> <th style="width:15%">WELL</th></tr>
+	<tr><th style="width: 15%;">$E$</th> <th style="width:15%;">rank</th> <th style="width: 10%;">$k$</th> <th  style="width: 15%">$s_E(2k+1)$</th>  <th style="width:15%" rel="tooltip" title="Assuming (!) all other s<sub>E</sub> are 0">RAW??</th> <th style="width:15%">MEDIUM</th> <th style="width:15%">WELL</th></tr>
 
 
 <tr id="#curve-2379b"><td>2379b</td><td>0</td><td>1</td><td>2</td><td>$\frac{10}{\pi} + \frac{16}{15}\sim 4.25$</td><td>1</td><td>0</td></tr>
