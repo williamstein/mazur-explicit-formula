@@ -5,11 +5,13 @@
 
 class Animation
     constructor: (elt, opts) ->
-        @running = false
         @frames = []
         if not opts.fps?
             opts.fps = 1
         @fps = opts.fps
+        if not opts.loop?
+            opts.loop = false
+        @loop = opts.loop
         for frame in opts.frames
             img = $("<img>").attr("src",frame)
             if opts.width?
@@ -22,27 +24,26 @@ class Animation
         elt.attr("rel","tooltip").attr("title", " Click to animate ").tooltip()
         elt.click(@toggle_running)
 
-    update: () =>
+    update: (loop_anyways) =>
         m = (@n + 1)%(@frames.length)
-        @frames[@n].replaceWith(@frames[m])
-        @n = m
+        if not loop_anyways? and m == 0 and not @loop
+            @stop()
+        else
+            @frames[@n].replaceWith(@frames[m])
+            @n = m
 
     start: () =>
-        console.log('start')
-        if @running
+        if @interval_timer?
             return
-        @running = true
+        @update(true)
         @interval_timer = setInterval(@update, 1000.0/@fps)
 
     stop: () =>
-        console.log('stop')
-        if not @running
-            return
-        @running = false
         clearInterval(@interval_timer)
+        delete @interval_timer
 
     toggle_running: () =>
-        if @running
+        if @interval_timer?
             @stop()
         else
             @start()
@@ -51,7 +52,6 @@ class Animation
 $.fn.extend
     animate: (opts={}) ->   # fps, frames (array of filenames), width, height
         if not opts.frames?
-            console.log("Empty animation?")
             return  # no point!
         @each () ->
             ani = new Animation($(this), opts)
@@ -73,7 +73,9 @@ $.fn.extend
 
 $(() ->
     $("#cover-animation").animate
-        frames:['svg/delta_E-11a1-step-1000.svg', 'svg/delta_E-32a1-1000000.svg']
+        frames : ("svg/test1/#{X}.svg" for X in [100..150])
+        fps    : 5
+        loop   : false
 
     $("section").addClass('slide')
     $("[rel=tooltip]").tooltip

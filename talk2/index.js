@@ -15,12 +15,15 @@
       this.update = __bind(this.update, this);
 
       var frame, img, _i, _len, _ref;
-      this.running = false;
       this.frames = [];
       if (!(opts.fps != null)) {
         opts.fps = 1;
       }
       this.fps = opts.fps;
+      if (!(opts.loop != null)) {
+        opts.loop = false;
+      }
+      this.loop = opts.loop;
       _ref = opts.frames;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         frame = _ref[_i];
@@ -39,33 +42,32 @@
       elt.click(this.toggle_running);
     }
 
-    Animation.prototype.update = function() {
+    Animation.prototype.update = function(loop_anyways) {
       var m;
       m = (this.n + 1) % this.frames.length;
-      this.frames[this.n].replaceWith(this.frames[m]);
-      return this.n = m;
+      if (!(loop_anyways != null) && m === 0 && !this.loop) {
+        return this.stop();
+      } else {
+        this.frames[this.n].replaceWith(this.frames[m]);
+        return this.n = m;
+      }
     };
 
     Animation.prototype.start = function() {
-      console.log('start');
-      if (this.running) {
+      if (this.interval_timer != null) {
         return;
       }
-      this.running = true;
+      this.update(true);
       return this.interval_timer = setInterval(this.update, 1000.0 / this.fps);
     };
 
     Animation.prototype.stop = function() {
-      console.log('stop');
-      if (!this.running) {
-        return;
-      }
-      this.running = false;
-      return clearInterval(this.interval_timer);
+      clearInterval(this.interval_timer);
+      return delete this.interval_timer;
     };
 
     Animation.prototype.toggle_running = function() {
-      if (this.running) {
+      if (this.interval_timer != null) {
         return this.stop();
       } else {
         return this.start();
@@ -82,7 +84,6 @@
         opts = {};
       }
       if (!(opts.frames != null)) {
-        console.log("Empty animation?");
         return;
       }
       return this.each(function() {
@@ -116,9 +117,18 @@
   });
 
   $(function() {
-    var f, x, _i, _len, _ref;
+    var X, f, x, _i, _len, _ref;
     $("#cover-animation").animate({
-      frames: ['svg/delta_E-11a1-step-1000.svg', 'svg/delta_E-32a1-1000000.svg']
+      frames: (function() {
+        var _i, _results;
+        _results = [];
+        for (X = _i = 100; _i <= 150; X = ++_i) {
+          _results.push("svg/test1/" + X + ".svg");
+        }
+        return _results;
+      })(),
+      fps: 5,
+      loop: false
     });
     $("section").addClass('slide');
     $("[rel=tooltip]").tooltip({
