@@ -1,4 +1,5 @@
-from sage.all import EllipticCurve, pi, latex
+from sage.all import EllipticCurve, pi, latex, parallel, save
+import os
 
 
 scurves = [("2379b",1,2),("5423a",1,2),("10336d",1,2),("29862s",1,2),
@@ -25,3 +26,25 @@ def sympow_table():
         res += '<tr id="#curve-%s">'%lbl + ''.join(["<td>%s</td>"%x for x in row]) + '</tr>\n'
     return res
 
+
+@parallel(len(scurves))
+def compute_aplists_and_zeros(i):
+    num_ap = 10^3
+    num_zeros = 10^2
+    if not os.path.exists('data'):
+        os.makedirs('data')
+    lbl = scurves[i][0]
+    E = EllipticCurve(lbl)
+    aplist_sobj = 'data/%s-aplist-%s.sobj'%(lbl, num_ap)
+    zeros_sobj = 'data/%s-zeros-%s.sobj'%(lbl, num_zeros)
+    if not os.path.exists(aplist_sobj):
+        v = E.aplist(num_ap)
+        v = [int(ap) for ap in v]
+        save(v, aplist_sobj)
+    if not os.path.exists(zeros_sobj):
+        zeros = [float(y) for y in E.lseries().zeros(num_zeros)]
+        save(zeros, zeros_sobj)
+
+def compute_all_aplists_and_zeros():
+    for X in compute_aplists_and_zeros(range(len(scurves))):
+        print X
