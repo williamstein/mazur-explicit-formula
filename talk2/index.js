@@ -117,19 +117,7 @@
   });
 
   $(function() {
-    var X, f, x, _i, _len, _ref;
-    $("#cover-animation").animate({
-      frames: (function() {
-        var _i, _results;
-        _results = [];
-        for (X = _i = 100; _i <= 150; X = ++_i) {
-          _results.push("svg/test1/" + X + ".svg");
-        }
-        return _results;
-      })(),
-      fps: 5,
-      loop: false
-    });
+    var f, x, _i, _len, _ref;
     $("section").addClass('slide');
     $("[rel=tooltip]").tooltip({
       delay: {

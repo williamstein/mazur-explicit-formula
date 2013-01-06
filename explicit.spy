@@ -1,0 +1,23 @@
+from sage.all import EllipticCurve
+
+scurves = [("2379b",1,2),("5423a",1,2),("10336d",1,2),("29862s",1,2),
+           ("816b",2,1),("2340i",2,1),("2432d",2,1),("3776h",2,1),
+           ("128b",3,1),("160a",3,1),("192a",3,1)]
+
+def raw(E,k,s):
+    return '?'
+
+def medium(E,k,s):
+    return 1-2*E.rank()
+
+def well(E,k,s):
+    return -E.rank()
+
+def sympow_table():
+    res = ''
+    for lbl,k,s in scurves:
+        E = EllipticCurve(lbl)
+        row = lbl, E.rank(), k, s, raw(E,k,s), medium(E,k,s), well(E,k,s)
+        res += '<tr>' + ''.join(["<td>%s</td>"%x for x in row]) + '</tr>\n'
+    return res
+

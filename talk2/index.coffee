@@ -72,10 +72,10 @@ $.fn.extend
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, element[0]])
 
 $(() ->
-    $("#cover-animation").animate
-        frames : ("svg/test1/#{X}.svg" for X in [100..150])
-        fps    : 5
-        loop   : false
+    #$("#cover-animation").animate
+    #    frames : ("svg/test1/#{X}.svg" for X in [100..150])
+    #    fps    : 5
+    #    loop   : false
 
     $("section").addClass('slide')
     $("[rel=tooltip]").tooltip

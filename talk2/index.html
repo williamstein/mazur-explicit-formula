@@ -65,8 +65,6 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
 	(Change slides with left and right arrows.  Type "m" to see all slides.)
       </div>
 
-      <div id="cover-animation">
-      </div>
     </section>
 
     <section>
@@ -377,6 +375,7 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 		\text{ at }s=1/2
 	</div>
 
+
       <h2>For example...</h2>
 
       <div class="well">
@@ -393,6 +392,54 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 	  \left\{\text{ Means of }G(X)'s\right\} \longleftrightarrow \left\{ r_E(n)'s \right\}
 	</div>
       </div>
+    </section>
+
+    <section>
+	<div class="pull-right lighten small draggable eq">
+r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
+		\text{ at }s=1/2
+	</div>
+	<h2>More on the Raw Data mean</h2>
+	<div>Parity of $r_E(2k+1)$ is independent of $k$, i.e., $r_E(2k+1)\equiv r_E$ mod $2$ for all $k\geq 0$.  Define $s_E(2k+1)$:</div>
+	<div class="eq">
+            r_E(2k+1) = \text{(rank of $E$ modulo $2$)} + 2 \cdot s_E(2k+1)
+	</div>
+	<div class="well">
+	  <h4>Conjecture: The Raw Data Mean is</h4>
+	  <div class="eq">
+	    {\mathcal E}  := {\frac{2}{3\pi}}\left(4+(-1)^{r+1} -  8r\right) + {\mathcal Z}
+	  </div>
+	  where ${\mathcal Z}$ is the "contribution from higher order vanishing" of the special value of the $L$-functions attached to  higher symmetric powers, i.e.,
+	  <div class="eq">
+	    {\mathcal Z}:=  {\frac{8}{\pi}} \sum_{k=1}^{\infty}  (-1)^{k+1}\left[{\frac{1}{2k+1}} +  {\frac{1}{2k+3}}\right]s_E(2k+1).
+	  </div>
+	</div>
+
+    </section>
+
+    <section>
+	<div class="pull-right lighten small draggable eq">
+r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
+		= \epsilon + 2s_E(2k+1),
+\quad\text{ where }\epsilon = \text{ rank of $E$ modulo }2.
+	</div>
+      <h2>Higher order vanishing of L-functions of symmetric powers (Martin and Watkins)</h2>
+      <div class="center well">
+      <table class="table table-hover" style="width:100%">
+	<tr><th style="width: 15%;">$E$</th> <th style="width:15%;">rank</th> <th style="width: 10%;">$k$</th> <th  style="width: 15%">$s_E(2k+1)$</th>  <th style="width:15%" rel="tooltip" title="Assuming all other $s_E$ are 0">RAW?</th> <th style="width:15%">MEDIUM</th> <th style="width:15%">WELL</th></tr>
+<tr><td>2379b</td><td>0</td><td>1</td><td>2</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><td>5423a</td><td>0</td><td>1</td><td>2</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><td>10336d</td><td>1</td><td>1</td><td>2</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><td>29862s</td><td>0</td><td>1</td><td>2</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><td>816b</td><td>0</td><td>2</td><td>1</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><td>2340i</td><td>1</td><td>2</td><td>1</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><td>2432d</td><td>2</td><td>2</td><td>1</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><td>3776h</td><td>2</td><td>2</td><td>1</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><td>128b</td><td>0</td><td>3</td><td>1</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><td>160a</td><td>1</td><td>3</td><td>1</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><td>192a</td><td>1</td><td>3</td><td>1</td><td>?</td><td>?</td><td>?</td></tr>
+      </table>
+</div>
     </section>
 
     <section>
@@ -449,13 +496,16 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 \qquad S_E(X,Y) = \frac{1}{\log X} \sum_{|\gamma|\leq Y} \frac{X^{i\gamma}}{i\gamma}
 	</div>
 
-      <h2>Two issues needing conjectures, and computations:</h2>
+      <h2>Three issues needing conjectures, and computations:</h2>
 
       <div class="well">
-	What should be conjectured about:
+	<h4>What should be conjectured about:</h4>
 	<ol>
 	  <li>the distribution of the $r_{E}(n)$'s</li>
 	  <li>the convergence of $\lim_{X,Y\to\infty} S_E(X,Y) = 0$</li>
+	  <li>the conditional biases&mdash;and multivariate distributions&mdash;related
+	    to the zeroes of $L$-functions of tensor products of symmetric powers
+	    of two (or more) automorphic forms</li>
 	</ol>
       </div>
     </section>

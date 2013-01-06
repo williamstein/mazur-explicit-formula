@@ -26,7 +26,7 @@ h3 {
 }
 
 .lighten {
-    color: #888;
+    color: #666;
 }
 
 .smallish {
@@ -37,10 +37,18 @@ h3 {
     font-size:12pt !important;
 }
 
+.larger {
+    font-size:26pt !important;
+}
+
 .draggable {
     box-shadow: 2px 2px 1px #bbb;
 }
 
 .draggable:hover {
     border: 1px dashed black;
+}
+
+td, th {
+    text-align:center !important;
 }
