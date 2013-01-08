@@ -27,7 +27,7 @@ def sympow_table():
 
 @parallel(len(curves))
 def compute_aplists_and_zeros(i):
-    num_ap = 10^8
+    num_ap = 10^9
     num_zeros = 10^4
     if not os.path.exists('data'):
         os.makedirs('data')
