@@ -98,9 +98,9 @@ def data(E, B, aplist, num_points=None, verbose=True):
 
         # Update the integrals that appear in the mean
         if i > 0:
-            length = p - last_p
-            # raw mean
-            integral_raw    += last_sum_raw*(logX-last_logX) # integral of (1/x)*last_sum_raw from last_X to X
+            length = p - last_p   
+            # raw mean    -- an integral of log(X)/(X*sqrt(X)) is -2*log(X)/sqrt(X) - 4/sqrt(X)
+            integral_raw    += ((-2*logX/sqrtX - 4/sqrtX) - (-2*last_logX/last_sqrtX - 4/last_sqrtX)) * last_sum_raw
 
             # medium mean -- an integral of log(X)/(X*sqrt(X)) is -2*log(X)/sqrt(X) - 4/sqrt(X)
             integral_medium += ((-2*logX/sqrtX - 4/sqrtX) - (-2*last_logX/last_sqrtX - 4/last_sqrtX)) * last_sum_medium
@@ -178,8 +178,8 @@ class DataPlots(object):
             self.aplist = load('%s/%s-aplist-%s.sobj'%(data_path,lbl,B))
 
     @cached_method
-    def data(self, num_points=1000):  # num_points = number of sample points in output plot
-        return data(self.E, B=self.B, aplist=self.aplist, num_points=num_points)
+    def data(self, num_points=1000,verbose=True):  # num_points = number of sample points in output plot
+        return data(self.E, B=self.B, aplist=self.aplist, num_points=num_points, verbose=verbose)
 
 ############################################################
 # Plots of error term got by taking partial sum over zeros
