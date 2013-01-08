@@ -80,18 +80,18 @@ def data(E, B, aplist, num_points=None, verbose=True):
             gamma_p = -1
         elif ap > 0:
             gamma_p = 1
-            
+
         last_sum_raw = sum_raw
         sum_raw += gamma_p
-        
+
         # used below
         logX  = log(X)
         sqrtX = sqrt(X)
-        
+
         # medium sum
         last_sum_medium = sum_medium
         sum_medium += ap/sqrtX
-        
+
         # well-done sum
         last_sum_well = sum_well
         sum_well += ap*logX/p
@@ -100,19 +100,21 @@ def data(E, B, aplist, num_points=None, verbose=True):
         if i > 0:
             length = p - last_p
             # raw mean
-            integral_raw    += length * last_sum_raw
-            # medium mean -- an integral of log(X)/sqrt(X) is 2*sqrt(X)*log(X)-4*sqrt(X).
-            integral_medium += ((2*sqrtX*logX-4*sqrtX)-(2*last_sqrtX*last_logX-4*last_sqrtX)) * last_sum_medium
-            # well done mean -- an integral of 1/log(X) is Ei(log(X))
-            EilogX = Ei(logX)
-            integral_well   += (EilogX - last_EilogX) * last_sum_well
+            integral_raw    += last_sum_raw*(logX-last_logX) # integral of (1/x)*last_sum_raw from last_X to X
+
+            # medium mean -- an integral of log(X)/(X*sqrt(X)) is -2*log(X)/sqrt(X) - 4/sqrt(X)
+            integral_medium += ((-2*logX/sqrtX - 4/sqrtX) - (-2*last_logX/last_sqrtX - 4/last_sqrtX)) * last_sum_medium
+
+            # well done mean -- an integral of 1/(X*log(X)) is log(log(X))
+            loglogX = log(logX)
+            integral_well   += (loglogX - last_loglogX) * last_sum_well
 
         last_sqrtX = sqrtX
         last_logX = logX
+        last_loglogX = loglogX
         last_X = X
-        last_EilogX = EilogX
         last_p = p
-        
+
         # Finally, record next data point, if it is time to do so...
         if i % record_modulus == 0:
             if verbose and record_modulus >= 1000 and (i%(10*record_modulus)==0):
@@ -120,17 +122,17 @@ def data(E, B, aplist, num_points=None, verbose=True):
                 if per > 0.1:
                     print "%.1f"%(walltime(tm)*(1-per)/per),
                     sys.stdout.flush()
-                    
+
             delta_raw.append((X, sum_raw))
             delta_medium.append((X, sum_medium*logX/sqrtX))
             delta_well.append((X, sum_well/logX))
-            
-            mean_raw.append((X, integral_raw/X))
-            mean_medium.append((X, integral_medium/X))
-            mean_well.append((X, integral_well/X))
+
+            mean_raw.append((X, integral_raw/logX))
+            mean_medium.append((X, integral_medium/logX))
+            mean_well.append((X, integral_well/logX))
 
     if verbose:
-        print 
+        print
 
     return {'raw'    : {'delta' : delta_raw,    'mean': mean_raw},
             'medium' : {'delta' : delta_medium, 'mean': mean_medium},
