@@ -31,7 +31,7 @@ def compute_aplists_and_zeros(i):
     num_zeros = 10^4
     if not os.path.exists('data'):
         os.makedirs('data')
-    lbl = curves[i][0]
+    lbl = curves[i]
     E = EllipticCurve(lbl)
     aplist_sobj = 'data/%s-aplist-%s.sobj'%(lbl, num_ap)
     zeros_sobj = 'data/%s-zeros-%s.sobj'%(lbl, num_zeros)
