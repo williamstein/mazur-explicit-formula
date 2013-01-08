@@ -174,7 +174,7 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
       </div>
       <div class="well center">
 	<div class="eq">
-	  \Delta_E(X) = \frac{\log(X)}{\sqrt{X}} \cdot
+	  \Delta_E(X) = \frac{\log(X)}{\sqrt{X}} \text{ times }
 	</div>
 	<div class="eq">
 	  \#\{p \text{ such that } |E(\mathbf{F}_p)| > p+1\}
@@ -198,7 +198,7 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
       </div>
 
       <div class="eq">
-	\Delta_E(X) = \frac{\log(X)}{\sqrt{X}} \cdot \sum_{p\leq X} \gamma_E(p)
+	\Delta_E(X) = \frac{\log(X)}{\sqrt{X}} \sum_{p\leq X} \gamma_E(p)
       </div>
 [[TODO: REDO THE PLOT!]]
       <div class="well">
@@ -209,7 +209,7 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
     </section>
 
     <section>
-      <h2>Graphs of $\Delta_E(X) = \frac{\log(X)}{\sqrt{X}} \cdot\sum_{p\leq X}\gamma_E(p)$</h2>
+      <h2>Graphs of $\Delta_E(X) = \frac{\log(X)}{\sqrt{X}} \sum_{p\leq X}\gamma_E(p)$</h2>
       <div class="well">
 	Rank 0 curve 11a ($p < 10^6$):<br>
 	<img src="svg/delta_E-11a1-1000000.svg"  width="100%">
@@ -228,7 +228,7 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
     </section>
 
     <section>
-      <h2>More graphs of $\Delta_E(X) = \frac{\log(X)}{\sqrt{X}} \cdot \sum_{p\leq X}\gamma_E(p)$</h2>
+      <h2>More graphs of $\Delta_E(X) = \frac{\log(X)}{\sqrt{X}}  \sum_{p\leq X}\gamma_E(p)$</h2>
       <div class="well">
 	Rank 2 curve 389a ($p < 10^6$):<br>
 	<img src="svg/delta_E-389a1-1000000.svg" width=100%>
@@ -327,7 +327,7 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
 	      <h4>RAW</h4>
 	    </td>
 	    <td>
-	      $\Delta_E(X): = \frac{\log(X)}{\sqrt{X}} \cdot\sum_{p\le X}\gamma_E(p)$
+	      $\Delta_E(X): = \frac{\log(X)}{\sqrt{X}} \sum_{p\le X}\gamma_E(p)$
 	    </td>
 	  </tr>
 
@@ -492,7 +492,7 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 \quad\text{ where }\epsilon = \text{ rank of $E$ modulo }2.
 	</div>
 	<div class="pull-right lighten small draggable">
-	  $\Delta_E(X): =\sum_{p\le X}\gamma_E(p), \quad
+	  $\Delta_E(X): = \frac{\log(X)}{\sqrt{X}}  \sum_{p\le X}\gamma_E(p), \quad
 {\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}} \to 1-2r,\quad
 {D}_E(X):= {\frac{1}{\log X}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}} \to -r$
 &nbsp;&nbsp;&nbsp;
