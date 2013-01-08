@@ -40,7 +40,7 @@ def raw_data(E, B=None, aplist=None):
     if aplist is None:
         aplist = E.aplist(B)
     primes = prime_range(B)
-    
+
     assert len(aplist) == len(primes)
 
     cdef double X, running_sum = 0, val = 0
