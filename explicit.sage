@@ -1,13 +1,10 @@
 from sage.all import EllipticCurve, pi, latex, parallel, save
 import os
 
-#curves = ["11a", "14a", "37a", "43a", "389a", "433a", "5077a", "11197a"]
-
-scurves = [("2379b",1,2),("5423a",1,2),("10336d",1,2),("29862s",1,2),
-           ("816b",2,1),("2340i",2,1),("2432d",2,1),("3776h",2,1),
-           ("128b",3,1),("160a",3,1),("192a",3,1)]
+curves = ["11a", "14a", "37a", "43a", "389a", "433a", "5077a", "11197a"]
 
 def raw(E,k,s):
+    # THIS IS WRONG.
     r = E.rank()
     Z = (8/pi) + (-1)^(k+1)*(1/(2*k+1) + 1/(2*k+3)) * s
     return 2/(3*pi)* ( 4 + (-1)^(r+1) - 8*r ) + Z
@@ -20,21 +17,21 @@ def well(E,k,s):
 
 def sympow_table():
     res = ''
-    for lbl,k,s in scurves:
+    for lbl in curves:
         E = EllipticCurve(lbl)
         ra = raw(E,k,s)
-        row = lbl, E.rank(), k, s, "$%s\sim %s$"%(latex(ra),ra.N(digits=3)), medium(E,k,s), well(E,k,s)
+        row = lbl, E.rank(), medium(E,k,s), well(E,k,s)
         res += '<tr id="#curve-%s">'%lbl + ''.join(["<td>%s</td>"%x for x in row]) + '</tr>\n'
     return res
 
 
-@parallel(len(scurves))
+@parallel(len(curves))
 def compute_aplists_and_zeros(i):
     num_ap = 10^8
     num_zeros = 10^4
     if not os.path.exists('data'):
         os.makedirs('data')
-    lbl = scurves[i][0]
+    lbl = curves[i][0]
     E = EllipticCurve(lbl)
     aplist_sobj = 'data/%s-aplist-%s.sobj'%(lbl, num_ap)
     zeros_sobj = 'data/%s-zeros-%s.sobj'%(lbl, num_zeros)
@@ -47,5 +44,5 @@ def compute_aplists_and_zeros(i):
         save(zeros, zeros_sobj)
 
 def compute_all_aplists_and_zeros():
-    for X in compute_aplists_and_zeros(range(len(scurves))):
+    for X in compute_aplists_and_zeros(range(len(curves))):
         print X
