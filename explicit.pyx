@@ -5,9 +5,11 @@
 #   (c) William Stein, 2013
 #########################################################
 
-import math, os
+import math, os, sys
 
-from sage.all import prime_range, line, tmp_dir, parallel, text, cached_method, nth_prime, load, EllipticCurve
+from sage.all import prime_range, line, tmp_dir, parallel, text, cached_method, nth_prime, load, EllipticCurve, walltime
+
+from scipy.special import expi as Ei
 
 cdef extern from "math.h":
     double log(double)
@@ -19,19 +21,29 @@ cdef double pi = math.pi
 ################################################
 # The raw data -- means
 ################################################
+"""
+sage: dp = DataPlots("160a", 10^6)
+sage: v = dp.data(num_points=5000)
+sage: plot_step_function(v['raw']['mean'],color='red',thickness=.5) + plot_step_function(v['raw']['delta'], thickness=.5)
+"""
 
-def raw_data(E, B=None, aplist=None):
+def data(E, B, aplist, num_points=None, verbose=True):
     """
-    Return the list of pairs (p, D_E(p)), for all primes p < B, and
-    another list of pairs (p, running_average).
+    Return graphs of the raw, medium, and well-done delta's,
+    along with their means.  By a graph, we mean a list of
+    pairs (X, f(X)), where the function is sampled at various
+    values X.
 
     INPUT:
 
     - E -- an elliptic curve over QQ
     - B -- positive integer
     - aplist -- list of Fourier coefficients a_p
+    - verbose -- print estimate of remaining time to do the computation
     """
-    result = []; avgs = []
+    if verbose:
+        print "Time remaining:",
+    tm = walltime()
     if B is None:
         if aplist is not None:
             B = nth_prime(len(aplist))+1
@@ -40,28 +52,89 @@ def raw_data(E, B=None, aplist=None):
     if aplist is None:
         aplist = E.aplist(B)
     primes = prime_range(B)
-
     assert len(aplist) == len(primes)
+    M = len(aplist)
+    if num_points is None or num_points > M:
+        num_points = len(aplist)
+    cdef int record_modulus = M//num_points
 
-    cdef double X, running_sum = 0, val = 0
-    cdef int i, cnt = 0
-    for i in range(len(aplist)):
-        if aplist[i] < 0:
-            cnt -= 1
-        elif aplist[i] > 0:
-            cnt += 1
+    delta_raw = []; delta_medium = []; delta_well = []
+    mean_raw = [];  mean_medium = [];  mean_well  = []
 
-        if i == 0:
-            running_sum = 0
-        else:
-            running_sum += val*(primes[i] - primes[i-1] - 1)
+    cdef double ap, p, last_p=0, X, last_X = 0, \
+         sum_raw = 0,  sum_medium = 0,  sum_well = 0, \
+         last_sum_raw = 0, last_sum_medium = 0, last_sum_well = 0, \
+         integral_raw = 0, integral_medium = 0, integral_well = 0, \
+         gamma_p = 0, last_gamma_p = 0, EilogX = 0, last_EilogX = 0, \
+         length
 
-        X   = primes[i]
-        val = (log(X) / sqrt(X)) * cnt
-        running_sum += val
-        result.append((primes[i], val))
-        avgs.append((primes[i], running_sum/X))
-    return result, avgs
+    cdef int i = -1, cnt = 0
+    for ap in aplist:
+        i += 1
+        p = primes[i]
+        X = p
+
+        # Update the sums:
+        # raw sum
+        if ap < 0:
+            gamma_p = -1
+        elif ap > 0:
+            gamma_p = 1
+            
+        last_sum_raw = sum_raw
+        sum_raw += gamma_p
+        
+        # used below
+        logX  = log(X)
+        sqrtX = sqrt(X)
+        
+        # medium sum
+        last_sum_medium = sum_medium
+        sum_medium += ap/sqrtX
+        
+        # well-done sum
+        last_sum_well = sum_well
+        sum_well += ap*logX/p
+
+        # Update the integrals that appear in the mean
+        if i > 0:
+            length = p - last_p
+            # raw mean
+            integral_raw    += length * last_sum_raw
+            # medium mean -- an integral of log(X)/sqrt(X) is 2*sqrt(X)*log(X)-4*sqrt(X).
+            integral_medium += ((2*sqrtX*logX-4*sqrtX)-(2*last_sqrtX*last_logX-4*last_sqrtX)) * last_sum_medium
+            # well done mean -- an integral of 1/log(X) is Ei(log(X))
+            EilogX = Ei(logX)
+            integral_well   += (EilogX - last_EilogX) * last_sum_well
+
+        last_sqrtX = sqrtX
+        last_logX = logX
+        last_X = X
+        last_EilogX = EilogX
+        last_p = p
+        
+        # Finally, record next data point, if it is time to do so...
+        if i % record_modulus == 0:
+            if verbose and record_modulus >= 1000 and (i%(10*record_modulus)==0):
+                per = float(i)/M
+                if per > 0.1:
+                    print "%.1f"%(walltime(tm)*(1-per)/per),
+                    sys.stdout.flush()
+                    
+            delta_raw.append((X, sum_raw))
+            delta_medium.append((X, sum_medium*logX/sqrtX))
+            delta_well.append((X, sum_well/logX))
+            
+            mean_raw.append((X, integral_raw/X))
+            mean_medium.append((X, integral_medium/X))
+            mean_well.append((X, integral_well/X))
+
+    if verbose:
+        print 
+
+    return {'raw'    : {'delta' : delta_raw,    'mean': mean_raw},
+            'medium' : {'delta' : delta_medium, 'mean': mean_medium},
+            'well'   : {'delta' : delta_well,   'mean': mean_well} }
 
 def theoretical_mean(r, vanishing_symmetric_powers):
     """
@@ -79,11 +152,32 @@ def draw_plot(E, B, vanishing_symmetric_powers=None):
     if vanishing_symmetric_powers is None:
         vanishing_symmetric_powers = []
     mean = theoretical_mean(E.rank(), vanishing_symmetric_powers)
-    d, running_average = raw_data(E, B)
+    d, running_average = data(E, B)
     g = line(d)
     g += line([(0,mean), (d[-1][0],mean)], color='darkred')
     g += line(running_average, color='green')
     return g
+
+
+############################################################
+# Plots of data suitable for display (so number of recorded
+# sample points is smaller), which benefit from having a
+# pre-computed aplist table.
+############################################################
+
+class DataPlots(object):
+    def __init__(self, lbl, B, data_path=None):
+        self.data_path = data_path
+        self.B = B
+        self.E = EllipticCurve(lbl)
+        if self.data_path is None:
+            self.aplist = self.E.aplist(self.B)
+        else:
+            self.aplist = load('%s/%s-aplist-%s.sobj'%(data_path,lbl,B))
+
+    @cached_method
+    def data(self, num_points=1000):  # num_points = number of sample points in output plot
+        return data(self.E, B=self.B, aplist=self.aplist, num_points=num_points)
 
 ############################################################
 # Plots of error term got by taking partial sum over zeros
@@ -168,22 +262,4 @@ class OscillatoryTerm(object):
         os.system(cmd)
 
 
-
-
-############################################################
-# Plots of data suitable for display (so number of recorded
-# sample points is smaller), which benefit from having a
-# pre-computed aplist table.
-############################################################
-
-class DataPlots(object):
-    def __init__(self, lbl, B, data_path):
-        self.data_path = data_path
-        self.B = B
-        self.E = EllipticCurve(lbl)
-        self.aplist = load('%s/%s-aplist-%s.sobj'%(data_path,lbl,B))
-
-    @cached_method
-    def raw_data(self):
-        return raw_data(self.E, B=self.B, aplist=self.aplist)
 
