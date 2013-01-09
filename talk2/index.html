@@ -200,7 +200,15 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
       <div class="eq">
 	\Delta_E(X) = \frac{\log(X)}{\sqrt{X}} \sum_{p\leq X} \gamma_E(p)
       </div>
-[[TODO: REDO THE PLOT!]]
+<!--
+sage: attach explicit.pyx
+sage: data = DataPlots('11a',1000).data(); plot_step_function(data['raw']['delta']).save("talk2/svg/delta_E-11a1-step-1000.svg",figsize=[8,2])
+sage: data = DataPlots('11a',10^6).data(); plot_step_function(data['raw']['delta']).save("talk2/svg/delta_E-11a1-step-1000000.svg",figsize=[8,2])
+sage: data = DataPlots('37a',10^6).data(); plot_step_function(data['raw']['delta']).save("talk2/svg/delta_E-37a1-step-1000000.svg",figsize=[8,2])
+sage: data = DataPlots('389a',10^6).data(); plot_step_function(data['raw']['delta']).save("talk2/svg/delta_E-389a1-step-1000000.svg",figsize=[8,2])
+sage: data = DataPlots('5077a',10^6).data(); plot_step_function(data['raw']['delta']).save("talk2/svg/delta_E-5077a1-step-1000000.svg",figsize=[8,2])
+-->
+
       <div class="well">
 	Rank 0 curve 11a ($p<1000$):<br>
 	<img src="svg/delta_E-11a1-step-1000.svg" width=100%>
@@ -212,17 +220,17 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
       <h2>Graphs of $\Delta_E(X) = \frac{\log(X)}{\sqrt{X}} \sum_{p\leq X}\gamma_E(p)$</h2>
       <div class="well">
 	Rank 0 curve 11a ($p < 10^6$):<br>
-	<img src="svg/delta_E-11a1-1000000.svg"  width="100%">
+	<img src="svg/delta_E-11a1-step-1000000.svg"  width="100%">
       </div>
 <!--
       <div class="well">
 	Rank 0 CM curve 32a ($p < 10^6$):<br>
-	<img src="svg/delta_E-32a1-1000000.svg"  width="100%">
+	<img src="svg/delta_E-32a1-step-1000000.svg"  width="100%">
       </div>
 -->
       <div class="well" width="100%">
 	Rank 1 curve 37a ($p < 10^6$):<br>
-	<img src="svg/delta_E-37a1-1000000.svg"  width="100%">
+	<img src="svg/delta_E-37a1-step-1000000.svg"  width="100%">
       </div>
 
     </section>
@@ -231,11 +239,11 @@ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
       <h2>More graphs of $\Delta_E(X) = \frac{\log(X)}{\sqrt{X}}  \sum_{p\leq X}\gamma_E(p)$</h2>
       <div class="well">
 	Rank 2 curve 389a ($p < 10^6$):<br>
-	<img src="svg/delta_E-389a1-1000000.svg" width=100%>
+	<img src="svg/delta_E-389a1-step-1000000.svg" width=100%>
       </div>
       <div class="well">
 	Rank 3 curve 5077a ($p < 10^6$):<br>
-	<img src="svg/delta_E-5077a1-1000000.svg" width=100%>
+	<img src="svg/delta_E-5077a1-step-1000000.svg" width=100%>
       </div>
 
     </section>
@@ -484,7 +492,7 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 
 	<div class="row">
 	  <div class="span5"><div id="plot-raw"><img src="../plots/1e9/11a-raw-1000000000.svg" width="100%"></div><div class="lighten smallish center">raw mean</div></div>
-	  <div class="span5"><div id="plot-medium"><img src="../plots/1e9/11a-medium-1000000000.svg"  width="100%"></div><div class="lighten smallish center">medium mean</div></div>
+	  <div class="span5"><div id="plot-medium"><img src="../plots/1e9/11a-medium-1000000000.svg"  width="100%"></div><div class="lighten smallish center">medium-rare mean</div></div>
 	  <div class="span5"><div id="plot-well"><img src="../plots/1e9/11a-well-1000000000.svg" width="100%"></div><div class="lighten smallish center">well-done mean</div></div>
       </div>
     </section>
