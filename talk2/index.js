@@ -117,7 +117,7 @@
   });
 
   $(function() {
-    var f, x, _i, _len, _ref;
+    var f, x, _i, _j, _len, _len1, _ref, _ref1;
     $("section").addClass('slide');
     $("[rel=tooltip]").tooltip({
       delay: {
@@ -138,6 +138,31 @@
         $(this).data('conj').hide();
         return $("#conj-inst").show();
       })).data("conj", $("#" + x + "-conj"));
+    }
+    _ref1 = ["11a", "14a", "37a", "43a", "389a", "433a", "5077a", "11197a"];
+    for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+      x = _ref1[_j];
+      console.log($("#curve-" + x));
+      $("#curve-" + x).hover(function() {
+        var label, plot_medium, plot_raw, plot_well;
+        label = $(this).attr('id').slice(6);
+        console.log("../plots/1e9/" + label + "-medium-1000000000.svg");
+        plot_raw = $("<img>").attr({
+          src: "../plots/1e9/" + label + "-raw-1000000000.svg",
+          width: "100%"
+        });
+        plot_medium = $("<img>").attr({
+          src: "../plots/1e9/" + label + "-medium-1000000000.svg",
+          width: "100%"
+        });
+        plot_well = $("<img>").attr({
+          src: "../plots/1e9/" + label + "-well-1000000000.svg",
+          width: "100%"
+        });
+        $("#plot-raw").html(plot_raw);
+        $("#plot-medium").html(plot_medium);
+        return $("#plot-well").html(plot_well);
+      });
     }
     $(".draggable").draggable();
     f = function() {

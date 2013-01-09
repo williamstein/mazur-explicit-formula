@@ -448,6 +448,47 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
       </div>
     </section>
 
+    <section>
+      <div class="pull-right lighten small eq">
+	\text{mean of } \delta(x) : = \lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^X\delta(x) \frac{dx}{x}; \qquad
+	\gamma_E(p) = \begin{cases}
+	0 & \text{if $p$ is a bad or supersingular prime for $E$},\\
+	-1 & \text{if $E$ has more than $p+1$ points rational over $\mathbf{F}_p$},\\
+	+1 & \text{if less}
+	\end{cases}
+      </div>
+      <div class="pull-right lighten small draggable">
+	raw: $\Delta_E(X): = \frac{\log(X)}{\sqrt{X}}  \sum_{p\le X}\gamma_E(p), \quad$
+	medium: ${\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}} \to 1-2r,\quad$
+	well: ${D}_E(X):= {\frac{1}{\log X}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}} \to -r$
+	&nbsp;&nbsp;&nbsp;
+      </div>
+
+      <h2>Examples: $X\leq 10^9$</h2>
+      <div class="center">
+	<table class="table table-hover" style="width:100%">
+	  <tr><th style="width: 15%;">$E$</th> <th style="width:15%;">rank</th> <th style="width:15%">RAW mean</th> <th style="width:15%">MEDIUM mean</th> <th style="width:15%">$\to 1-2r?$</th> <th style="width:15%">WELL mean</th> <th style="width:15%">$\to -r?$</th> </tr>
+
+
+	  <tr id="curve-11a"><td>11a</td><td>0</td><td>0.647</td><td>0.598</td><td>1</td><td>0.155</td><td>0</td></tr>
+	  <tr id="curve-14a"><td>14a</td><td>0</td><td>0.752</td><td>0.554</td><td>1</td><td>0.114</td><td>0</td></tr>
+	  <tr id="curve-37a"><td>37a</td><td>1</td><td>-1.412</td><td>-1.967</td><td>-1</td><td>-0.816</td><td>-1</td></tr>
+	  <tr id="curve-43a"><td>43a</td><td>1</td><td>-0.366</td><td>-1.906</td><td>-1</td><td>-0.792</td><td>-1</td></tr>
+	  <tr id="curve-389a"><td>389a</td><td>2</td><td>-2.658</td><td>-4.293</td><td>-3</td><td>-1.663</td><td>-2</td></tr>
+	  <tr id="curve-433a"><td>433a</td><td>2</td><td>-4.055</td><td>-4.167</td><td>-3</td><td>-1.617</td><td>-2</td></tr>
+	  <tr id="curve-5077a"><td>5077a</td><td>3</td><td>-5.228</td><td>-6.598</td><td>-5</td><td>-2.507</td><td>-3</td></tr>
+	  <tr id="curve-11197a"><td>11197a</td><td>3</td><td>-4.428</td><td>-6.289</td><td>-5</td><td>-2.360</td><td>-3</td></tr>
+
+	</table>
+
+	<div class="row">
+	  <div id="plot-raw" class="span8"></div>
+	  <div id="plot-medium" class="span8"></div>
+	  <div id="plot-well" class="span8"></div>
+      </div>
+    </section>
+
+
 <!--
     <section>
       <div class="eq smaller pull-right lighten small draggable">
@@ -485,6 +526,10 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
     </section>
 -->
 
+
+
+
+<!--
     <section>
 	<div class="pull-right lighten small draggable eq">
 r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
@@ -497,6 +542,7 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 {D}_E(X):= {\frac{1}{\log X}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}} \to -r$
 &nbsp;&nbsp;&nbsp;
 </div>
+
       <h2>TODO: replace with new curves -- Higher order vanishing of L-functions of symmetric powers (Martin and Watkins)</h2>
       <div class="center">
       <table class="table table-hover" style="width:100%">
@@ -519,6 +565,7 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
       </table>
 </div>
     </section>
+-->
 
     <section>
       <h2>Qualitative look at the Explicit Formula</h2>
