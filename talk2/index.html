@@ -262,12 +262,12 @@ sage: data = DataPlots('5077a',10^6).data(); plot_step_function(data['raw']['del
 	    <em>possesses a limiting distribution $\mu_\delta$ with respect to the multiplicative measure $dX/X$</em>
 	    means that  for continuous bounded functions $f$ on $\mathbf{R}$ we have:
 	    <div class="eq smaller">
-	      \lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^Xf(\delta(x))\frac{dx}{x}  = \int_{\mathbf{R}}f(x)d\mu_\delta(x).
+	      \lim_{X \to {\infty}}\ {\frac{1}{\log(X)}}\int_0^Xf(\delta(x))\frac{dx}{x}  = \int_{\mathbf{R}}f(x)d\mu_\delta(x).
 	    </div>
 
 	    The <em>mean</em> of $\delta(X)$ is by definition:
 	    <div class="eq smaller">
-	      {\mathcal E} : = \lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^X\delta(x)\frac{dx}{x}  =  \int_{\mathbf{R}}d\mu_\delta(x).
+	      {\mathcal E} : = \lim_{X \to {\infty}}\ {\frac{1}{\log(X)}}\int_0^X\delta(x)\frac{dx}{x}  =  \int_{\mathbf{R}}d\mu_\delta(x).
 	    </div>
 	  </div>
 	  <div class="span1">
@@ -277,8 +277,8 @@ sage: data = DataPlots('5077a',10^6).data(); plot_step_function(data['raw']['del
 	    In the work of Sarnak and Fiorilli, another measure for understanding "bias behavior" is given by what one might call <em>the percentage of positive  support</em> (relative to the multiplicative measure $dX/X$). Namely:
 	    <div class="eq">
 	      \begin{align*}
-	      {\mathcal P} & :=  \lim {\rm inf}_{X\to \infty}{\frac{1}{\log X}}\int_{2\le x \le X; \delta(x)\le 0}dx/x\\
-	      \quad &=   \lim {\rm sup}_{X\to \infty}{\frac{1}{\log X}}\int_{2\le x \le X; \delta(x)\le 0}dx/x
+	      {\mathcal P} & :=  \lim {\rm inf}_{X\to \infty}{\frac{1}{\log(X)}}\int_{2\le x \le X; \delta(x)\le 0}dx/x\\
+	      \quad &=   \lim {\rm sup}_{X\to \infty}{\frac{1}{\log(X)}}\int_{2\le x \le X; \delta(x)\le 0}dx/x
 	      \end{align*}
 	    </div>
 
@@ -294,7 +294,7 @@ sage: data = DataPlots('5077a',10^6).data(); plot_step_function(data['raw']['del
     <section>
 
       <div class="eq smaller pull-right lighten small draggable">
-	\text{mean of $\delta(x)$} : = \lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^X\delta(x)\frac{dx}{x}  =  \int_{\mathbf{R}}d\mu_\delta(x).
+	\text{mean of $\delta(x)$} : = \lim_{X \to {\infty}}\ {\frac{1}{\log(X)}}\int_0^X\delta(x)\frac{dx}{x}  =  \int_{\mathbf{R}}d\mu_\delta(x).
       </div>
 
       <h2>More General Weighting Functions</h2>
@@ -320,7 +320,7 @@ sage: data = DataPlots('5077a',10^6).data(); plot_step_function(data['raw']['del
 
     <section>
       <div class="pull-right lighten small draggable eq">
-	\text{mean of } \delta(x) : = \lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^X\delta(x) \frac{dx}{x}; \qquad
+	\text{mean of } \delta(x) : = \lim_{X \to {\infty}}\ {\frac{1}{\log(X)}}\int_0^X\delta(x) \frac{dx}{x}; \qquad
 	\gamma_E(p) = \begin{cases}
 	0 & \text{if $p$ is a bad or supersingular prime for $E$},\\
 	-1 & \text{if $E$ has more than $p+1$ points rational over $\mathbf{F}_p$},\\
@@ -353,7 +353,7 @@ sage: data = DataPlots('5077a',10^6).data(); plot_step_function(data['raw']['del
 	      <h4>WELL-DONE</h4>
 	    </td>
 	    <td>
-	      ${D}_E(X):= {\frac{1}{\log X}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}}$
+	      ${D}_E(X):= {\frac{1}{\log(X)}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}}$
 	    </td>
 	  </tr>
 	</table>
@@ -403,7 +403,7 @@ sage: data = DataPlots('5077a',10^6).data(); plot_step_function(data['raw']['del
 	<div class="pull-right lighten small draggable">
 	  $\Delta_E(X): =\frac{\log(X)}{\sqrt{X}} \sum_{p\le X}\gamma_E(p), \quad
 {\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}} \to 1-2r,\quad
-{D}_E(X):= {\frac{1}{\log X}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}} \to -r$
+{D}_E(X):= {\frac{1}{\log(X)}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}} \to -r$
 &nbsp;&nbsp;&nbsp;
 	</div>
 	<h2>Comments</h2>
@@ -431,7 +431,7 @@ sage: data = DataPlots('5077a',10^6).data(); plot_step_function(data['raw']['del
 
     <section>
 	<div class="pull-right lighten small draggable eq">
-	\text{mean of $\delta(x)$} : = \lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^X\delta(x)\frac{dx}{x}  =  \int_{\mathbf{R}}d\mu_\delta(x);\qquad
+	\text{mean of $\delta(x)$} : = \lim_{X \to {\infty}}\ {\frac{1}{\log(X)}}\int_0^X\delta(x)\frac{dx}{x}  =  \int_{\mathbf{R}}d\mu_\delta(x);\qquad
 
 r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 		\text{ at }s=1/2
@@ -459,7 +459,7 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
     <section>
 <!--
       <div class="pull-right lighten small eq">
-	\text{mean of } \delta(x) : = \lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^X\delta(x) \frac{dx}{x}; \qquad
+	\text{mean of } \delta(x) : = \lim_{X \to {\infty}}\ {\frac{1}{\log(X)}}\int_0^X\delta(x) \frac{dx}{x}; \qquad
 	\gamma_E(p) = \begin{cases}
 	0 & \text{if $p$ is a bad or supersingular prime for $E$},\\
 	-1 & \text{if $E$ has more than $p+1$ points rational over $\mathbf{F}_p$},\\
@@ -469,7 +469,7 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
       <div class="pull-right lighten small draggable">
 	raw: $\Delta_E(X): = \frac{\log(X)}{\sqrt{X}}  \sum_{p\le X}\gamma_E(p), \quad$
 	medium: ${\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}} \to 1-2r,\quad$
-	well: ${D}_E(X):= {\frac{1}{\log X}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}} \to -r$
+	well: ${D}_E(X):= {\frac{1}{\log(X)}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}} \to -r$
 	&nbsp;&nbsp;&nbsp;
       </div>
 
@@ -501,7 +501,7 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 <!--
     <section>
       <div class="eq smaller pull-right lighten small draggable">
-	\text{mean of $\delta(x)$} : = \lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^X\delta(x)\frac{dx}{x}  =  \int_{\mathbf{R}}d\mu_\delta(x).
+	\text{mean of $\delta(x)$} : = \lim_{X \to {\infty}}\ {\frac{1}{\log(X)}}\int_0^X\delta(x)\frac{dx}{x}  =  \int_{\mathbf{R}}d\mu_\delta(x).
       </div>
 
       <div class="pull-right lighten small draggable eq">
@@ -548,7 +548,7 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 	<div class="pull-right lighten small draggable">
 	  $\Delta_E(X): = \frac{\log(X)}{\sqrt{X}}  \sum_{p\le X}\gamma_E(p), \quad
 {\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}} \to 1-2r,\quad
-{D}_E(X):= {\frac{1}{\log X}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}} \to -r$
+{D}_E(X):= {\frac{1}{\log(X)}} \sum_{p \le X}{\frac{a_E(p)\log p}{ p}} \to -r$
 &nbsp;&nbsp;&nbsp;
 </div>
 
@@ -584,17 +584,17 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 	</div>
 	<h5>For example, for the Well-done data,</h5>
 	<div class="eq">
-	  D_E(X) := \frac{1}{\log X}\sum_{p\leq X} \frac{a_{E}(p)\log p}{p}
+	  D_E(X) := \frac{1}{\log(X)}\sum_{p\leq X} \frac{a_{E}(p)\log p}{p}
 	</div>
 	the Explicit Formula gives $D_E(X)$ as a sum of three contributions:
 	<div class="eq">
-	  -r_E + S_E(X) + O(1/\log X)
+	  -r_E + S_E(X) + O(1/\log(X))
 	</div>
 	where the "Oscillatory term" $S_E(X)$ is the wild card (even assuming GRH)
 	and we take it to be the limit ($Y\to\infty$) of these generalized
 	trigonometric sums:
 	<div class="eq">
-	  S_E(X,Y) = \frac{1}{\log X} \sum_{|\gamma|\leq Y} \frac{X^{i\gamma}}{i\gamma}
+	  S_E(X,Y) = \frac{1}{\log(X)} \sum_{|\gamma|\leq Y} \frac{X^{i\gamma}}{i\gamma}
 	</div>
 	<div class="smallish center">
             (sum over imaginary parts of complex zeros of $L(f_E,s)$ above $s=1/2$)
@@ -605,7 +605,7 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 
     <section>
 	<div class="pull-right lighten small draggable eq">
-	  S_E(X,Y) = \frac{1}{\log X} \sum_{|\gamma|\leq Y} \frac{X^{i\gamma}}{i\gamma}
+	  S_E(X,Y) = \frac{1}{\log(X)} \sum_{|\gamma|\leq Y} \frac{X^{i\gamma}}{i\gamma}
 \quad\text{(sum over zeros)}
 	</div>
 
@@ -627,7 +627,7 @@ r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 	<div class="pull-right lighten small draggable eq">
 r_E(n) = \text{ the order of vanishing of }L(\text{symm}^n f_E, s)
 		\text{ at }s=1/2,
-\qquad S_E(X,Y) = \frac{1}{\log X} \sum_{|\gamma|\leq Y} \frac{X^{i\gamma}}{i\gamma}
+\qquad S_E(X,Y) = \frac{1}{\log(X)} \sum_{|\gamma|\leq Y} \frac{X^{i\gamma}}{i\gamma}
 	</div>
 
       <h2>Three issues needing conjectures, and computations:</h2>
