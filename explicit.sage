@@ -4,10 +4,14 @@ import os
 curves = ["11a", "14a", "37a", "43a", "389a", "433a", "5077a", "11197a"]
 
 def raw(E,k,s):
-    # THIS IS WRONG.
     r = E.rank()
-    Z = (8/pi) + (-1)^(k+1)*(1/(2*k+1) + 1/(2*k+3)) * s
-    return 2/(3*pi)* ( 4 + (-1)^(r+1) - 8*r ) + Z
+    if r%2 == 0:
+        return '?'
+    if k%4 in [0, 1]:
+        epsilon_k = 1
+    else:
+        epsilon_k = -1
+    raise NotImplementedError
 
 def medium(E,k,s):
     return 1-2*E.rank()
