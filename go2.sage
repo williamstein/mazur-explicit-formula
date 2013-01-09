@@ -7,7 +7,7 @@ def f(label):
     dp = DataPlots(label, B, 'data')
     v = dp.data(num_points=5000, verbose=False)
     for w in ['raw','medium','well']:
-        g = plot_step_function(v[w]['mean'],color='red',thickness=.5)
+        g = plot_step_function(v[w]['mean'],thickness=5,fontsize=24)
         g.save('plots/%s-%s-%s.svg'%(label, w, B), gridlines=True)
     return label, v['raw']['mean'][-1][1], v['medium']['mean'][-1][1], v['well']['mean'][-1][1]
 
