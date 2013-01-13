@@ -27,7 +27,7 @@ sage: v = dp.data(num_points=5000)
 sage: plot_step_function(v['raw']['mean'],color='red',thickness=.5) + plot_step_function(v['raw']['delta'], thickness=.5)
 """
 
-def data(E, B, aplist, num_points=None, verbose=True):
+def data(E, B, aplist, num_points=None, log_X_scale=True, verbose=True):
     """
     Return graphs of the raw, medium, and well-done delta's,
     along with their means.  By a graph, we mean a list of
@@ -39,6 +39,13 @@ def data(E, B, aplist, num_points=None, verbose=True):
     - E -- an elliptic curve over QQ
     - B -- positive integer
     - aplist -- list of Fourier coefficients a_p
+    - log_X_scale -- if true, scale x-axis on a logarithmic scale,
+      so the point (x,y) in the returned list indicates that
+      mean...(exp(x)) = y.   It is important to do this scaling
+      in this function when *computing* the mean, rather than taking
+      the returned data from this function and then rescaling, because
+      we have billions of sample points and this function only returns
+      a few thousand.
     - verbose -- print estimate of remaining time to do the computation
     """
     if verbose:
@@ -66,7 +73,13 @@ def data(E, B, aplist, num_points=None, verbose=True):
          last_sum_raw = 0, last_sum_medium = 0, last_sum_well = 0, \
          integral_raw = 0, integral_medium = 0, integral_well = 0, \
          gamma_p = 0, last_gamma_p = 0, EilogX = 0, last_EilogX = 0, \
-         length
+         length, plot_X_position, next_plot_X_position, plot_X_delta
+
+    next_plot_X_position = 0
+    if log_X_scale:
+        plot_X_delta = log(primes[-1])/B
+    else:
+        plot_X_delta = primes[-1]/B
 
     cdef int i = -1, cnt = 0
     for ap in aplist:
@@ -98,7 +111,7 @@ def data(E, B, aplist, num_points=None, verbose=True):
 
         # Update the integrals that appear in the mean
         if i > 0:
-            length = p - last_p   
+            length = p - last_p
             # raw mean    -- an integral of log(X)/(X*sqrt(X)) is -2*log(X)/sqrt(X) - 4/sqrt(X)
             integral_raw    += ((-2*logX/sqrtX - 4/sqrtX) - (-2*last_logX/last_sqrtX - 4/last_sqrtX)) * last_sum_raw
 
@@ -116,20 +129,25 @@ def data(E, B, aplist, num_points=None, verbose=True):
         last_p = p
 
         # Finally, record next data point, if it is time to do so...
-        if i % record_modulus == 0:
+        if log_X_scale:
+            plot_X_position = log(X)
+        else:
+            plot_X_position = X
+        if plot_X_position >= next_plot_X_position:
+            next_plot_X_position += plot_X_delta
             if verbose and record_modulus >= 1000 and (i%(10*record_modulus)==0):
                 per = float(i)/M
                 if per > 0.1:
                     print "%.1f"%(walltime(tm)*(1-per)/per),
                     sys.stdout.flush()
 
-            delta_raw.append((X, sum_raw))
-            delta_medium.append((X, sum_medium*logX/sqrtX))
-            delta_well.append((X, sum_well/logX))
+            delta_raw.append((plot_X_position, sum_raw))
+            delta_medium.append((plot_X_position, sum_medium*logX/sqrtX))
+            delta_well.append((plot_X_position, sum_well/logX))
 
-            mean_raw.append((X, integral_raw/logX))
-            mean_medium.append((X, integral_medium/logX))
-            mean_well.append((X, integral_well/logX))
+            mean_raw.append((plot_X_position, integral_raw/logX))
+            mean_medium.append((plot_X_position, integral_medium/logX))
+            mean_well.append((plot_X_position, integral_well/logX))
 
     if verbose:
         print
@@ -178,8 +196,9 @@ class DataPlots(object):
             self.aplist = load('%s/%s-aplist-%s.sobj'%(data_path,lbl,B))
 
     @cached_method
-    def data(self, num_points=1000,verbose=True):  # num_points = number of sample points in output plot
-        return data(self.E, B=self.B, aplist=self.aplist, num_points=num_points, verbose=verbose)
+    def data(self, num_points=1000,log_X_scale=True, verbose=True):  # num_points = number of sample points in output plot
+        return data(self.E, B=self.B, aplist=self.aplist, num_points=num_points,
+                    log_X_scale=log_X_scale, verbose=verbose)
 
 ############################################################
 # Plots of error term got by taking partial sum over zeros
