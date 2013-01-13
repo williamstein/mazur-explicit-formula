@@ -3,7 +3,7 @@ attach "explicit.pyx"
 list1 = ["11a", "14a", "37a", "43a", "389a", "433a", "5077a", "11197a"]
 list2 = ["816b", "5423a", "2340i", "2379b", "2432d", "29862s", "3776h", "128b", "160a", "192a", "10336d"]
 
-ncpus = sage.parallel.ncpus.ncpus()
+ncpus = 4
 
 def plots(curves=list1, rng="1e8") :
     B = int(eval(rng))    
