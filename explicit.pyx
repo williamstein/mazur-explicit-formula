@@ -77,9 +77,9 @@ def data(E, B, aplist, num_points=None, log_X_scale=True, verbose=True):
 
     next_plot_X_position = 0
     if log_X_scale:
-        plot_X_delta = log(primes[-1])/B
+        plot_X_delta = log(primes[-1])/num_points
     else:
-        plot_X_delta = primes[-1]/B
+        plot_X_delta = primes[-1]/num_points
 
     cdef int i = -1, cnt = 0
     for ap in aplist:
@@ -133,13 +133,15 @@ def data(E, B, aplist, num_points=None, log_X_scale=True, verbose=True):
             plot_X_position = log(X)
         else:
             plot_X_position = X
+            
+        if verbose and record_modulus >= 1000 and (i%(10*record_modulus)==0):
+            per = float(i)/M
+            if per > 0.1:
+                print "%.1f"%(walltime(tm)*(1-per)/per),
+                sys.stdout.flush()
+                
         if plot_X_position >= next_plot_X_position:
             next_plot_X_position += plot_X_delta
-            if verbose and record_modulus >= 1000 and (i%(10*record_modulus)==0):
-                per = float(i)/M
-                if per > 0.1:
-                    print "%.1f"%(walltime(tm)*(1-per)/per),
-                    sys.stdout.flush()
 
             delta_raw.append((plot_X_position, sum_raw))
             delta_medium.append((plot_X_position, sum_medium*logX/sqrtX))
@@ -150,7 +152,7 @@ def data(E, B, aplist, num_points=None, log_X_scale=True, verbose=True):
             mean_well.append((plot_X_position, integral_well/logX))
 
     if verbose:
-        print
+        print "\n-- Done computing raw plot data; returning."
 
     return {'raw'    : {'delta' : delta_raw,    'mean': mean_raw},
             'medium' : {'delta' : delta_medium, 'mean': mean_medium},
@@ -191,14 +193,20 @@ class DataPlots(object):
         self.B = B
         self.E = EllipticCurve(lbl)
         if self.data_path is None:
+            print "Computing aplist"
             self.aplist = self.E.aplist(self.B)
         else:
+            print "Loading aplist"
             self.aplist = load('%s/%s-aplist-%s.sobj'%(data_path,lbl,B))
+        print "done"
 
     @cached_method
     def data(self, num_points=1000,log_X_scale=True, verbose=True):  # num_points = number of sample points in output plot
-        return data(self.E, B=self.B, aplist=self.aplist, num_points=num_points,
+        print "Computing raw data of plots"
+        d = data(self.E, B=self.B, aplist=self.aplist, num_points=num_points,
                     log_X_scale=log_X_scale, verbose=verbose)
+        print "Done computing raw data"
+        return d
 
 ############################################################
 # Plots of error term got by taking partial sum over zeros

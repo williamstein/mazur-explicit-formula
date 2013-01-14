@@ -5,23 +5,31 @@ list2 = ["816b", "5423a", "2340i", "2379b", "2432d", "29862s", "3776h", "128b", 
 
 ncpus = 4
 
-def plots(curves=list1, rng="1e8") :
+def plots(curves=list1, rng="1e9", ncpus=ncpus) :
     B = int(eval(rng))    
     print "output path = ", rng
     print "B = ", B
-    @parallel(ncpus)
+
     def f(label):
-        dp = DataPlots(label, B, 'data')
-        v = dp.data(num_points=5000, log_X_scale=True, verbose=False)
+        dp = DataPlots(label, B, data_path='data')
+        v = dp.data(num_points=5000, log_X_scale=True, verbose=True)
         for w in ['raw','medium','well']:
             g = plot_step_function(v[w]['mean'],thickness=5,fontsize=24)
             g.save('plots/%s/%s-%s-%s.svg'%(rng, label, w, B), gridlines=True)
         return label, v['raw']['mean'][-1][1], v['medium']['mean'][-1][1], v['well']['mean'][-1][1]
 
-    for input, output in f(curves):
-        print output
+    @parallel(ncpus)
+    def g(label):
+        return f(label)
 
-def data(curves=list1, rng="1e8"):
+    if ncpus > 1:
+        for input, output in g(curves):
+            print output
+    else:
+        for lbl in curves:
+            print f(lbl)
+
+def data(curves=list1, rng="1e9"):
     B = int(eval(rng))
     @parallel(ncpus)
     def f(lbl):
