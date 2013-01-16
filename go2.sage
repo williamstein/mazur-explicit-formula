@@ -3,7 +3,7 @@ attach "explicit.pyx"
 list1 = ["11a", "14a", "37a", "43a", "389a", "433a", "5077a", "11197a"]
 list2 = ["816b", "5423a", "2340i", "2379b", "2432d", "29862s", "3776h", "128b", "160a", "192a", "10336d"]
 
-ncpus = 4
+ncpus = 16
 
 def plots(curves=list1, rng="1e9", ncpus=ncpus) :
     B = int(eval(rng))    
@@ -29,7 +29,7 @@ def plots(curves=list1, rng="1e9", ncpus=ncpus) :
         for lbl in curves:
             print f(lbl)
 
-def data(curves=list1, rng="1e9"):
+def aplist_data(curves=list1, rng="1e9"):
     B = int(eval(rng))
     @parallel(ncpus)
     def f(lbl):
@@ -39,6 +39,20 @@ def data(curves=list1, rng="1e9"):
             v = E.aplist(B)
             v = [int(ap) for ap in v]
             save(v, aplist_sobj)
+            
+    for input, output in f(curves):
+        print input, output
+
+def lseries_data(curves=list1+list2, rng="1e5"):
+    B = int(eval(rng))
+    @parallel(ncpus)
+    def f(lbl):
+        E = EllipticCurve(lbl)
+        zeros_sobj = 'data/%s-zeros-%s.sobj'%(lbl, B)
+        if not os.path.exists(zeros_sobj):
+            v = E.lseries().zeros(B)
+            v = [int(ap) for ap in v]
+            save(v, zeros_sobj)
             
     for input, output in f(curves):
         print input, output
