@@ -60,7 +60,10 @@ def lseries_data(curves=list1+list2, rng="1e5"):
 def zero_sum_plots(curves=list1+list2, num_zeros=100000, Xmax=1e9, num_points=10000):
     @parallel(ncpus)
     def f(lbl):
-        fname = "plots/mean_zero_sums/%s-%s-%s-%s.svg"%(lbl, num_zeros, Xmax, num_points)
+        path = "plots/mean_zero_sums/%s/"%num_zeros
+        if not os.path.exists(path):
+            os.makedirs(path)
+        fname = "%s/%s-%s-%s-%s.svg"%(path, lbl, num_zeros, Xmax, num_points)
         if os.path.exists(fname):
             return "already done"
         zeros = load("data/%s-zeros-%s.sobj"%(lbl, num_zeros))
