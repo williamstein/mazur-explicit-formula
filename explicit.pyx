@@ -292,3 +292,32 @@ class OscillatoryTerm(object):
 
 
 
+##############################################################
+# Plots of mean value of error term involving sums over zeros
+##############################################################
+
+def mean_zero_sum_plot(list zeros, int n, double Xmax):
+    """
+    Plot this function on a log scale up to X at n sample points:
+
+      -2/log(X) * sum cos(gamma*log(X))/gamma^2
+
+    where g runs over zeros, which should be the positive imaginary
+    parts of the first few zeros of an elliptic curve L-function.
+    Returns list of pairs of doubles (x,y), which are points on the plot
+    """
+    cdef list v = []
+    zeros = [float(x) for x in zeros if x>0]
+
+    # start at X=2
+    cdef double s, gamma, logX=log(2), logXmax = log(Xmax)
+    cdef double delta = logXmax / n
+
+    while logX <= logXmax:
+        s = 0
+        for gamma in zeros:
+            s += cos(gamma*logX)/(gamma*gamma)
+        v.append((logX, -2*s/logX))
+        logX += delta
+
+    return v

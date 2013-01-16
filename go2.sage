@@ -6,7 +6,7 @@ list2 = ["816b", "5423a", "2340i", "2379b", "2432d", "29862s", "3776h", "128b", 
 ncpus = 16
 
 def plots(curves=list1, rng="1e9", ncpus=ncpus) :
-    B = int(eval(rng))    
+    B = int(eval(rng))
     print "output path = ", rng
     print "B = ", B
 
@@ -39,7 +39,7 @@ def aplist_data(curves=list1, rng="1e9"):
             v = E.aplist(B)
             v = [int(ap) for ap in v]
             save(v, aplist_sobj)
-            
+
     for input, output in f(curves):
         print input, output
 
@@ -53,6 +53,20 @@ def lseries_data(curves=list1+list2, rng="1e5"):
             v = E.lseries().zeros(B)
             v = [int(ap) for ap in v]
             save(v, zeros_sobj)
-            
+
     for input, output in f(curves):
         print input, output
+
+def zero_sum_plots(curves=list1+list2, num_zeros=100000, Xmax=1e9, num_points=10000):
+    @parallel(ncpus)
+    def f(lbl):
+        fname = "plots/mean_zero_sums/%s-%s-%s-%s.svg"%(lbl, num_zeros, Xmax, num_points)
+        if os.path.exists(fname):
+            return "already done"
+        zeros = load("data/%s-zeros-%s.sobj"%(lbl, num_zeros))
+        v = mean_zero_sum_plot(zeros, num_points, Xmax)
+        line(v).save(fname)
+
+    for input, output in f(curves):
+        print input, output
+
