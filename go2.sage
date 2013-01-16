@@ -70,3 +70,16 @@ def zero_sum_plots(curves=list1+list2, num_zeros=100000, Xmax=1e9, num_points=10
     for input, output in f(curves):
         print input, output
 
+def zero_sum_animations(curves=list1+list2, num_zeros=[1000,2000,..,100000], Xmax=1e9, num_points=10000):
+    @parallel(ncpus)
+    def f(lbl):
+        fname = "plots/mean_zero_sums/animations/%s-%s-%s-%s.svg"%(lbl, num_zeros, Xmax, num_points)
+        if os.path.exists(fname):
+            return "already done"
+        zeros = load("data/%s-zeros-%s.sobj"%(lbl, num_zeros))
+        v = mean_zero_sum_plot(zeros, num_points, Xmax)
+        line(v).save(fname)
+
+    for input, output in f(curves):
+        print input, output
+
