@@ -15,6 +15,7 @@ cdef extern from "math.h":
     double log(double)
     double sqrt(double)
     double cos(double)
+    double sin(double)
 
 cdef double pi = math.pi
 

@@ -66,7 +66,10 @@ def zero_sum_mean_plots(curves=list1+list2, num_zeros=100000, Xmax=1e9, num_poin
         fname = "%s/%s-%s-%s-%s.svg"%(path, lbl, num_zeros, Xmax, num_points)
         if os.path.exists(fname):
             return "already done"
-        zeros = load("data/%s-zeros-%s.sobj"%(lbl, num_zeros))
+        if num_zeros < 10000:
+            zeros = load("data/%s-zeros-10000.sobj"%lbl)[:num_zeros]
+        elif num_zeros < 100000:
+            zeros = load("data/%s-zeros-100000.sobj"%lbl)[:num_zeros]
         v = mean_zero_sum_plot(zeros, num_points, Xmax)
         line(v).save(fname)
 
@@ -102,7 +105,11 @@ def zero_sum_plots(curves=list1+list2, num_zeros=100000, Xmax=1e9, num_points=10
         fname = "%s/%s-%s-%s-%s.svg"%(path, lbl, num_zeros, Xmax, num_points)
         if os.path.exists(fname):
             return "already done"
-        zeros = load("data/%s-zeros-%s.sobj"%(lbl, num_zeros))
+        zeros = None
+        if False and num_zeros < 10000:
+            zeros = load("data/%s-zeros-10000.sobj"%lbl)[:num_zeros]
+        elif num_zeros < 100000:
+            zeros = load("data/%s-zeros-100000.sobj"%lbl)[:num_zeros]
         v = zero_sum_plot(zeros, num_points, Xmax)
         line(v).save(fname)
 
