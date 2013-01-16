@@ -57,7 +57,7 @@ def lseries_data(curves=list1+list2, rng="1e5"):
     for input, output in f(curves):
         print input, output
 
-def zero_sum_plots(curves=list1+list2, num_zeros=100000, Xmax=1e9, num_points=10000):
+def zero_sum_mean_plots(curves=list1+list2, num_zeros=100000, Xmax=1e9, num_points=10000):
     @parallel(ncpus)
     def f(lbl):
         path = "plots/mean_zero_sums/%s/"%num_zeros
@@ -73,7 +73,7 @@ def zero_sum_plots(curves=list1+list2, num_zeros=100000, Xmax=1e9, num_points=10
     for input, output in f(curves):
         print input, output
 
-def zero_sum_animations(curves=list1+list2, num_zeros=[10,20,..,500], Xmax=1e9, num_points=10000):
+def zero_sum_mean_animations(curves=list1+list2, num_zeros=[10,20,..,500], Xmax=1e9, num_points=10000):
     @parallel(ncpus)
     def f(lbl):
         path = "plots/mean_zero_sums/animations/%s-%s"%(Xmax, num_points)
@@ -84,6 +84,42 @@ def zero_sum_animations(curves=list1+list2, num_zeros=[10,20,..,500], Xmax=1e9, 
             return "already done"
         zeros = load("data/%s-zeros-100000.sobj"%lbl)
         frames = [line(mean_zero_sum_plot(zeros[:n], num_points, Xmax)) for n in num_zeros]
+        ymax = max([f.ymax() for f in frames])
+        ymin = min([f.ymin() for f in frames])
+        A = animate(frames, ymax=ymax, ymin=ymin)
+        A.save(fname)
+
+    for input, output in f(curves):
+        print input, output
+
+
+def zero_sum_plots(curves=list1+list2, num_zeros=100000, Xmax=1e9, num_points=10000):
+    @parallel(ncpus)
+    def f(lbl):
+        path = "plots/zero_sums/%s/"%num_zeros
+        if not os.path.exists(path):
+            os.makedirs(path)
+        fname = "%s/%s-%s-%s-%s.svg"%(path, lbl, num_zeros, Xmax, num_points)
+        if os.path.exists(fname):
+            return "already done"
+        zeros = load("data/%s-zeros-%s.sobj"%(lbl, num_zeros))
+        v = zero_sum_plot(zeros, num_points, Xmax)
+        line(v).save(fname)
+
+    for input, output in f(curves):
+        print input, output
+
+def zero_sum_animations(curves=list1+list2, num_zeros=[10,20,..,500], Xmax=1e9, num_points=10000):
+    @parallel(ncpus)
+    def f(lbl):
+        path = "plots/zero_sums/animations/%s-%s"%(Xmax, num_points)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        fname = "%s/%s.gif"%(path, lbl)
+        if os.path.exists(fname):
+            return "already done"
+        zeros = load("data/%s-zeros-100000.sobj"%lbl)
+        frames = [line(zero_sum_plot(zeros[:n], num_points, Xmax)) for n in num_zeros]
         ymax = max([f.ymax() for f in frames])
         ymin = min([f.ymin() for f in frames])
         A = animate(frames, ymax=ymax, ymin=ymin)
