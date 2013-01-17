@@ -121,7 +121,7 @@ def zero_sum_plots(curves=list1+list2, num_zeros='1e4', Xmax='1e9', num_points='
     for input, output in f(curves):
         print input, output
 
-def zero_sum_animations(curves=list1+list2, num_zeros=[10,50,..,500], Xmax='1e20', num_points='1e4'):
+def zero_sum_animations(curves=list1+list2, num_zeros=[10,15,..,500], Xmax='1e20', num_points='1e4'):
     assert max(num_zeros) <= 10000
     path = "plots/zero_sums/animations/%s-%s"%(Xmax, num_points)
     if not os.path.exists(path):
@@ -140,7 +140,7 @@ def zero_sum_animations(curves=list1+list2, num_zeros=[10,50,..,500], Xmax='1e20
                   text(str(n),(log(Xmax)/10,.15),fontsize=16,color='black')   for n in num_zeros]
         ymax = max([f.ymax() for f in frames])
         ymin = min([f.ymin() for f in frames])
-        A = animate(frames, ymax=ymax, ymin=ymin, figsize=[10,4])
+        A = animate(frames, ymax=ymax, ymin=ymin, figsize=[8,5])
         A.save(fname)
 
     for input, output in f(curves):
