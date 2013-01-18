@@ -184,8 +184,6 @@ def ap_sign_counts(curves=list1+list2, B='1e9'):
     path = "data/ap_sign_counts/"
     if not os.path.exists(path):
         os.makedirs(path)
-    if isinstance(num_points, str):
-        num_points=int(float(num_points))
     @parallel(ncpus)
     def f(lbl):
         fname = "%s/%s-%s.txt"%(path, lbl, B)
@@ -193,7 +191,7 @@ def ap_sign_counts(curves=list1+list2, B='1e9'):
             return "already done with %s"%lbl
         v = ap_sign_count(aplist(lbl, int(float(B))))
         r = EllipticCurve(lbl).rank()
-        open(fname,'w').write("%s\t%s\t%s\t%s\t%s\n"%(lbl, r, B, v['neg'], v['pos']))
+        open(fname,'w').write("%s\t%s\t%s\t%s\t%s\t%s\n"%(lbl, r, B, v['neg'], v['pos'], v['neg']-v['pos']))
 
     for input, output in f(curves):
         print input, output
