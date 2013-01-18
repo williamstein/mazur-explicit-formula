@@ -234,7 +234,7 @@ def zero_sum_distribution1_mean_std(curves=list1+list2, samples=100000, Xmax=50,
         v = zero_sum_distribution1(zeros=zeros(lbl), samples=samples, Xmax=Xmax)
         r = EllipticCurve(lbl).rank()
         t = finance.TimeSeries(v)
-        save(v, base +'.sobj')
+        #save(v, base +'.sobj')
         open(fname,'w').write("%s\t%s\t%s\t%s\n"%(lbl, r, t.mean(), t.standard_deviation()))
 
     for input, output in f(curves):
