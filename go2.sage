@@ -147,7 +147,7 @@ def zero_sum_animations(curves=list1+list2, num_zeros=[10,15,..,500], Xmax='1e20
         print input, output
 
 
-def zero_sum_no_log_animations(curves=list1+list2, num_zeros=[10,20,..,500], Xmax='1e20', num_points='2000'):
+def zero_sum_no_log_animations(curves=list1+list2, num_zeros=[4..100], Xmax='1e20', num_points='1e4'):
     assert max(num_zeros) <= 10000
     path = "plots/zero_sums_no_log/animations/%s-%s"%(Xmax, num_points)
     if not os.path.exists(path):
@@ -162,7 +162,7 @@ def zero_sum_no_log_animations(curves=list1+list2, num_zeros=[10,20,..,500], Xma
         if os.path.exists(fname):
             return "already done"
         v = zeros(lbl)
-        frames = [line(zero_sum_no_log_plot(v[:n], num_points, Xmax), thickness=.4) +
+        frames = [line(zero_sum_no_log_plot(v[:n], num_points, Xmax), thickness=.3) +
                   text(str(n),(log(Xmax)/10,.15),fontsize=16,color='black')   for n in num_zeros]
         ymax = max([f.ymax() for f in frames])
         ymin = min([f.ymin() for f in frames])
