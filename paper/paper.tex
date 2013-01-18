@@ -151,14 +151,32 @@ We will be concentrating on  {\it sums\ of\ local\ data}  attached to elliptic c
 
   We will specifically be interested in  issues of bias. This is what we mean: thanks to the recent resolution of the Sato-Tate Conjecture in this context, one knows that---roughly---half the Fourier coefficients  $a_E(p)$ are positive and half negative.  Indeed, the numbers of positive values and negative values look very close:
 \vskip20pt
-\hskip40pt\begin{tabular} {l | r | r | r}\hline
-Curve & Rank & Positive $a_E(p)$ for $p<107$ & Negative $a_E(p)$ for $p<107$\\ \hline\hline	
-11a  & 0  & 	332169  & 	332119\\ \hline	
-32a (CM) & 0  &	166054 &	166126\\ \hline	
-37a & 1	& 332127 &	332240\\ \hline	
-389a & 2 &	332317	 & 332022\\ \hline	
-5077a & 3 &	331706 &	332632 \\ \hline\hline
+
+\begin{center}
+\begin{tabular} {r | c | c | c | r}\hline
+Curve & Rank & Negative $a_E(p)$ for $p<10^9$ & Positive $a_E(p)$ for $p<10^9$ & Difference\\ \hline\hline	
+11a    & 0      & 25422268       & 25423101     &   -833 \\ \hline
+14a    & 0      & 25422229       & 25421074     &   1155 \\ \hline
+128b   & 0      & 25420641       & 25425608     &   -4967 \\ \hline
+816b   & 0      & 25424848       & 25421229     &   3619 \\ \hline
+2379b  & 0      & 25417900       & 25427007     &   -9107 \\ \hline
+5423a  & 0      & 25420479       & 25425242     &   -4763 \\ \hline
+29862s & 0      & 25420525       & 25425197     &   -4672 \\ \hline
+37a    & 1      & 25423396       & 25422448     &   948 \\ \hline
+43a    & 1      & 25421536       & 25424196     &   -2660 \\ \hline
+160a   & 1      & 25424446       & 25421488     &   2958 \\ \hline
+192a   & 1      & 25418843       & 25426859     &   -8016 \\ \hline
+2340i  & 1      & 25425512       & 25419660     &   5852 \\ \hline
+10336d & 1      & 25421245       & 25423628     &   -2383 \\ \hline
+389a   & 2      & 25427014       & 25418738     &   8276 \\ \hline
+433a   & 2      & 25425902       & 25419896     &   6006 \\ \hline
+2432d  & 2      & 25423818       & 25421900     &   1918 \\ \hline
+3776h  & 2      & 25422350       & 25422750     &   -400 \\ \hline
+5077a  & 3      & 25426985       & 25418831     &   8154 \\ \hline
+11197a & 3      & 25429098       & 25416702     &   12396 \\ \hline
 \end{tabular}
+\end{center}
+
 \vskip20pt
   To study, then, the weighted sums that directly reflect finer statistical issues related to this symmetric distribution, we will be concentrating on weighting functions $p \mapsto g_E(p)$ that have the property that \begin{itemize} \item for all primes $p$, $g_E(p)$ is an {\it odd} function of the value  $a_E(p)$, and \item the {\it sum\ of\ local\ data}  $$\delta_E(X):=\sum_{p\le X}g_E(p)$$ has---or can be convincingly conjectured to have---a finite mean{\footnote{ See Section {\ref{mean}} below}} relative to multiplicative measure $dX/X$.\end{itemize}  In such a context  the mean of $\delta_E(X)$ can be interpreted as a {\it bias}! 
 
