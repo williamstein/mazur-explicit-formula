@@ -209,7 +209,7 @@ def zero_sum_distribution1_histograms(curves=list1+list2, samples=100000, Xmax=5
         if os.path.exists(fname):
             return "already done with %s"%lbl
         v = zero_sum_distribution1(zeros=zeros(lbl), samples=samples, Xmax=Xmax)
-        save(v, fname + '.sobj')
+        #save(v, fname + '.sobj')
         r = EllipticCurve(lbl).rank()
         g = finance.TimeSeries(v).plot_histogram(bins=bins)
         g.save(fname)
@@ -218,4 +218,25 @@ def zero_sum_distribution1_histograms(curves=list1+list2, samples=100000, Xmax=5
         print input, output
 
 
+
+
+
+def zero_sum_distribution1_mean_std(curves=list1+list2, samples=100000, Xmax=50, bins=1000):
+    path = "plots/zero_sum_distribution1_histograms/"
+    if not os.path.exists(path):
+        os.makedirs(path)
+    @parallel(ncpus)
+    def f(lbl):
+        base = "%s/%s-Xmax%s-samples%s-bins%s"%(path, lbl, Xmax, samples, bins)
+        fname = base + '.txt'
+        if os.path.exists(fname):
+            return "already done with %s"%lbl
+        v = zero_sum_distribution1(zeros=zeros(lbl), samples=samples, Xmax=Xmax)
+        r = EllipticCurve(lbl).rank()
+        t = finance.TimeSeries(v)
+        save(v, base +'.sobj')
+        open(fname,'w').write("%s\t%s\t%s\t%s\n"%(lbl, r, t.mean(), t.standard_deviation()))
+
+    for input, output in f(curves):
+        print input, output
 
