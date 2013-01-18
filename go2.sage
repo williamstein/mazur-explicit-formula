@@ -61,6 +61,9 @@ def zeros(lbl, num_zeros=10000):
     assert num_zeros <= 10000
     return load("data/%s-zeros-10000.sobj"%lbl)[:num_zeros]
 
+def aplist(lbl,B):
+    return load("data/%s-aplist-%s.sobj"%(lbl,B))
+
 def zero_sum_mean_plots(curves=list1+list2, num_zeros=10000, Xmax=1e9, num_points=10000):
     assert num_zeros <= 10000
     @parallel(ncpus)
@@ -171,4 +174,29 @@ def zero_sum_no_log_animations(curves=list1+list2, num_zeros=[4..100], Xmax='1e2
 
     for input, output in f(curves):
         print input, output
+
+
+
+
+
+
+def ap_sign_counts(curves=list1+list2, B='1e9'):
+    path = "data/ap_sign_counts/"
+    if not os.path.exists(path):
+        os.makedirs(path)
+    if isinstance(num_points, str):
+        num_points=int(float(num_points))
+    @parallel(ncpus)
+    def f(lbl):
+        fname = "%s/%s-%s.txt"%(path, lbl, B)
+        if os.path.exists(fname):
+            return "already done with %s"%lbl
+        v = ap_sign_count(aplist(lbl, int(float(B))))
+        r = EllipticCurve(lbl).rank()
+        open(fname,'w').write("%s\t%s\t%s\t%s\t%s\n"%(lbl, r, B, v['neg'], v['pos']))
+
+    for input, output in f(curves):
+        print input, output
+
+
 

@@ -376,3 +376,13 @@ def zero_sum_no_log_plot(list zeros, int n, double Xmax):
         logX += delta
 
     return v
+
+def ap_sign_count(aplist):
+    cdef int pos=0, neg=0
+    cdef float ap
+    for ap in aplist:
+        if ap < 0:
+            neg += 1
+        elif ap > 0:
+            pos += 1
+    return {"pos":pos, "neg":neg}
