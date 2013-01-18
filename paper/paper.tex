@@ -1,0 +1,2900 @@
+\documentclass[11pt]{article}
+%\documentclass[11pt,draft]{article}   % uncomment this and comment out the above line for *fast* typesetting (no images)
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\newcommand{\mycaption}[1]{\begin{quote}{\bf Figure: } \large #1\end{quote}}
+
+\newcommand{\ill}[3]{ 
+   \begin{figure}[htbp]
+   \begin{center}
+   \includegraphics[width=#2\textwidth]{illustrations/#1}
+   \caption{#3}
+   \end{center}
+    \end{figure}
+
+}
+
+\newcommand{\illtwo}[4]{ 
+   \begin{figure}[htbp]
+   \begin{center}
+   \includegraphics[width=#3\textwidth]{illustrations/#1}$\qquad$\includegraphics[width=#3\textwidth]{illustrations/#2}
+   \caption{#4}
+    \end{center}
+    \end{figure}
+}
+
+%%%% Theoremstyles
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{alg}[theorem]{Algorithm}
+\newtheorem{openproblem}[theorem]{Open Problem}
+
+%\theoremstyle{remark}
+\newtheorem{goal}[theorem]{Goal}
+\newtheorem{aside}[theorem]{Aside}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{remarks}[theorem]{Remarks}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+
+
+\textwidth = 6.5 in
+\textheight = 9 in
+\oddsidemargin = 0.0 in
+\evensidemargin = 0.0 in
+\topmargin = 0.0 in
+\headheight = 0.0 in
+\headsep = 0.0 in
+\parskip = 0.2in
+\parindent = 0.0in
+
+
+\def\GL{\mathrm{GL}}
+\def\PGL{\mathrm{PGL}}
+\def\PSL{\mathrm{PSL}}
+\def\GSP{\mathrm{GSP}}
+\def\Z{\bf{Z}}
+\def\Q{\bf{Q}}
+\def\Gal{\mathrm{Gal}}
+\def\Hom{\mathrm{Hom}}
+\def\Ind{\mathrm{Ind}}
+\def\End{\mathrm{End}}
+\def\Aut{\mathrm{Aut}}
+\def\loc{\mathrm{loc}}
+\def\glob{\mathrm{glob}}
+\def\Kbar{{\bar K}}
+\def\D{{\mathcal D}}
+\def\z{{\mathcal Z}}
+\def\l{{\Lambda}}
+\def\L{{\mathcal L}}
+\def\p{{\mathcal P}}
+\def\R{{\bf R}}
+\def\G{{\mathcal G}}
+\def\W{{\mathcal W}}
+\def\H{{\mathcal H}}
+\def\O{{\mathcal O}}
+
+
+\title{How explicit is the Explicit Formula?}
+%{Arithmetic statistics of central zeroes  of $L$-functions of the symmetric $n$-th powers of a given automorphic form}
+\author{Barry Mazur and William Stein}
+\begin{document}
+\maketitle
+
+
+\hskip20pt ({\it Rough notes for our combined talk at the  AMS Special Session on Arithmetic Statistics})
+
+{\begin{small} \begin{abstract}
+ Any `Explicit Formula' in analytic number theory deals with an {\it arithmetically interesting quantity}, often given as a partial sum up to some cutoff value, $X$. The formula expresses this quantity  as a {\it dominant term}, plus a controlled, or at least conjecturally controlled, {\it oscillatory term},  plus a third term---call it a {\it convergent term}---that converges to a constant as $X$ tends to infinity.
+
+  Usually the {\it dominant term} is computed by knowing the order of specific zeroes of relevant $L$-functions, while the {\it oscillatory term} is  a specific function of ($X$, and of) the infinitely many remaining nontrivial zeroes of those $L$-functions.
+
+
+ There are theoretical and computational challenges in working out the  numerical contributions of these terms of the formula in concrete cases. We have no new results here, but our aim in this half hour plus ten minutes of discussion, is to offer numerical {\it visualizations} of the analytic formula in various interesting cases to advertise the need for some  precise conjectures and computational projects regarding this problem and to recount some recent work.\ We will  focus on {\it issues of bias}  following the classical `Explicit Formula," and the work of:
+Sarnak, \ Granville,\  Rubenstein,\, Martin-Watkins,\ Fiorilli,\ Conrey-Snaith, and others.
+ The example-problem we consider is related to the question---given an elliptic curve over the rational numbers and letting  $p$ range through prime numbers---of how often  $p+1$ is an {\it over-count} or an {\it under-count} for the number of rational points on the curve modulo $p$? The rough answer is 50/50, but for finer statistics one resorts to `Explicit Formulas.'  Here, computation can even outstrip theory in that people have algorithms to make such computations whether or not the holomorphicity of the $L$-functions in question have been proved. \end{abstract}\end{small}}
+
+\newpage
+\hskip20pt{\small{\tableofcontents}}
+\newpage
+\section{Brief Introduction}
+ One of us (B.M.) having recently taught the classical {\it Explicit Formula} in a standard graduate course in analytic number theory, and having proved that eponymous formula, garnished---as it usually is--- by a number of so-called ``effective constants," $c_1, c_2,$ etc., felt  that, for some applications, this lettered effectiveness left us still too far from  the statistical phenomena behind the formula. To get a closer bead on things, one would do well to work with the numbers behind these   $c_1$'s and $c_2$'s, etc.  It is natural then to see how `actual data'---cutting off the terms of the formula at suitably large values of $X$ given the range of currently feasible computations---compare with the expected results for arbitrarily large $X$.
+ 
+ Happily, the other of us (W.S.) has produced relevant computations that do exactly that (for applications of the Explicit Formula to certain problems of current interest to both of us). This, then, is a phenomenological talk, with (at least the beginning of)  a corpus  of graphs that offer some  illustration of the effectiveness---or non-effectiveness---of the explicit formula in the specific instances of interest to us. 
+ 
+ We offer no new theoretical results but use this occasion to mention some interesting recent work and conjectures  (of other people)  that might warrant more such computations and that raise a host of questions, both theoretical and computational.   For example, to do some systematic numerical computations related to an elliptic curve $E$ attached to a newform $f_E$  (along the lines of what has already been done in this paper)  it would be very useful to have a much larger data-set  of the arithmetic function  $$n \mapsto r_E(n)$$  
+ where $r_E(n)$ is the order of vanishing of the $L$-function of the automorphic forms $symm^nf_E$ for odd values of $n$.  Regarding this arithmetic function, aside from having control of the parity of   $r_E(n)$  (which depends only on $n$ modulo $8$ and  the parity of $r_E=r_E(1)$)  hardly anything else is known. Nor do we (at least, the authors of this paper)  yet have enough experience---when $E$ has no complex multiplication---even to formulate a proper conjecture.  
+ 
+ We might also mention that when making these numerical experiments one seems to be in a situation  that is not entirely dissimilar from the type of slightly annoying mismatch between conjecture and data that one encounters in more traditional studies of Mordell-Weil statistics  that was the subject of the survey article B-M-S-W.  But this may be unavoidable, given that even  the so-called  `convergent term' in the explicit formula will tend to converge  only $O(1/\log X)$ fast.
+
+ We should say at the outset that for simplicity, and sometimes for necessity, we'll be assuming GRH throughout---without any further mention. In fact, at times we'll also be assuming ({\it with} explicit warning) some further conjectures.
+ 
+ 
+ \section{A qualitative look at the Explicit Formula}
+ As mentioned in the abstract, here is the shape of the explicit formula, given in even more qualitative vocabulary:
+ 
+{\Large $${\rm{\it Sum\ of\ local\ data\  }}  \ = \  {\rm{\it Global\ data}}\ + \  {\rm{\it  Oscillatory\ term}}\ + \  {\rm{\it  Convergent\ term}}.$$ }
+
+Before getting started, some general comments. We will be dealing with examples where each of these terms are given as functions of $X$, a cutoff value, where 
+
+\begin{itemize}\item We want the term on the LHS,   the {``{\it Sum\ of\ local\ data} cut off at $X$"} to be  a finite sum of the form:
+
+  $$\delta(X) \ = \ F(X)\cdot \sum_{p\le X}G(p)$$
+  
+  where the rules of the game (in this paper) are as follows:
+  
+  \begin{itemize} \item We require the value $G(p)$ to be determined by only {\it local }considerations at the prime $p$.
+The simplest example of such a {\it Sum\ of\ local\ data}  is given by taking $F(X)$ to be the constant $1$, and  $G(p)$ to be  $1$ for all $p$, giving us the classical $\pi(X):=\sum_{p\le X}1$. \item The normalizing factors $F(X)$ will be elementary smooth functions of the cutoff $X$. We sometimes choose this normalizing factor so that the  resulting  $\delta(X)$ has (conjecturally) finite mean.\end{itemize}
+
+We will be concentrating on  {\it sums\ of\ local\ data}  attached to elliptic curves over ${\Q}$,   $$\delta_E(X):=F(X)\sum_{p\le X}g_E(p)$$ where the weighting function $$p \mapsto g_E(p)$$   is a function of $a_E(p)$, the $p$-th Fourier coefficient of the eigenform of weight two parametrizing the elliptic curve.
+
+  We will specifically be interested in  issues of bias. This is what we mean: thanks to the recent resolution of the Sato-Tate Conjecture in this context, one knows that---roughly---half the Fourier coefficients  $a_E(p)$ are positive and half negative.  Indeed, the numbers of positive values and negative values look very close:
+\vskip20pt
+\hskip40pt\begin{tabular} {l | r | r | r}\hline
+Curve & Rank & Positive $a_E(p)$ for $p<107$ & Negative $a_E(p)$ for $p<107$\\ \hline\hline	
+11a  & 0  & 	332169  & 	332119\\ \hline	
+32a (CM) & 0  &	166054 &	166126\\ \hline	
+37a & 1	& 332127 &	332240\\ \hline	
+389a & 2 &	332317	 & 332022\\ \hline	
+5077a & 3 &	331706 &	332632 \\ \hline\hline
+\end{tabular}
+\vskip20pt
+  To study, then, the weighted sums that directly reflect finer statistical issues related to this symmetric distribution, we will be concentrating on weighting functions $p \mapsto g_E(p)$ that have the property that \begin{itemize} \item for all primes $p$, $g_E(p)$ is an {\it odd} function of the value  $a_E(p)$, and \item the {\it sum\ of\ local\ data}  $$\delta_E(X):=\sum_{p\le X}g_E(p)$$ has---or can be convincingly conjectured to have---a finite mean{\footnote{ See Section {\ref{mean}} below}} relative to multiplicative measure $dX/X$.\end{itemize}  In such a context  the mean of $\delta_E(X)$ can be interpreted as a {\it bias}! 
+
+
+ For example, to consider  the problem highlighted in our {\it Abstract} (above) form  the `sum of local data'  
+  $${\frac{\log X}{{\sqrt X}}}\sum_{p\le X}\gamma_E(p)$$  where $\gamma_E(p)=0$ if $p$ is a bad or supersingular prime for $E$ and is otherwise is $+1$ if $E$ has less that $p+1$ rational points over ${\bf F}_p$; and $\gamma_E(p) = -1$ if more.  Then this sum, which will be denoted $\Delta_E(X)$ below, measures exactly the difference between over-count and under-count, as formulated in the {\it Abstract}.
+  
+  
+\item The first two terms on the RHS, i.e.  ${\rm{\it Global\ data}}\ + \  {\rm{\it  Oscillatory\ term}}$, is a sum of terms each determined by the (nontrivial) zeros, or the poles, of the relevant $L$-function or collection of $L$-functions. For  example,  the  collection of $L$-functions {\it relevant} to the problem highlighted in our {\it Abstract} consists of  the $L$ functions attached to {\it all}  the {\it odd} symmetric powers of the newform $f_E$.
+
+
+   The distinction between the two terms labeled   {\rm{\it Global\ data}} and  {\rm{\it  Oscillatory\ term}} is that the term `` {\rm{\it Global\ data}}" is determined by the poles, or the {\it real} zeroes---e.g., the zeroes at $s=1/2$--- of the relevant $L$-functions, while the `` {\rm{\it  Oscillatory\ term}}" is determined by the (infinitely many) complex zeroes. \begin{itemize}\item Often, and under GRH, the  the {\it real} zeroes of the relevant $L$-functions will have---conjecturally---a clean {\it global arithmetic interpretation} (e.g., via BSD and its  variants) so that's why we call  that term simply  ``{\rm{\it Global\ data}}."  In the problems we will be discussing this ``global data" will be showing up as a certain {\it bias} in the arithmetic statistics of elliptic curves that hearkens back to the early work of Birch and Swinnerton-Dyer, but in the context of the vocabulary we will be using, was  first written down by Peter Sarnak; this is in the spirit of the classical Chebyschev bias, and 'prime races;' an `Explicit Formula' account of this classical theory can be found in {\cite{GM}}.  \item  Moreover, what we call the ``{\rm{\it  Oscillatory\ term}}"  is often  an infinite sum, where the summands are of the form  $X^{i\gamma}/f(\gamma)$ where $\gamma$ runs through the imaginary parts of the complex zeroes of the relevant $L$-functions, and $f(y)$ is some natural function.  Numerically, this oscillatory term will indeed oscillate---as we shall amply see---but often one  we will, at the very least, conjecture some control over this wild card.\end{itemize} \item Often the
+'convergent term' converges rapidly to a value  (perhaps zero) as $X$ tends to infinity. \end{itemize}
+ \newpage
+ \centerline{ \Large{ Part I: Setting up}}
+  \vskip30pt
+ \section{Bias Questions} Let $E$ be an elliptic curve over ${\Q}$  with no complex multiplication, associated to a newform whose $p$-th Fourier coefficient for $p$ a prime is denoted, as usual, $a_E(p)$. Given the recent work on Sato-Tate, the probability distribution determined by  the normalized values   ${\frac{a_E(p)}{2{\sqrt {p}}}}$  is known to be symmetric about the origin for a large class of such elliptic curves.
+ 
+  It is natural, then, to ask for more detailed description of this  data; for example, to raise what one might call {\it bias questions} that {\it race one side of that probability distribution against the other}. A typical such question is the one cited in our {\it Abstract}:
+\begin{quote} Given an elliptic curve over the rational numbers, and letting  $p$ range through prime numbers, how often is $p+1$  an over-count or an under-count for the number of rational points on the curve modulo $p$?  \end{quote}
+
+
+ 
+  As mentioned,  for a large class of elliptic curves, as a consequence of recent work on the Sato-Tate Conjecture, the answer is grossly  {\it equally often} in the sense that, putting $$N_E(p)=1+p-a_E(p):=\ {\rm the \ number\ of \ rational\ points \ on\ } E\ {\rm over}\  {\bf F}_p,$$
+ 
+  the ratio
+ 
+ $${\frac{\#\{p < X \ | \ N_E(p) < p+1 \}} {\#\{p > X \ | \ N_E(p) > p+1 \}}}\ =\ {\frac{\#\{p < X \ | \ a_E(p) > 0 \}} {\#\{p > X \ | \ a_E(p) < 0 \}}}$$
+ 
+ tends to $1$ as $X$ goes to infinity.  
+ 
+ 
+ 
+ 
+  Our mission, then, is to consider the more delicate {\it bias questions} by examining a variety of ``smoother" clever ways to measure the preponderance of positive---or of negative---$a_E(p)$'s   (and to view this preponderance in graphs).
+  
+   
+ This type of question, of course, bears on Birch's and  Swinnerton-Dyer's initial ``hunch" that the  statistical preponderance of solutions modulo $p$ of an elliptic curve is a predictor of whether or not the elliptic curve has infinitely many rational points.
+ 
+  To give some ad hoc terms for variant partial sums of {\it Local Arithmetic Data} that measure such preponderances,  let us refer to\begin{itemize}\item   (the slightly doctored version of) the straight difference,  
+ $${\Delta}_E(X):=  {\frac{\log\ X}{\sqrt X}}\big(\#\{ p < X\ | \ a_E(p) > 0\}\ - \ \#\{ p < X\ | \  a_E(p) < 0\}\big),$$  as  the {\bf raw data,} \item and to 
+ $${\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}}$$ as the {\bf medium-rare data}, and \item 
+  $${D}_E(X):= {\frac{1}{\log\ X}}\sum_{p \le X}{\frac{a_E(p)\log p}{ p}}$$  as the {\bf well-done data}.
+  \end{itemize}
+ \subsection{The statistical distinctions between the three formats}\label{statdist} 
+   Not to build up too much suspense here, the reason for selecting these three formats for the ``Local data"  and for the specific normalizations chosen (i.e., the factor $ {\frac{\log\ X}{\sqrt X}}$ occurring in the first two, and the factor  ${\frac{1}{\log\ X}}$ in the third)  is that they each are amenable to analysis via ``an" {\it Explicit Formula}
+   $$(*)\  \  \  \  {\rm{\it Sum\ of\ local\ data\  }}  \ = \  {\rm{\it Global\ data}}\ + \  {\rm{\it  Oscillatory\ term}}\ + \  {\rm{\it  Convergent\ term}}$$ 
+ and such that if (GRH plus)  certain interesting conjectures hold---then  all three  Sums of Local Data, $${\Delta}_E(X), \ {\mathcal D}_E(X), \ {\rm and} \ D_E(X)$$ will have finite {\it means}  (relative to the measure $dX/X$ on ${\bf R}^+$), their `means' being equal to the term  {\rm{\it Global\ data}} in their corresponding Explicit Formula;  and furthermore, what distinguishes these three formats is that conjecturally{\footnote{ as described in a letter of Sarnak; see subsection{\ref{SL}} below.}}---
+   \begin{itemize}
+   \item the raw data will have {\it infinite} variance, 
+   \item the medium-rare data will have {\it finite variance}, and 
+   \item the well-done data will actually achieve its mean as a limiting value.
+   \end{itemize}
+  
+ 
+   Here are some brief comments on each of the `terms' in the Explicit  Formula for our three variants.
+ \subsection {The `{\it Global Data}' or---conjecturally-- the{\it `Mean'}}\label{mean}
+   Recall that if   $X \mapsto \delta(X)$ is a (continuous) function of a real variable,  to say that $\delta(X)$ {\bf possesses a limiting distribution $\mu_\delta$ with respect to the multiplicative measure $dx/x$} means that  for continuous bounded functions $f$ on ${\bf R}$ we have:
+\begin{equation*} 
+\lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^Xf(\delta(x))dx/x \ = \ \int_{\bf R}f(x)d\mu_\delta(x).
+\end{equation*}
+
+\bigskip
+
+    Recall that the {\bf mean} of the function $\delta(X)$ (relative to $dX/X$) is defined by the limit  $${\mathcal E}(\delta):= \lim_{X \to {\infty}}{\frac{1}{\log X}}\int_0^X\delta(x)dx/x \ = \ \int_{\bf R}d\mu_\delta(x).$$ 
+    
+     The depressing thing here is that if you take a function $\delta(X)$ that is anything you want up to $X = 4,000,000$ and equal to $5$ for $X>  4,000,000$ then the mean of $\delta$ is equal to $5$, so what in  the world can it mean{\footnote{ poor pun intended}} to compute data up to $4,000,000$? But we press on.
+     
+   The fun here is that the conjecture for the values of {\it means} in the three formats is as follows:
+   
+    \begin{itemize}
+   \item {\bf The well-done data:} the  mean is (conjecturally) $-r:=$  where $r= r_E$ is the {\it analytic rank} of $E$.
+    \item {\bf The medium-rare data:} the  mean is  (conjecturally)  $1-2r$ and 
+      \item {\bf The raw data:} the  mean is  (conjecturally) \begin{equation*}
+{\frac{2}{\pi}}- {\frac{16}{3\pi}}r \ \ \ + \ \ \  {\frac{4}{\pi}} \sum_{k=1}^{\infty}  (-1)^{k+1}\big[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\big]r({2k+1}).
+\end{equation*} where $$r(n):= \ r_{f_E}(n)\ = \ {\rm the\ order\ of\ vanishing\ of\ }L(symm^nf_E, s)\ {\rm at}\ s=1/2,$$ with $f_E:=$ the newform of weight two corresponding to the elliptic curve $E$; and where we have normalized things as the analysts love to do, so that $s=1/2$ is the central point. {\bf NOTE:} For a discussion of the numerics of the values $r({2k+1})=r_E({2k+1}) $, see Section {\ref{highord}} below.
+   \end{itemize}
+% \noindent which leads us to our initial question: \begin{quote} What is the behavior of the function  $$n \mapsto r_ f(n)$$ for fixed $f$ and varying $n$? \end{quote}
+ 
+ \subsection{The `{\it Oscillatory term}' and the `{\it Convergent term}'}
+  Although it is similar for all three formats, here let us concentrate on these terms as they appear in the Explicit Formula for the `well-done data,'  $D_E(X)$,  where 
+  
+  \begin{itemize} \item the  `{\it Convergent term}' converges to zero, and, even more: is $O( {\frac{1}{\log X}})$. 
+  \item the  {\it Oscillatory term}, which we will denote $S(X)$ is the limit, as $Y$ tends to infinity, of these trigonometric series:
+  
+  $$S(X,T) = {\frac{1}{\log X}}\sum_{|\gamma| \le T}{\frac{X^{i\gamma}}{i\gamma}},$$
+  
+  where the sum is over the imaginary parts of the complex zeroes of  $L(f_E, s)\ {\rm at}\ s=1/2.$   That is:
+  
+   It has been tentatively conjectured  (e.g., see [{\cite{S}}]) that:
+  
+  $$\lim_{X \to \infty}S(X) = 0,$$
+  
+   \vskip20pt
+\centerline{\bf William 1:}  {\it We should have a discussion of the data we accumulate about the convergence of this oscillating term. \vskip20pt
+
+   \item the {\it Global data} is conjecturally the mean, as mentioned above.\end{itemize}
+  
+  
+    To summarize, the  Explicit Formula for the `well-done data,' i.e., ${D}_E(X)$,  is then (conjecturally)
+   $${D}_E(X)\ = \ -r \  +\  S(X)\ +\ O( {\frac{1}{\log X}}),$$
+   where the rapidity of the conjectured convergence of ${D}_E(X)$ to $-r$ depends largely on whether, and how rapidly, we expect  $S(X)$ to decrease. Putting it somewhat archly, one measure of the ease of application of  the Explicit Formula, or its 'explicitness,' is how large a value of $X$ do  you need for the following to be a true equation:
+   
+   $$r_E \ = \ {\rm the\ closest\ integer\ to \ }- {D}_E(X)?$$
+   
+
+   
+    \newpage
+ \centerline{ \Large{ Part II: Some  theory}}
+  \vskip30pt
+
+
+    \section{A letter of Peter Sarnak}  In a letter  \cite{S}  to one of us (to B.M.) Peter Sarnak sketched reasons for the statements made about the three formats for sums of local data that we  introduced above. As we  understand it, the computations in that letter was, at least in part, the fruit of conversations with Andrew Granville. We are grateful for that, and for  illuminating discussions with    Granville, Rubinstein, and Sarnak about this  phenomenon.  Assuming a list of standard conjectures about the behavior of $L$-functions, together with some very plausible but less standard conjectures, Sarnak begins by showing---as we mentioned above---that the medium-rare local data,  ${\mathcal D}_E(X)$, has a limiting distribution with {\it mean} equal to $1- 2r(E)$ where $r(E)$ is the analytic  rank of the elliiptic curve $E$. 
+ 
+  The {\it variance} of this limiting distribution  is the sum of the squares of the reciprocals of the absolute values of the nonreal zeroes of the $L$-function of $E$. The argument for these (and related) facts follows Mike Rubenstein's and Peter Sarnak's line of reasoning in the article {\it Chebyshev's Bias} [\ref{R-S}]. For another expository account of number theoretic issues related to biases, see [\ref{GM}]. Similar reasoning works for other formats, including the {\it raw} sum of local data as will be depicted in our graphs below; i.e.,  $$\Delta_E(X):= {\frac{\log\ X}{\sqrt X}}\big(\#\{ {p \le X};\ a_E(p) > 0\} \ - \ \#\{ {p \le X};\ a_E(p) < 0\}\big),$$ which  (given reasonable conjectures, and guesses)  one discovers to have infinite {\it variance} so whatever bias we will be seeing in our finite stretch of data will eventually wash out{\footnote{ All this is specific to elliptic curves $E$ with no complex multiplication, as our examples below all are. The non-finiteness of the variance is related to the fact that the (expected) number of  zeroes---in  intervals  $(1/2, i/2+iT)$ ($T > 0$)---of the $L$ function of the $n$-th symmetric power of the newform $f_E$ attached to  $E$   grows at least linearly with $n$.}}. 
+   
+
+
+  
+  
+%  Let $E$ be an elliptic curve over the field of rational numbers, and for all primes $p$ for which the reduction of $E$ modulo $p$ is an elliptic curve over the prime field ${\bf F}_p$  (this will happen for all but finitely many $p$) let $N_E(p):= |E({\bf F}_p)|$  be the number of points of the reduction of $E$ over ${\bf F}_p$.  To more easily compare $N_E(p)$ with the quantity $p+1$, put $a_E(p):= (p+1)-N_E(p)$ so that our estimate ($p+1$) is an ``over-count"  for the number of points of our elliptic curve $E$ mod $p$  if and only if  $a_E(p)$ is positive; and an ``under-count" if negative.
+  
+% In a letter  [\cite{S}]  to one of us (to B.M.) Peter Sarnak sketched reasons for the statements made about the three formats for sums of local data that we  discussed in Part I above. As we  understand it, the computations in that letter was, at least in part, the fruit of conversations with Andrew Granville. We are grateful for that, and for  illuminating discussions with    Granville, Rubinstein, and Sarnak about this  phenomenon.  As already mentioned, assuming a list of standard conjectures about the behavior of $L$-functions, together with some very plausible but less standard conjectures, Sarnak begins by showing that $$X\mapsto {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}}$$ has a limiting distribution with {\it mean} equal to $1- 2r(E)$ where $r(E)$ is the Mordell-Weil rank of the elliptic curve $E$. 
+ 
+ % The {\it variance} of this limiting distribution  is the sum of the squares of the reciprocals of the absolute values of the nonreal zeroes of the $L$-function of $E$. The argument for this follows Mike Rubenstein's and Peter Sarnak's line of reasoning in the article {\it Chebyshev's Bias} [\ref{R-S}]{\footnote{For another expository account of number theoretic issues related to biases, see [\ref{GM}].}}. If, however, we apply similar reasoning to the quantity specifically measuring the race depicted in our graphs; i.e.,  $$X\mapsto {\frac{\log\ X}{\sqrt X}}\big(\#\{ {p \le X};\ a_E(p) > 0\} \ - \ \#\{ {p \le X};\ a_E(p) < 0\}\big) $$ one computes  (given reasonable conjectures, and guesses) the {\it mean} and one discovers that it conforms fairly well with the data; the {\it variance}, however, is infinite, so whatever bias we see in our finite stretch of data will eventually wash out{\footnote{ This is specific to elliptic curves $E$ with no complex multiplication, as our examples below all are. The non-finiteness of the variance is related to the fact that the (expected) number of  zeroes---in  intervals  $(1/2, i/2+iT)$ ($T > 0$)---of the $L$ function of the $n$-th symmetric power of the newform $f_E$ attached to  $E$   grows at least linearly with $n$.}}.  In this section, and subsequent subsections, I will be simply transcribing---with minor notational modifications---a few extracts from a letter that Peter Sarnak wrote to me.
+ 
+ \section{`Explicit Formula' statistics}
+
+Let $E$ be an elliptic curve over ${\Q}$ without complex multiplication associated to a newform $f$ with Fourier expansion:
+$$f(q) = q+\sum_{n\ge 2}a_E(n)q^n.$$
+
+For $p$ a prime, write 
+ 
+\begin{equation}
+{\frac{a_E(p)}{\sqrt p}}: = \   \alpha_p+\beta_p,
+\end{equation}
+
+with $\alpha_p= e^{i\theta_p}$ and  $\beta_p= e^{-i\theta_p}$ 
+and
+\begin{equation}
+\theta_p \in [0, \pi]).
+\end{equation}
+
+
+Our basic data consists of the function 
+
+\begin{equation}\label{data}
+p \ \mapsto\ \theta_p
+\end{equation}
+
+To have some vocabulary to deal with its statistics, consider
+
+$$U_n(\theta) : = {\frac {\sin(n+1)\theta}{\sin\theta}}$$ and note that the set $\{U_n\}$ for $n=0,1,2,\dots$ forms an orthonormal basis of the Hilbert space $L^2[0,\phi]$.
+
+For $V(\theta)$ a smooth function on $[0,\pi]$, write $V=\sum_{n=0}^{\infty} c_nU_n$ with $c_n: = \langle V, U_n\rangle$.
+
+Just to cut down to the essence as rapidly as possible, and just for this lecture:
+
+\begin{definition} Say that our data (\ref{data}) has {\bf `Explicit Formula' statistics} if there is a sequence of non-negative integers $\{r_n\}_n$  for $n=1,2,3, \dots$ such that for all smooth functions $V(\theta)$ as above with $c_0=0$, the ``$V$-weighted average of the data"
+\begin{equation}
+S_V(X):= {\frac{\log X}{\sqrt X}}\sum_{p \le X} \ V(\theta_p)
+\end{equation}
+\begin{itemize}
+\item
+possesses a limiting distribution{\footnote{ Recall that, as in subsection    \ref{statdist} above,  $S_V(x)$ {\bf possesses a limiting distribution $\mu_V$ with respect to the multiplicative measure $dx/x$} if for continuous bounded functions $f$ on ${\bf R}$ we have:
+\begin{equation} 
+\lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^Xf(S_V(x))dx/x \ = \ \int_{\bf R}f(x)d\mu_V(x).
+\end{equation}}}
+ $\mu_V$ with respect to the multiplicative measure $dX/X$,
+\item  $\mu_V$ has support on all of ${\bf R}$ is continuous and symmetric about its mean, ${\mathcal E}(S_V)$, and
+\begin{equation}\label{eqnmean}
+{\mathcal E}(S_V)\ = \ -\sum_{n=1}^{\infty}  c_n\big(2r_n+(-1)^n\big).
+\end{equation}
+\end{itemize}
+\end{definition}
+
+\bigskip
+
+
+\bigskip
+
+
+
+    Recall that the {\bf mean}{\footnote{ One can also compute---given some plausible conjectures---the behavior of the {\bf variance}  (i.e., the measure of fluctuation of the values of $S_V(X)$ about the mean) as well; the variance is defined by the formula  $${\mathcal V}(S_V): = {\mathcal E}\big([S_V  - {\mathcal E}(S_V)]^2\big).$$}} of $S_V(X)$ is defined by the limit  $${\mathcal E}(S_V):= \lim_{X \to {\infty}}{\frac{1}{\log X}}\int_0^XS_V(x)dx \ = \ \int_{\bf R}d\mu_V(x).$$ 
+    
+   
+\bigskip
+
+
+
+    
+     
+\begin{remark}  If some standard conjectures{\footnote{that (for $n=1,2,\dots$) the $L$-functions of the symmetric $n$-th powers of the elliptic curve, \begin{equation}
+L(s, E, {\rm sym}^n): = \prod_p\prod_{j=0}^n(1- \alpha_p^{n-j}\beta_p,^jp^{-s})^{-1},
+\end{equation} have analytic continuation   to the entire complex plane satisfying a standard function equation (and one can relax analyticity and require merely an appropriate meromorphicity hypothesis) and that they be holomorphic and nonvanishing up to $Re(s) =1/2$ (i.e., GRH).  The integer $r_n$ (for $n=1,2,\dots$)  is then the multiplicity of the zero of $L(s, E, {\rm sym}^n)$ as $s=1/2$. \vskip20pt }} and some non-standard conjectures{\footnote{LI(E); see  \ref{S}, \ref{F}}}  hold, then our data (\ref{data}) would indeed have {\it `Explicit Formula' statistics}.  The integers $r_n$, which by the previous footnote are (conjecturally) the orders of vanishing of specific $L$-functions at their central points, are expected to have the large preponderance of their values equal to  $0$ or $1$, depending on the sign of the functional equation satisfied by the $L$-function to which they are associated,  so the {\it mean} for  a given $V$ as computed by equation (\ref{eqnmean}) stands a good chance of being finite.
+\end{remark}
+
+
+\section{The bias between under-counts and over-counts}
+  We will assume that our data has `Explicit Formula' statistics, and---copying Sarnak ({\cite{S}})--- apply this to the question we began with, i.e., what is the ``bias" in the race between under-counts and over-counts?
+  
+$$\Delta_E(X):={\frac{\log X}{\sqrt X}}\big(\#\{ p < X\ | \ N_E(p) < p+1\}\ - \ \#\{ p < X\ | \ N_E(p) > p+1\}\big).$$ 
+
+
+Let $H(\theta)$ be the Heaviside function, i.e., the function with value 
+
+\begin{equation}
+H(\theta) \ = \ +1
+\end{equation}
+ for $\theta \in [0, \pi/2)$ and  $-1$ for $\theta \in [\pi/2, \pi)$.  So
+\begin{equation}
+\Delta_E(X) = {\frac{\log X}{\sqrt X}}\sum_{p\le X} H(\theta_p) 
+\end{equation}
+
+
+For $n \ge 0$, set
+
+
+\begin{equation}
+c_n(H)  \ = \ \langle H, U_n\rangle \ = \ {\frac{2}{\pi}}\big[\int_0^{\pi/2}U_n\sin^2\theta d \theta - \int_{\pi/2}^{\pi}U_n\sin^2\theta d \theta \big]
+\end{equation}
+
+
+which is $0$ if $n$ is even and $$(-1)^{(n-1)/2}{\frac{2}{\pi}}\big[{\frac{1}{n}} + {\frac{1}{n+2}}\big]$$ if $n$ is odd.
+
+
+
+For $N \ge 1$ let 
+
+\begin{equation} 
+H_N(X): = \ \sum_{n=1}^Nc_n(H)U_n(\theta)
+\end{equation}
+
+
+So $H_N$ is a smoothed out version of $H(\theta)$ and $H_N(\theta) \to H(\theta)$ as $N $ tends to infinity.  Thus
+
+\begin{equation} 
+S_N(X): = S_{H_N}(X) = \ {\frac{\log X}{{\sqrt{X}}}}\sum_{p \le X}H_N(\theta_p)
+\end{equation}
+
+
+is a smoothed out version of 
+
+\begin{equation}\label{smooth} 
+S(X): = S_{H}(X) = \ {\frac{\log X}{{\sqrt{X}}}}\sum_{p \le X}H(\theta_p)
+\end{equation}
+
+Therefore, by formula (\ref{eqnmean}), we would have:
+
+\begin{equation}\label{early}
+{\mathcal E}(S_N)\ = \ {\frac{8}{3\pi}}(1-2r) + {\frac{2}{\pi}} \sum_{k=1}^{N}  (-1)^{k+1}\big[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\big]\big(2r_E(2k+1)-1\big).
+\end{equation}
+
+
+Now one does have  parity information concerning the arithmetic function $n \mapsto r_E(n)$. For a detailed study of teh root numbers of $l$-functions of symmetric powers of an elliptic curve, consult \cite{DMW}.
+ For $n \ge 1$ let $ \nu_E(n) \in \{0,1\}$ be (zero or one) such that  $ \nu_E(n) \equiv r_E(n)$ modulo $2$. Let $s_E(n)$ be the non-negative integer such that:
+ $$r_E(n) = \nu_E(n) + 2s_E(n)$$  (for $n\ge 3$, odd).
+Thus if the multiplicities of order of vanishing at the central point $s=1/2$ of the odd symmetric $n$-th power $L$-functions attached to $E$ (for $n \ge 3)$ was never greater than  $1$, and hence entirely dictated by parity, then the conjectured mean, ${\mathcal E}(S_N)$, would be equal to 
+\begin{equation}\label{min}
+{\mathcal T}_E^{\{N\}})\ := \ {\frac{8}{3\pi}}(1-2r) + {\frac{2}{\pi}} \sum_{k=1}^{N}  (-1)^{k+1}\big[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\big]\big(2\nu_E(2k+1)-1\big).
+\end{equation}
+
+  Now consider the limit:
+   $${\mathcal T}_E: = \lim_{N\to \infty}{\mathcal T}_E^{\{N\}}. $$
+\vskip20pt
+\centerline{\bf William 2} {\it Something funny here! I wonder whethr all the possibilities for parity as given in \cite{DMW} leads, in fact, to convergent values of ${\mathcal T}_E$?  Anyway, this is something to work out.}
+\vskip20pt
+
+
+Put $${\z}_E^{\{N\}}:= {\frac{2}{\pi}}\sum_{k=1}^{N}  (-1)^{k+1}\big[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\big]\big(4s_E(2k+1)\big).$$
+
+\vskip20pt
+\noindent {\bf Questions:} Does the limit, $${\z}_E: = \lim_{N\to \infty}{\z}_E^{\{N\}} $$  exist? Does it converge to a finite value?  If so, then the conjectured mean would be:
+$${\mathcal E}_E =  {\mathcal T}_E \ + \ \z_E.$$   Is $s_{2k+1}$ bounded?  Is  the set of positive integers $k$ such that  $s_{2k+1} \ne 0$ of {\it density zero} set of positive integers $k$?    Is that set finite?
+
+
+
+ Some data for higher order of vanishing for symmetric powers i given in the articlew of Martin and Watkins \cite{M-W}. The following table is taken from their article:
+
+
+\hskip160pt\begin{tabular} {l | r r}\hline
+$E$ & $k$ & $s_{2k+1}$\\
+\hline\hline
+$2379b$ & 1 & 2 \\
+\hline
+$5423a$ &  1 & 2   \\
+\hline
+$10336d$ &  1 & 2  \\
+\hline
+$29862s$ &  1 & 2  \\
+\hline
+$816b$ &  2 & 1  \\
+\hline
+$2340i$ &  2 & 1  \\
+\hline
+$2432d$ &  2 & 1  \\
+\hline
+$3776h$ &  2 & 1  \\
+\hline
+$128b$ &  3 & 1  \\
+\hline
+$160a$ &  3 & 1  \\
+\hline
+$192a$ & 3 & 1  \\
+\hline
+\end{tabular}
+
+\vskip40pt
+
+
+\vskip10pt
+\section{The relationship between bias and unbounded rank: the work of Fiorilli}
+
+  Recall from Section {\ref{mean}} above that the {\bf mean} of $\delta(X)$ is by definition:
+$${\mathcal E} : = \lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^X\delta(x)dx/x \ = \ \int_{\bf R}d\mu_\delta(x).$$
+In the work of Sarnak and Fiorilli, another measure for understanding `bias behavior' is given by what one might call {\bf the percentage of positive  support} (relative to the multiplicative measure $dX/X$). Namely:
+$${\mathcal P} ={\mathcal P}_E:=  \lim {\rm inf}_{X\to \infty}{\frac{1}{\log X}}\int_{2\le x \le X; \delta(x)\le 0}dx/x$$ 
+$$=   \lim {\rm sup}_{X\to \infty}{\frac{1}{\log X}}\int_{2\le x \le X; \delta(x)\le 0}dx/x$$ 
+ \vskip20pt
+ 
+  It is indeed a conjecture, in specific instances interesting to us, that these limits ${\mathcal E} $ and ${\mathcal P}$  exist.
+   \vskip20pt
+   
+   The standard conjecture (that we have been making all along) is GRH. But here, one includes the further conjecture (given in Sarnak's letter, and the article of Fiorilli) that the the set of nontrivial complex zeroes of the relevant $L$-function $L(E,s)$ with positive imaginary part  is a set of complex numbers that are {\it linearly independent} over ${\Q}$.  This, Fiorilli calls {\bf Hypothesis LI(E)}.  Fiorilli, following the work of Sarnak,  proves:
+   
+   \begin{theorem} Assume GRH and LI(E). Then the following two statements are equivalent:
+   \begin{enumerate} \item  The set of (analytic) ranks $\{r_E\}_E$ ranging over all elliptic curves over ${\Q}$ is {it unbounded}.
+   \item  The  l.u.b of the set of  {\it percentages of positive support}  $\{{\mathcal P}_E\}_E$ is equal to $1$.\end{enumerate}\end{theorem}
+  
+%\centerline{\it (Discuss a beautiful result of Fiorilli about  ${\mathcal P}$)}
+\vskip10pt
+\section{Further finer questions: conditional biases}
+\vskip10pt
+%\centerline{To be written}
+
+ In summary, given the conjectures discussed, the {\it theory of the means} of the general weighted sums of local data we have been examining related to an elliptic curve $E$ is determined by the orders of vanishing at the central point of the $L$-functions of the symmetric powers of the modular eigenform attached to $E$: and conversely: knowledge of the means of all such weighted sums determines all those orders of vanishing. 
+ 
+ 
+ \vskip20pt $$\{{\rm Weighted\ biases}\} \ \ \ \leftrightarrow\ \ \  \{{\rm Central\ zeroes}\}$$
+ 
+ 
+This leads to  various issues needing conjectures, and computations. What might we reasonably conjecture about:
+ 
+ \begin{enumerate}\item  {\it the arithmetic function  $k \mapsto r_E(2k+1)$?}
+ \begin{itemize} \item Is it unbounded? 
+ \item Is $r_E(2k+1)\ge 2$ for  only a set of values of $k$ of density $0$?
+ \item  Is  $r_E(2k+1)\ge 2$ for all but finitely many $k$'s?  \end{itemize} \vskip20pt
+ \item {\it  the collection of weighted biases that have finite mean?}\  I.e., for which weighted biases does Equation \ref{eqnmean} have a convergent RHS?
+   
+ \vskip20pt \item {\it the detailed statistical behavior of the function $S_E(X,Y)$?}
+ 
+  \vskip20pt \item {\it an effective version of LI(E)?}\  I.e., can we put our fingers on an explicit  positive function $F(H,T)$ such that for every linear combination of the form $$\sum_{j=1}^{\nu} \lambda_j\gamma_j$$ with the $\lambda_j$ 's rational numbers of height $< H$ and the  $\gamma_j$ 's  positive imaginary parts $<T$ of the complex zeroes of the $L$ function $L(E,s)$, we have  an inequality of the form $$|\sum_{j=1}^{\nu} \lambda_j\gamma_j|  > F(H, T)?$$ 
+ %More specifically, the {\it means}  directly interpretable as {\it biases}  determine   the orders of vanishing at the central point of the $L$-functions of the symmetric powers of odd order of the modular eigenform attached to $E$ and vice versa..
+ 
+   \vskip20pt \item {\it conditional biases?}  For example, given two elliptic curves $E_1, E_2$ over ${\Q}$ (that are not isogenous), say that a prime $p$ is of type $(+,+)$ if both $a_{E_1}(p)$ and $a_{E_2}(p)$ are positive, of type  $(+,-)$ if  $a_{E_1}(p)$ is  positive and $a_{E_2}(p)$ negative, etc.  
+ 
+ Now  {\it race} the four types of primes against each other!  What is the ensuing statistics, and how much of the analytic number theory regarding zeroes of $L$ functions attached to  $$symm^m(f_{E_1})\otimes symm^n(f_{E_2})$$  do we need to compute biases, if  such biases exist? \end{enumerate}
+\vskip10pt
+\section{Appendix: an example of a very classical `explicit formula'}
+
+Let $\l(x)$ be the {\it Von Mangoldt Lambda-function}. That is, $\l(x)$ is zero unless $x= p^k$ is a power of a prime---$(k \ge 1)$---in which case $\l(p^k) := \log p$. Consider  $$\psi_0(X): = {\frac{1}{2}}\l(X) + \sum_{n < X}\l(n).$$ Although one might argue whether or not  $\psi_0(X)$ fits into the mold of what we have been calling a `sum of local data,' it is certainly {\it not} one of our bias sums of local data, which has been our principal concern. Nevertheless, it will serve,   and will sit, appropriately normalized,  on the LHS of Theorem \ref{ef}, our example of an `explicit formula.'
+Let $\rho= {\frac{1}{2}}+i\gamma$ run through the zeroes in the line $Re(s)= {\frac{1}{2}}$ of the Riemann zeta function. (For expedience, we assume RH here).
+
+\begin{theorem}\label{ef}{\bf (Explicit Formula)} $${\frac{1}{X}}\cdot \psi_0(X) \ = \ 1 \ - \ \sum_{|\gamma| \le T}{\frac{X^{i\gamma}}{({\frac{1}{2}}+i\gamma){\sqrt X}}} \ + \ C(X,T)$$
+
+where--following the format of explicit formulas discussed above---we view \begin{itemize} \item  the term on the LHS of the above equation as our `sum of local data'; \item  the first term on the {\rm RHS},---i.e.,  $1$---as the `{\it global term}' corresponding to the pole of $\zeta(s)$ at $s=1$ with residue $1$; it is the {\it mean} of the {\rm LHS}, our sum of local data; \item  the second term on the {\rm RHS}, $\sum_{|\gamma| \le T}{\frac{X^{i\gamma}}{({\frac{1}{2}}+i\gamma){\sqrt X}}}$ as  a cutoff at $T$ of  the `{\it oscillatory term}' while \item  the third term, $C(X,T)$ is a cutoff at $T$ and at $X$ of the `{\it convergent term}.'  It converges to zero if the limits are taken in the order $$\lim_{X\to \infty}\lim_{T\to \infty}C(X,T).$$ This $C(X,T)$ has the following shape:
+
+$$C(X,T): = {\frac{-\log(2\pi)-\log(1-1/X^2)/2}{ X}} + \epsilon(X,T), $$ where:
+
+$$\epsilon(X,T) \ <<\ {\frac{\log X}{X}}\cdot {\rm min}\big(1, {\frac{X}{T\langle X \rangle}}\big)\ + \ {\frac{\log^2(X T) }{T}}.$$\end{itemize}\end{theorem}
+
+Here, $\langle X \rangle$ is the distance between $X$ and the nearest prime power, and with all this, the $<<$ would still need explicitation---even if that word is non-standard.  This result  and its proof is given, for example, as Theorem 12.5 in \cite{MV}.
+
+\section{ The work of Bober}
+
+\vskip20pt
+\centerline{\bf William 3} {\it there should be a brief description of his theorem }
+\vskip20pt
+\newpage
+ \centerline{ \Large{ Part III: Some Data}}
+  \vskip30pt
+
+ 
+     \section{The well-done data: \  $ {D}_E(X)$}
+   \vskip40pt
+     
+      \centerline{\bf (Graphs of \ \   $X\mapsto {D}_E(X) = {\frac{1}{\log\ X}}\sum_{p \le X}{\frac{a_E(p)\log p}{ p}}$) }
+      \vskip40pt
+   
+   
+  \centerline{\bf Rank $r=0$:\ \ \  ${\mathcal E}=$11A.}
+   \vskip20pt
+  \ill{even_smoother-rank0-4million.png}{1.2}~\label{s11}
+  \
+  
+ \vskip40pt
+   
+  \centerline{\bf Rank $r=1$:\ \ \  ${\mathcal E}=$37A.}
+ 
+ 
+   \vskip20pt
+ 
+ 
+ 
+    \ill{even_smoother-rank1-4million.png}{1.2}~\label{s37}  
+%
+
+   \newpage
+   
+   
+  \centerline{\bf Rank $r=2$:\ \ \  ${\mathcal E}=$389A.}
+ 
+ 
+  \vskip20pt
+ 
+ 
+ 
+ 
+    \ill{even_smoother-rank2-4million.png}{1.2}~\label{s389}
+    
+    
+ \vskip20pt
+   
+   
+  \centerline{\bf Rank $r=3$:\ \ \  ${\mathcal E}=$5077A.}
+ 
+ 
+ \vskip20pt
+ 
+ 
+ 
+    \ill{even_smoother-rank3-4million.png}{1.2}~\label{s5077}
+    
+        
+  \newpage
+   
+   
+  \centerline{\bf Rank $r=4$.}
+ 
+ 
+  \vskip20pt
+ 
+ 
+ 
+    \ill{smooth-prime_race-rank4-4million.png}{1.2}~\label{sr4}
+        
+ \vskip40pt
+   
+   
+  %\centerline{\bf Rank $r=5$.}
+ 
+ 
+ %\vskip20pt
+ 
+ 
+     %\ill{smooth-prime_race-rank5-4million.png}{1.2}~\label{sr5}
+    
+        
+
+   
+   
+  \centerline{\bf Rank $r=6$.}
+ 
+ 
+ \vskip20pt
+ 
+ 
+ 
+    \ill{even_smoother-rank6-4million.png}{1.2}~\label{sr6}
+    
+  \newpage
+  \section{The oscillatory term:\  $S_E(X)$}
+  
+  Here we focus on the oscillatory term  $$S(X) = S_E(X)=  {\frac{1}{\log X}}\sum_{|\gamma| \le X}{\frac{X^{i\gamma}}{i\gamma}},$$
+  
+  where the sum is over the imaginary parts of the complex zeroes of  $L(f_E, s)\ {\rm at}\ s=1/2,$   as it appears in the Explicit formula for the well-done data.  Noting that  $S(X) $ has been (tentatively) conjectured to  converge to $0$, it would be good to have a sense of how rapidly it does so. 
+     
+       \section{The medium-rare data:\   ${\mathcal D}_E(X)$}
+       \vskip40pt
+   
+       \centerline{\bf (Graphs of \ \   $X\mapsto {\mathcal D}_E(X) = {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_{\mathcal E}(p)}{\sqrt p}}$)}
+ 
+ \vskip40pt
+   
+   
+  \centerline{\bf Rank $r=0$:\ \ \  ${\mathcal E}=$11A.}
+   \vskip20pt
+  \ill{illustsmooth-11}{.8}~\label{s11}
+  \
+  
+    \newpage
+   
+  \centerline{\bf Rank $r=1$:\ \ \  ${\mathcal E}=$37A.}
+ 
+ 
+   \vskip40pt
+ 
+ 
+ 
+    \ill{smooth-prime_race-37a-4million.png}{1.2}~\label{s37}  
+%
+
+   \vskip40pt
+   
+   
+  \centerline{\bf Rank $r=2$:\ \ \  ${\mathcal E}=$389A.}
+ 
+ 
+  \vskip20pt
+ 
+ 
+ 
+ 
+    \ill{smooth-prime_race-389a-4million.png}{1.2}~\label{s389}
+    
+    
+
+   
+       \newpage
+  \centerline{\bf Rank $r=3$:\ \ \  ${\mathcal E}=$5077A.}
+ 
+ 
+ \vskip20pt
+ 
+ 
+ 
+    \ill{smooth-prime_race-5077a-4million}{1.2}~\label{s5077}
+    
+        
+  \newpage
+   
+   
+  \centerline{\bf Rank $r=4$.}
+ 
+ 
+  \vskip20pt
+ 
+ 
+ 
+    \ill{smooth-prime_race-rank4-4million.png}{1.2}~\label{sr4}
+        
+ \vskip40pt
+   
+   
+  \centerline{\bf Rank $r=5$.}
+ 
+ 
+ \vskip20pt
+ 
+ 
+ 
+    \ill{smooth-prime_race-rank5-4million.png}{1.2}~\label{sr5}
+    
+        
+  \newpage
+   
+   
+  \centerline{\bf Rank $r=6$.}
+ 
+ 
+ \vskip20pt
+ 
+ 
+ 
+    \ill{smooth-prime_race-rank6-4million.png}{1.2}~\label{sr6}
+      \newpage
+\section{The raw data: $\Delta_E(X)$}
+\vskip40pt
+   
+  \centerline{\bf (Graphs of \ \   $X\mapsto \Delta_E(X)=  {\frac{\log\ X}{\sqrt X}}\#\{ p < X\ | \ a_E(p) > 0\}\ - \ \#\{ p < X\ | \  a_E(p) < 0\})$}  \vskip40pt
+   
+   
+ \centerline{\bf Rank $r=0$:\ \ \  ${\mathcal E}=$11A.}~\ill{normalized_straight-prime_race-11a-4million.png}{.8}~\label{nr11}
+ 
+  
+\vskip40pt
+   
+   
+                              
+  \centerline{\bf Rank $r=1$:\ \ \  ${\mathcal E}=$37A.}
+ 
+                   
+ \vskip60pt
+ 
+ 
+                                   
+    \ill{normalized_straight-prime_race-37a-4million.png}{.8}~\label{nr37}  
+%
+
+  \vskip40pt
+
+   
+   
+  \centerline{\bf Rank $r=2$:\ \ \  ${\mathcal E}=$389A.}
+ 
+ 
+  \vskip20pt
+ 
+ 
+ 
+    \ill{normalized_straight-prime_race-389a-4million.png}{.8}~\label{nr389}
+    
+    
+   \vskip60pt
+     
+   
+  \centerline{\bf Rank $r=3$:\ \ \  ${\mathcal E}=$5077A.}
+ 
+
+ 
+ 
+    \ill{normalized_straight-prime_race-5077a-4million.png}{.8}~\label{nr389}
+    
+
+ 
+    
+
+ 
+    
+ 
+ %exhibit a bias to be positive, or negative,$\dots$, or not?  
+ 
+%Moreover, is it true, for  elliptic curves $E$, that a statistical bias for $p+1$ to be an over-count of the number of rational points $N_p(E)$  indicates that $E$ has {\it infinitely many} rational points?  And conversely, does a statistical under-count indicate that $E$ has only {\it finitely many}?
+
+
+%\subsection{Overcounts versus undercounts}\label{ou}  
+
+
+%Let us plot $$D_E(X):=\#\{ p < X\ | \ N_E(p) < p+1\}\ - \ \#\{ p < X\ | \ N_E(p) > p+1\}.$$  As we have already mentioned, thanks to a recent break-through{\footnote{Namely, the Sato-Tate conjecture for $E$ due to Clozel,  Harris,  Shepherd-Baron, and  Taylor.}} we know ---that this number is $o(X)$  (i.e., $D_E(X)/X$ tends to zero as $X$ goes to infinity).   But, as we shall see,  the actual data (computed, in fact for $X < 10^6$) is a bit more striking than that. 
+
+
+\vskip65pt
+%\centerline{\bf The race between $N_E(p) < p+1$  and $N_E(p) > p+1$}~\ill{11a_race}{.5}~\label{r11}
+%\centerline{\bf The race between $N_E(p) < p+1$  and $N_E(p) > p+1$}~\ill{newprime_race-11a}{.9}~\label{r11}
+
+ %The difference $D_E(X)$ is no greater than $300$ for any $C < 10^6$.  At least so far, $N_E(p)$ tends to be a tiny bit more often $ < p+1$ than it is $> p+1$.
+ 
+% \subsection{ Elliptic curves $\mathcal E$ with  infinitely many rational points}
+ 
+% Here is some data for the elliptic curves usually denoted $37A$, $389A$, and $5077A$ which have  ranks $1$, $2$ and $3$, respectively, and for which the recent work of Clozel,  Harris,  Shepherd-Baron, and  Taylor that we alluded to above  also  proves that the Sato-Tate conjecture holds.  For these elliptic curves $N_{\mathcal E}(p)$ tends to be more often $ > p+1$ than it is $ < p+1$, at least as far as the data has been computed, i.e., up to $C= 10^6$.
+ 
+ 
+ 
+
+ \newpage
+ % Here is the graph of $$D_{\mathcal E}(X):=\#\{ p < X\ | \ N_{\mathcal E}(p) < p+1\}\ - \ \#\{ p < X\ | \ N_{\mathcal E}(p) > p+1\}.$$ for each of these in turn {\it (all these computed by William Stein and Chris Swierczewski) }. 
+  
+  \vskip50pt
+  
+ %  \centerline{\bf Races between $N_{\mathcal E}(p) < p+1$  and $N_{\mathcal E}(p) > p+1$}
+ 
+  \vskip50pt
+   
+   
+  \centerline{\bf ${\mathcal E}=$ 37A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{newprime_race-37a}{.8}~\label{r37}
+  %\ill{37a_race}{.5}~\label{r37}{${\mathcal E}=$ 37A.
+
+  \vskip50pt
+  
+   
+  \centerline{\bf ${\mathcal E}=$ 389A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{newprime_race-389a}{.8}~\label{r389}
+    
+%\ill{389a_race}{.5}~\label{r389}{${\mathcal E}=$ 389A.
+  
+  
+  \newpage
+  
+   \vskip50pt
+   
+   
+  \centerline{\bf ${\mathcal E}=$ 5077A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{newprime_race-5077a}{.8}~\label{r5077}
+    
+%\ill{389a_race}{.5}~\label{r389}{${\mathcal E}=$ 389A.
+  
+
+  %\ill{5077a_race}{.5}~\label{r5077}{${\mathcal E}=$ 5077A. The race between $N_{\mathcal E}(p) < p+1$  and $N_{\mathcal E}(p) > p+1$}
+  
+%  As we shall be discussing in the next section, the ``good thing to do" in order to better visualize these races is to renormalize slightly, by multiplying the data,  $D_{\mathcal E}(X)$, by ${\frac{\log X}{\sqrt X}}$ in order to get a graph that (conjecturally!) has a finite mean.
+% \subsection{Sato-Tate}
+ 
+ %  As hinted already the above data has been accumulated (by William Stein and Chris Swierczewski) because we have been inspired by recent progress---notably the Sato-Tate Conjecture that, among many other things, guarantees that there are roughly as many under-counts as over-counts in the examples listed above. So, finer questions are in order; hence the data.  For  an annotated list of general expository accounts of Sato-Tate, see section \ref{exp} below.
+  
+  \bigskip
+  
+  
+  %\centerline{\Large PART II}
+  
+  \bigskip
+  
+  
+   %The graphs of $X\mapsto {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}}$, given below are all thanks to William Stein.  It certainly looks plausible (to me) that the {\it means} of the data depicted in these seven graphs are given by the formula $1-2r$, i.e., $+1,-1,-3, -5, -7,-9$ and $-11$ (respectively).
+  
+ 
+ 
+    \newpage
+    \centerline{\bf  Hi William: From here on in, there seem to be more graphs that are largely repeats?}
+ 
+ \vskip60pt
+   
+   
+  \centerline{\bf Rank $r=0$:\ \ \  ${\mathcal E}=$11A.}~\ill{illustsmooth-11}{.8}~\label{s11}
+  \
+  
+  
+ \vskip60pt
+   
+   
+  \centerline{\bf Rank $r=1$:\ \ \  ${\mathcal E}=$37A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{smooth-prime_race-37a-4million.png}{.8}~\label{s37}  
+%
+
+  \newpage
+   
+   
+  \centerline{\bf Rank $r=2$:\ \ \  ${\mathcal E}=$389A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{smooth-prime_race-389a-4million.png}{.8}~\label{s389}
+    
+    
+  \vskip60pt
+   
+   
+  \centerline{\bf Rank $r=3$:\ \ \  ${\mathcal E}=$5077A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{smooth-prime_race-5077a-4million}{.8}~\label{s5077}
+    
+        
+ 
+ \newpage
+   
+   
+  \centerline{\bf Rank $r=4$.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{smooth-prime_race-rank4-4million.png}{.8}~\label{sr4}
+        
+  \vskip50pt
+   
+   
+  \centerline{\bf Rank $r=5$.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{smooth-prime_race-rank5-4million.png}{.8}~\label{sr5}
+    
+        
+  \bigskip
+   
+   
+  \centerline{\bf Rank $r=6$.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{smooth-prime_race-rank6-4million.png}{.8}~\label{sr6}
+    
+     \newpage
+\
+ \vskip40pt
+
+ 
+% \centerline{\bf Graphs of the ``normalized race" between over-counts and under-counts:\ \   $X\mapsto S(X)$}
+ 
+ \vskip60pt
+   
+   
+  \centerline{\bf Rank $r=0$:\ \ \  ${\mathcal E}=$11A.}~\ill{normalized_straight-prime_race-11a-4million.png}{.8}~\label{nr11}
+  \
+  
+  
+ \vskip60pt
+   
+   
+  \centerline{\bf Rank $r=1$:\ \ \  ${\mathcal E}=$37A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{normalized_straight-prime_race-37a-4million.png}{.8}~\label{nr37}  
+%
+
+  \vskip60pt
+
+   
+   
+  \centerline{\bf Rank $r=2$:\ \ \  ${\mathcal E}=$389A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{normalized_straight-prime_race-389a-4million.png}{.8}~\label{nr389}
+    
+    
+      
+   
+  \centerline{\bf Rank $r=3$:\ \ \  ${\mathcal E}=$5077A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{normalized_straight-prime_race-5077a-4million.png}{.8}~\label{nr389}
+    
+
+ 
+ 
+
+\
+
+\
+
+%There is---to my eye--some correlation here, but we might ask for a bit more precision than the naked eye---without expecting too much, given that the current guess ( via a computation based on some plausible conjectures analogous to those labelled GSH in articles of Rubenstein and Sarnak) is that the variance is infinite.
+
+
+\begin{thebibliography}{bib}
+
+ 
+ \bibitem{C-S}\label{C-S} Conrey, J.B., Snaith, N.C.:  On the orthogonal symmetry of $L$-functions of powers of a Hecke character $\dots$
+  
+
+ \bibitem{DMW}\label{DMW} Dummigan N, Martin P, Watkins M.: Euler factors and local root numbers for symmetric powers of elliptic curves, Pure and Applied Mathematics, Quarterly, {\bf 5} (2009), no. 4, 1311-1341.
+  \bibitem{F}\label{F}  Fiorilli, D.: Elliptic curves of unbounded rank and Chebyshev's Bias, $\dots$
+ \bibitem{GM}\label{GM}  Granville, A., Martin, G.:  Prime number races, 
+American Mathematical Monthly {\bf 113} (2006) 1-33.
+  \bibitem{MV}\label{MV} Montgomery, H.L, Vaughan, R.C.:   {\it Multiplicative Number Theory I: Classical Theory} (Cambridge Studies in Advanced Mathematics) Cambridge Univeristy (2007) 
+  \bibitem{R-S}\label{R-S}   Rubinstein, M., Sarnak, P.: Chebyshev's Bias,  Experimental  Mathematics {\bf 3}  (1994) 174-197.
+    \bibitem{S}\label{S} Sarnak, P.: Letter to Barry Mazur on ``Chebyshev's bias" for $\tau(p)$, http://web.math.princeton.edu/sarnak/MazurLtrMay08.PDF  November (2007)
+        \bibitem{M-W}\label{M-W} Martin, G., Watkins, M.:  Symmetric powers of elliptic curve $L$-functions  $\dots$
+\end{thebibliography}
+
+\end{document}s
+
+\begin{document}
+
+\title{ Questions about the package of $L$-functions of the symmetric $n$-th powers of a given automorphic form }
+\author{Barry Mazur}
+
+\maketitle
+
+\centerline{{\it Rough Notes for a talk for the Tatefest}}
+
+\bigskip
+
+\section{Brief Introduction}
+Specifically,
+let $f$ be a newform of weight $k$ and {\it assume} that, for all $n=1,2,3,\dots$ the $L$ function $L(symm^nf, s)$ extends to a meromorphic (meromorphic is enough) function on the entire complex plane and satisfies the expected functional equation. We normalize things so that $Re(s) =1/2$ is the central line.  Form $$r_f(n):= \ {\rm the\ order\ of\ vanishing\ of\ }L(symm^nf, s)\ {\rm at}\ s=1/2.$$
+
+  What can we say about the asymptotics  of the integer-valued function $$n\ \mapsto \ r_f(n)?$$ 
+ 
+ It is timely to ask this type of question since we have seen some progress in the problem of showing meromorphic continuation of various $L$-functions recently (---in the proof  by Clozel, Harris, Shepherd-Baron, and Taylor of the Sato-Tate Conjecture for elliptic curves possessing some place of multiplicative reduction). This breakthrough in our understanding of Sato-Tate, plus ideas of Sarnak, Rubenstein, and  computations of William Stein, comprise the motivation for the present lecture. 
+ \section{Bias} One of the many questions that seems natural to ask, given the recent work on Sato-Tate is what I'll call  {\it bias questions,} a typical one being:
+\begin{quote} Given an elliptic curve over the rational numbers, and letting  $p$ range through prime numbers, how often is $p+1$  an over-count or an under-count for the number of rational points on the curve modulo $p$?  \end{quote}
+
+ 
+ This question, of course, bears on Birch's and  Swinnerton-Dyer's initial ``hunch" that the  statistical preponderance of solutions modulo $p$ of an elliptic curve is a predictor of whether or not the elliptic curve has infinitely many rational points.
+ 
+ Grossly, the answer is expected to be {\it equally often} in the sense that, putting $$N_E(p)=1+p-a_E(p):=\ {\rm the \ number\ of \ rational\ points \ on\ } E\ {\rm over}\  {\bf F}_p,$$
+ 
+  the ratio
+ 
+ $${\frac{\#\{p < X \ | \ N_E(p) < p+1 \}} {\#\{p > X \ | \ N_E(p) > p+1 \}}}\ =\ {\frac{\#\{p < X \ | \ a_E(p) > 0 \}} {\#\{p > X \ | \ a_E(p) < 0 \}}}$$
+ 
+ tends to $1$ as $X$ goes to infinity.  And this follows for a large class of elliptic curves, as a consequence of recent work on the Sato-Tate Conjecture.
+ 
+ 
+  But---given that this gross question is resolved in lots of cases---we can ask finer questions, not about the ratio, but about, say, the difference. I say ``say, the difference" because there is a variety of ``smoother" clever ways to measure the preponderance for the $a_E(p)$'s to be positive or negative  (and to view this preponderance in graphs). To give some ad hoc terms for this, let us refer---in this lecture only--- to (slightly doctored version of) the straight difference,  
+ $$D_E(X):=  {\frac{\log\ X}{\sqrt X}}\#\{ p < X\ | \ a_E(p) > 0\}\ - \ \#\{ p < X\ | \  a_E(p) < 0\},$$  as  the {\bf raw data,} to
+ $${\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}}$$ as the {\bf medium-rare data}, and
+  $${\Delta}_E(X):= {\frac{1}{\log\ X}}\sum_{p \le X}{\frac{a_E(p)\log p}{ p}}$$  as the {\bf well-done data}.
+  
+  
+   Not to build up too much suspense here, the reason for selecting these three formats for the ``data"  and for the specific normalizations chosen (i.e., the factor $ {\frac{\log\ X}{\sqrt X}}$ occurring in the first two, and the factor  ${\frac{1}{\log\ X}}$ in the third)  is that---if a {\it load} of conjectures hold---then all three formats will have finite {\it means}  (relative to the measure $dx/x$ on ${\bf R}$), and what distinguishes these formats is that
+   \begin{itemize}
+   \item the raw data will have {\it infinite} variance, 
+   \item the medium-rare data will have {\it finite variance}, and 
+   \item the well-done data will actually achieve its mean as a limiting value.
+   \end{itemize}
+   
+   
+   The fun here is that the conjecture for the values of {\it means} in the three formats is as follows:
+   
+    \begin{itemize}
+   \item {\bf The well-done data:} the  mean is (conjecturally) $r:=$ the {\it analytic rank} of $E$.
+    \item {\bf The medium-rare data:} the  mean is  (conjecturally)  $1-2r$ and 
+      \item {\bf The raw data:} the  mean is  (conjecturally) \begin{equation*}
+{\frac{2}{\pi}}- {\frac{16}{3\pi}}r \ \ \ + \ \ \  {\frac{4}{\pi}} \sum_{k=1}^{\infty}  (-1)^{k+1}\big[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\big]r({2k+1}).
+\end{equation*} where $$r(n):= \ r_{f_E}(n)\ = \ {\rm the\ order\ of\ vanishing\ of\ }L(symm^nf_E, s)\ {\rm at}\ s=1/2,$$ with $f_E:=$ the newform of weight two corresponding to the elliptic curve $E$,
+   \end{itemize}
+ \noindent which leads us to our initial question:
+ \begin{quote} What is the behavior of the function  $$n \mapsto r_ 
+ f(n)$$ for fixed $f$ and varying $n$? \end{quote}
+ 
+ \section{Distributions on ${\bf R}$; mean and variance}
+ 
+  Recall that if  {\bf $X \mapsto \delta(X)$ is a (continuous) function of a real variable,  to say that $\delta(X)$ possesses a limiting distribution $\mu_\delta$ with respect to the multiplicative measure $dx/x$} means that  for continuous bounded functions $f$ on ${\bf R}$ we have:
+\begin{equation*} 
+\lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^Xf(\delta(x))dx/x \ = \ \int_{\bf R}f(x)d\mu_\delta(x).
+\end{equation*}
+
+\bigskip
+
+    Recall that the {\bf mean} of the function $\delta(X)$ (again, relative to $dx/x$) is defined by the limit  $${\mathcal E}(\delta):= \lim_{X \to {\infty}}{\frac{1}{\log X}}\int_0^X\delta(x)dx/x \ = \ \int_{\bf R}d\mu_\delta(x).$$ 
+    
+     The depressing thing here is that if you take a function $\delta(X)$ that is anything you want up to $X = 4,000,000$ and equal to $5$ for $X>  4,000,000$ then the mean of $\delta$ is equal to $5$, so what in  the world can it mean{\footnote{ poor pun intended}} to compute data up to $4,000,000$? But we press on.
+     
+       \newpage
+     \section{The well-done data}
+   \vskip40pt
+     
+      \centerline{\bf (Graphs of \ \   $X\mapsto {\Delta}_E(X) = {\frac{1}{\log\ X}}\sum_{p \le X}{\frac{a_E(p)\log p}{ p}}$) }
+      \vskip40pt
+   
+   
+  \centerline{\bf Rank $r=0$:\ \ \  ${\mathcal E}=$11A.}
+   \vskip20pt
+  \ill{even_smoother-rank0-4million.png}{1.2}~\label{s11}
+  \
+  
+ \vskip40pt
+   
+  \centerline{\bf Rank $r=1$:\ \ \  ${\mathcal E}=$37A.}
+ 
+ 
+   \vskip20pt
+ 
+ 
+ 
+    \ill{even_smoother-rank1-4million.png}{1.2}~\label{s37}  
+%
+
+   \newpage
+   
+   
+  \centerline{\bf Rank $r=2$:\ \ \  ${\mathcal E}=$389A.}
+ 
+ 
+  \vskip20pt
+ 
+ 
+ 
+ 
+    \ill{even_smoother-rank2-4million.png}{1.2}~\label{s389}
+    
+    
+ \vskip20pt
+   
+   
+  \centerline{\bf Rank $r=3$:\ \ \  ${\mathcal E}=$5077A.}
+ 
+ 
+ \vskip20pt
+ 
+ 
+ 
+    \ill{even_smoother-rank3-4million.png}{1.2}~\label{s5077}
+    
+        
+  \newpage
+   
+   
+  \centerline{\bf Rank $r=4$.}
+ 
+ 
+  \vskip20pt
+ 
+ 
+ 
+    \ill{smooth-prime_race-rank4-4million.png}{1.2}~\label{sr4}
+        
+ \vskip40pt
+   
+   
+  %\centerline{\bf Rank $r=5$.}
+ 
+ 
+ %\vskip20pt
+ 
+ 
+     %\ill{smooth-prime_race-rank5-4million.png}{1.2}~\label{sr5}
+    
+        
+
+   
+   
+  \centerline{\bf Rank $r=6$.}
+ 
+ 
+ \vskip20pt
+ 
+ 
+ 
+    \ill{even_smoother-rank6-4million.png}{1.2}~\label{sr6}
+    
+  \newpage
+
+     
+       \section{The medium-rare data}
+       \vskip40pt
+   
+       \centerline{\bf (Graphs of \ \   $X\mapsto {\mathcal D}_E(X) = {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_{\mathcal E}(p)}{\sqrt p}}$)}
+ 
+ \vskip40pt
+   
+   
+  \centerline{\bf Rank $r=0$:\ \ \  ${\mathcal E}=$11A.}
+   \vskip20pt
+  \ill{illustsmooth-11}{.8}~\label{s11}
+  \
+  
+ \vskip40pt
+   
+  \centerline{\bf Rank $r=1$:\ \ \  ${\mathcal E}=$37A.}
+ 
+ 
+   \vskip20pt
+ 
+ 
+ 
+    \ill{smooth-prime_race-37a-4million.png}{1.2}~\label{s37}  
+%
+
+   \vskip40pt
+   
+   
+  \centerline{\bf Rank $r=2$:\ \ \  ${\mathcal E}=$389A.}
+ 
+ 
+  \vskip20pt
+ 
+ 
+ 
+ 
+    \ill{smooth-prime_race-389a-4million.png}{1.2}~\label{s389}
+    
+    
+    \vskip40pt
+   
+   
+  \centerline{\bf Rank $r=3$:\ \ \  ${\mathcal E}=$5077A.}
+ 
+ 
+ \vskip20pt
+ 
+ 
+ 
+    \ill{smooth-prime_race-5077a-4million}{1.2}~\label{s5077}
+    
+        
+  \newpage
+   
+   
+  \centerline{\bf Rank $r=4$.}
+ 
+ 
+  \vskip20pt
+ 
+ 
+ 
+    \ill{smooth-prime_race-rank4-4million.png}{1.2}~\label{sr4}
+        
+ \vskip40pt
+   
+   
+  \centerline{\bf Rank $r=5$.}
+ 
+ 
+ \vskip20pt
+ 
+ 
+ 
+    \ill{smooth-prime_race-rank5-4million.png}{1.2}~\label{sr5}
+    
+        
+  \newpage
+   
+   
+  \centerline{\bf Rank $r=6$.}
+ 
+ 
+ \vskip20pt
+ 
+ 
+ 
+    \ill{smooth-prime_race-rank6-4million.png}{1.2}~\label{sr6}
+      \newpage
+\section{The raw data}
+\vskip40pt
+   
+  \centerline{\bf (Graphs of \ \   $X\mapsto D_E(X)=  {\frac{\log\ X}{\sqrt X}}\#\{ p < X\ | \ a_E(p) > 0\}\ - \ \#\{ p < X\ | \  a_E(p) < 0\})$}  \vskip40pt
+   
+   
+ \centerline{\bf Rank $r=0$:\ \ \  ${\mathcal E}=$11A.}~\ill{normalized_straight-prime_race-11a-4million.png}{.8}~\label{nr11}
+  \
+  
+\vskip40pt
+   
+   
+                              
+  \centerline{\bf Rank $r=1$:\ \ \  ${\mathcal E}=$37A.}
+ 
+                   
+ \vskip60pt
+ 
+ 
+                                   
+    \ill{normalized_straight-prime_race-37a-4million.png}{.8}~\label{nr37}  
+%
+
+  \vskip40pt
+
+   
+   
+  \centerline{\bf Rank $r=2$:\ \ \  ${\mathcal E}=$389A.}
+ 
+ 
+  \vskip20pt
+ 
+ 
+ 
+    \ill{normalized_straight-prime_race-389a-4million.png}{.8}~\label{nr389}
+    
+    
+   \vskip60pt
+     
+   
+  \centerline{\bf Rank $r=3$:\ \ \  ${\mathcal E}=$5077A.}
+ 
+
+ 
+ 
+    \ill{normalized_straight-prime_race-5077a-4million.png}{.8}~\label{nr389}
+    
+
+ 
+    
+
+     \end{document} 
+    
+ 
+ exhibit a bias to be positive, or negative,$\dots$, or not?  
+ 
+Moreover, is it true, for  elliptic curves $E$, that a statistical bias for $p+1$ to be an over-count of the number of rational points $N_p(E)$  indicates that $E$ has {\it infinitely many} rational points?  And conversely, does a statistical under-count indicate that $E$ has only {\it finitely many}?
+
+
+\subsection{Overcounts versus undercounts}\label{ou}  
+
+
+Let us plot $$D_E(X):=\#\{ p < X\ | \ N_E(p) < p+1\}\ - \ \#\{ p < X\ | \ N_E(p) > p+1\}.$$  As we have already mentioned, thanks to a recent break-through{\footnote{Namely, the Sato-Tate conjecture for $E$ due to Clozel,  Harris,  Shepherd-Baron, and  Taylor.}} we know ---that this number is $o(X)$  (i.e., $D_E(X)/X$ tends to zero as $X$ goes to infinity).   But, as we shall see,  the actual data (computed, in fact for $X < 10^6$) is a bit more striking than that. 
+
+
+\subsection{The elliptic curve $E = X_0(11)$}
+ The first example we will look at is one of the favorites of many number theorists, namely the curve in the plane  cut out by the equation
+$$y^2+y = x^3-x^2.$$  This is an elliptic curve that is something of a showcase for number theory, in that it has been extensively studied---much is known about it---and yet it continues to repay study, for---as with all other elliptic curves---its deeper features have yet to be understood.  A detailed numerical discussion of the properties of this curve can be found in section 8 part I of  [\ref{LT}]; for more recent numerical information about this as well as all the other elliptic curves of low conductor, see [\ref{Crem}].
+
+This curve  $E: y^2+y = x^3-x^2$ when extended to the projective plane has exactly one rational point on the line at infinite, and if you stipulate that that unique point ``at infinity" be the {\it origin,} there is a unique algebraic group law on $E$, allowing us---for any field $k$ of characteristic different from $11$ (i.e., any field where $11 \ne 0$)---to endow the set consisting of $\infty$ and the points of $E$ with values $(x,y) = (a,b) \in  k$ with the structure of an abelian group. Let $k$ be of characteristic different from $11$ and let us denote by  $E(k)$ this group  of $k$-rational points of $E$.  The reason why we have to exclude $11$ is that the polynomial equation above modulo $11$ has a singular point.
+
+ Every one of these groups $E(k)$ contains the five rational points $$\{\infty, \ (0,0),\  (1,0),\  (0,-1),\  (1,-1))\}$$ and it isn't difficulty to check that these five points comprise a cyclic subgroup of $E(k)$ of order five. 
+ 
+ 
+ Here is what $N_E(p)$ looks like{\footnote{ Since $N_E(p)$ is the order of a finite group that contains a cyclic group of order five, we know, from Lagrange's theorem of elementary group theory that $N_E(p)$ is divisible by $5$.}} for small primes $p$:
+   
+   
+  \begin{tabular}{lllllllllllllllllllll}
+  $p$   &\ & 2 & 3 & 5 & 7 & 13 & 17 & 19 & 23 & 29 & 31 & 37 & 41 & 43 & 47 & 53 & 59 & 61 & 67 & 71\\
+  $N_E(p)$  &\ & 5 & 5 & 5 & 10 & 10 & 20 & 20 & 25 & 30 & 25 & 35 & 50 & 50 & 40 & 60 & 55 & 50 & 75 & 75
+ \end{tabular}
+ 
+  Over the rational field $k= {\bf Q}$  the five rational points  $\{\infty, \ (0,0),\  (1,0),\  (0,-1),\  (1,-1))\}$ are {\it all} the rational points there are on this elliptic curve.   In particular, $E$ is a curve with only finitely many points, and hence the heuristic would suggest that $D_E(X)$ would tend to be positive, rather than negative.
+
+
+ Here is the graph of $D_E(X):\ \ \ \ $ {\it (Thanks to William Stein and Chris Swierczewski) }
+
+\vskip65pt
+%\centerline{\bf The race between $N_E(p) < p+1$  and $N_E(p) > p+1$}~\ill{11a_race}{.5}~\label{r11}
+\centerline{\bf The race between $N_E(p) < p+1$  and $N_E(p) > p+1$}~\ill{newprime_race-11a}{.9}~\label{r11}
+
+ The difference $D_E(X)$ is no greater than $300$ for any $C < 10^6$.  At least so far, $N_E(p)$ tends to be a tiny bit more often $ < p+1$ than it is $> p+1$.
+ 
+ \subsection{ Elliptic curves $\mathcal E$ with  infinitely many rational points}
+ 
+ Here is some data for the elliptic curves usually denoted $37A$, $389A$, and $5077A$ which have  ranks $1$, $2$ and $3$, respectively, and for which the recent work of Clozel,  Harris,  Shepherd-Baron, and  Taylor that we alluded to above  also  proves that the Sato-Tate conjecture holds.  For these elliptic curves $N_{\mathcal E}(p)$ tends to be more often $ > p+1$ than it is $ < p+1$, at least as far as the data has been computed, i.e., up to $C= 10^6$.
+ 
+ 
+ 
+
+ \newpage
+  Here is the graph of $$D_{\mathcal E}(X):=\#\{ p < X\ | \ N_{\mathcal E}(p) < p+1\}\ - \ \#\{ p < X\ | \ N_{\mathcal E}(p) > p+1\}.$$ for each of these in turn {\it (all these computed by William Stein and Chris Swierczewski) }. 
+  
+  \vskip50pt
+  
+   \centerline{\bf Races between $N_{\mathcal E}(p) < p+1$  and $N_{\mathcal E}(p) > p+1$}
+ 
+  \vskip50pt
+   
+   
+  \centerline{\bf ${\mathcal E}=$ 37A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{newprime_race-37a}{.8}~\label{r37}
+  %\ill{37a_race}{.5}~\label{r37}{${\mathcal E}=$ 37A.
+
+  \vskip50pt
+  
+   
+  \centerline{\bf ${\mathcal E}=$ 389A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{newprime_race-389a}{.8}~\label{r389}
+    
+%\ill{389a_race}{.5}~\label{r389}{${\mathcal E}=$ 389A.
+  
+  
+  \newpage
+  
+   \vskip50pt
+   
+   
+  \centerline{\bf ${\mathcal E}=$ 5077A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{newprime_race-5077a}{.8}~\label{r5077}
+    
+%\ill{389a_race}{.5}~\label{r389}{${\mathcal E}=$ 389A.
+  
+
+  %\ill{5077a_race}{.5}~\label{r5077}{${\mathcal E}=$ 5077A. The race between $N_{\mathcal E}(p) < p+1$  and $N_{\mathcal E}(p) > p+1$}
+  
+  As we shall be discussing in the next section, the ``good thing to do" in order to better visualize these races is to renormalize slightly, by multiplying the data,  $D_{\mathcal E}(X)$, by ${\frac{\log X}{\sqrt X}}$ in order to get a graph that (conjecturally!) has a finite mean.
+ \subsection{Sato-Tate}
+ 
+   As hinted already the above data has been accumulated (by William Stein and Chris Swierczewski) because we have been inspired by recent progress---notably the Sato-Tate Conjecture that, among many other things, guarantees that there are roughly as many under-counts as over-counts in the examples listed above. So, finer questions are in order; hence the data.  For  an annotated list of general expository accounts of Sato-Tate, see section \ref{exp} below.
+  
+  \bigskip
+  
+  
+  %\centerline{\Large PART II}
+  
+  \bigskip
+  
+  
+  \section{ The beginnings of an explanation of this remarkable data }
+  
+  
+  Let $E$ be an elliptic curve over the field of rational numbers, and for all primes $p$ for which the reduction of $E$ modulo $p$ is an elliptic curve over the prime field ${\bf F}_p$  (this will happen for all but finitely many $p$) let $N_E(p):= |E({\bf F}_p)|$  be the number of points of the reduction of $E$ over ${\bf F}_p$.  To more easily compare $N_E(p)$ with the quantity $p+1$, put $a_E(p):= (p+1)-N_E(p)$ so that our estimate ($p+1$) is an ``over-count"  for the number of points of our elliptic curve $E$ mod $p$  if and only if  $a_E(p)$ is positive; and an ``under-count" if negative.
+  
+ Peter Sarnak  gave the following  explanation of the qualitative features of the graphs we exhibited in Part I,; that is, the curious correlation---in the stretch of data depicted---that the higher the Mordell-Weil rank of the elliptic curve, the more pronounced is the data biased  towards the negative{\footnote{ Sarnak explained all this in a letter to me which, as I understand it, was the fruit of conversations with Granville; I'm grateful for that, and for  illuminating discussions with    Granville, Rubinstein, and Sarnak about this  phenomenon.  For more on a similar topic, see [\ref{GM}].}}.  Very briefly, assuming a list of standard conjectures about the behavior of $L$-functions, together with some very plausible but less standard conjectures, Sarnak begins by showing that $$X\mapsto {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}}$$ has a limiting distribution with {\it mean} equal to $1- 2r(E)$ where $r(E)$ is the Mordell-Weil rank of the elliiptic curve $E$.  The {\it variance} of this limiting distribution  is the sum of the squares of the reciprocals of the absolute values of the nonreal zeroes of the $L$-function of $E$. The argument for this follows Mike Rubenstein's and Peter Sarnak's line of reasoning in the article {\it Chebyshev's Bias} [\ref{R-S}]{\footnote{For another expository account of number theoretic issues related to biases, see [\ref{GM}].}}. If, however, we apply similar reasoning to the quantity specifically measuring the race depicted in our graphs; i.e.,  $$X\mapsto {\frac{\log\ X}{\sqrt X}}\big(\#\{ {p \le X};\ a_E(p) > 0\} \ - \ \#\{ {p \le X};\ a_E(p) < 0\}\big) $$ one computes  (given reasonable conjectures, and guesses) the {\it mean} and one discovers that it conforms fairly well with the data; the {\it variance}, however, is infinite, so whatever bias we see in our finite stretch of data will eventually wash out{\footnote{ This is specific to elliptic curves $E$ with no complex multiplication, as our examples above all are. The non-finiteness of the variance is related to the fact that the (expected) number of  zeroes---in  intervals  $(1/2, i/2+iT)$ ($T > 0$)---of the $L$ function of the $n$-th symmetric power of the newform $f_E$ attached to  $E$   grows at least linearly with $n$.}}.  In this section, and subsequent subsections, I will be simply transcribing---with minor notational modifications---a few extracts from a letter that Peter Sarnak wrote to me.
+ 
+   The graphs of $X\mapsto {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}}$, given below are all thanks to William Stein.  It certainly looks plausible (to me) that the {\it means} of the data depicted in these seven graphs are given by the formula $1-2r$, i.e., $+1,-1,-3, -5, -7,-9$ and $-11$ (respectively).
+  
+ 
+ 
+    \newpage
+   \centerline{\bf Graphs of the ``smoothed data"\ \   $X\mapsto {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_{\mathcal E}(p)}{\sqrt p}}$}
+ 
+ \vskip60pt
+   
+   
+  \centerline{\bf Rank $r=0$:\ \ \  ${\mathcal E}=$11A.}~\ill{illustsmooth-11}{.8}~\label{s11}
+  \
+  
+  
+ \vskip60pt
+   
+   
+  \centerline{\bf Rank $r=1$:\ \ \  ${\mathcal E}=$37A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{smooth-prime_race-37a-4million.png}{.8}~\label{s37}  
+%
+
+  \newpage
+   
+   
+  \centerline{\bf Rank $r=2$:\ \ \  ${\mathcal E}=$389A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{smooth-prime_race-389a-4million.png}{.8}~\label{s389}
+    
+    
+  \vskip60pt
+   
+   
+  \centerline{\bf Rank $r=3$:\ \ \  ${\mathcal E}=$5077A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{smooth-prime_race-5077a-4million}{.8}~\label{s5077}
+    
+        
+ 
+ \newpage
+   
+   
+  \centerline{\bf Rank $r=4$.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{smooth-prime_race-rank4-4million.png}{.8}~\label{sr4}
+        
+  \vskip50pt
+   
+   
+  \centerline{\bf Rank $r=5$.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{smooth-prime_race-rank5-4million.png}{.8}~\label{sr5}
+    
+        
+  \bigskip
+   
+   
+  \centerline{\bf Rank $r=6$.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{smooth-prime_race-rank6-4million.png}{.8}~\label{sr6}
+    
+     \newpage
+\subsection{Beautiful statistics}
+
+
+
+Write 
+ 
+\begin{equation}
+{\frac{a_E(p)}{\sqrt p}}: =   = \alpha_p+\beta_p,
+\end{equation}
+
+with $\alpha_p= e^{i\theta_p}$ and  $\beta_p= e^{-i\theta_p}$ 
+and
+\begin{equation}
+\theta_p \in [0, \pi]).
+\end{equation}
+
+
+So our basic data consists of the function 
+
+\begin{equation}\label{data}
+p \ \mapsto\ \theta_p
+\end{equation}
+
+To have some vocabulary to deal with its statistics, consider
+
+$$U_n(\theta) : = {\frac {\sin(n+1)\theta}{\sin\theta}}$$ and note that the set $\{U_n\}$ for $n=0,1,2,\dots$ forms an orthonormal basis of the Hilbert space $L^2[0,\phi]$.
+
+For $V(\theta)$ a smooth function on $[0,\pi]$, write $V=\sum_{n=0}^{\infty} c_nU_n$ with $c_n: = \langle V, U_n\rangle$.
+
+Just to cut down to the essence as rapidly as possible, and just for this lecture:
+
+\begin{definition} Say that our data (\ref{data}) has {\bf beautiful statistics} if there is a sequence of non-negative integers $\{r_n\}_n$  for $n=1,2,3, \dots$ such that for all smooth functions $V(\theta)$ as above with $c_0=0$, the ``$V$-weighted average of the data"
+\begin{equation}
+S_V(X):= {\frac{\log X}{\sqrt X}}\sum_{p \le X} \ V(\theta_p)
+\end{equation}
+\begin{itemize}
+\item
+possesses a limiting distribution $\mu_V$ with respect to the multiplicative measure $dx/x$,
+\item  $\mu_V$ has support on all of ${\bf R}$ is continuous and symmetric about its mean, ${\mathcal E}(S_V))$, and
+\begin{equation}\label{eqnmean}
+{\mathcal E}(S_V))\ = \ -\sum_{n=1}^{\infty}  c_n\big(2r_n+(-1)^n\big).
+\end{equation}
+\end{itemize}
+\end{definition}
+
+\bigskip
+
+
+  Recall that to say that {\bf $S_V(x)$ possesses a limiting distribution $\mu_V$ with respect to the multiplicative measure $dx/x$} means that  for continuous bounded functions $f$ on ${\bf R}$ we have:
+\begin{equation} 
+\lim_{X \to {\infty}}\ {\frac{1}{\log X}}\int_0^Xf(S_V(x))dx \ = \ \int_{\bf R}f(x)d\mu_V(x).
+\end{equation}
+
+\bigskip
+
+
+
+    Recall that the {\bf mean}{\footnote{ One can also compute---given some plausible conjectures---the behavior of the {\bf variance}  (i.e., the measure of fluctuation of the values of $S_V(X)$ about the mean) as well; the variance is defined by the formula  $${\mathcal V}(S_V): = {\mathcal E}\big([S_V  - {\mathcal E}(S_V)]^2\big).$$}} of $S_V(X)$ is defined by the limit  $${\mathcal E}(S_V)):= \lim_{X \to {\infty}}{\frac{1}{\log X}}\int_0^XS_V(x)dx \ = \ \int_{\bf R}d\mu_V(x).$$ 
+    
+   
+\bigskip
+
+
+
+    
+     
+\begin{remark}  If some standard conjectures{\footnote{that (for $n=1,2,\dots$) the $L$-functions of the symmetric $n$-th powers of the elliptic curve, \begin{equation}
+L(s, E, {\rm sym}^n): = \prod_p\prod_{j=0}^n(1- \alpha_p^{n-j}\beta_p,^jp^{-s})^{-1},
+\end{equation} have analytic continuation   to the entire complex plane satisfying a standard function equation (and one can relax analyticity and require merely an appropriate meromorphicity hypothesis) and that they be holomorphic and nonvanishing up to $Re(s) =1/2$ (i.e., GRH).  The integer $r_n$ (for $n=1,2,\dots$)  is then the multiplicity of the zero of $L(s, E, {\rm sym}^n)$ as $s=1/2$.  }} hold, then our data (\ref{data}) would indeed have {\it beautiful statistics}.  The integers $r_n$, which by the previous footnote are (conjecturally) the orders of vanishing of specific $L$-functions at their central points, are expected to have the large preponderance of their values equal to  $0$ or $1$, depending on the sign of the functional equation satisfied by the $L$-function to which they are associated,  so the {\it mean} for  a given $V$ as computed by equation (\ref{eqnmean}) stands a good chance of being finite.
+\end{remark}
+
+ 
+\subsection{The mean} 
+  We will assume that our data has beautiful statistics, and apply this to the question we began with, i.e., what is the ``bias" in the race between under-counts and over-counts?
+  
+$$D_E(X):=\#\{ p < X\ | \ N_E(p) < p+1\}\ - \ \#\{ p < X\ | \ N_E(p) > p+1\}.$$ 
+
+
+Let $H(\theta)$ be the Heaviside function, i.e., the function with value 
+
+\begin{equation}
+H(\theta) \ = \ +1
+\end{equation}
+ for $\theta \in [0, \pi/2)$ and  $-1$ for $\theta \in [\pi/2, \pi)$.  So
+\begin{equation}
+S_H(X) = {\frac{\log X}{\sqrt X}}\sum_{p\le X} H(\theta_p) \ = {\frac{\log X}{\sqrt X}}\ D_E(X)
+\end{equation}
+
+
+For $n \ge 0$, set
+
+
+\begin{equation}
+c_n(H)  \ = \ \langle H, U_n\rangle \ = \ {\frac{2}{\pi}}\big[\int_0^{\pi/2}U_n\sin^2\theta d \theta - \int_{\pi/2}^{\pi}U_n\sin^2\theta d \theta \big]
+\end{equation}
+
+
+which is $0$ if $n$ is even and $$(-1)^{(n-1)/2}{\frac{2}{\pi}}\big[{\frac{1}{n}} + {\frac{1}{n+2}}\big]$$ if $n$ is odd.
+
+
+
+For $N \ge 1$ let 
+
+\begin{equation} 
+H_N(X): = \ \sum_{n=1}^Nc_n(H)U_n(\theta)
+\end{equation}
+
+
+So $H_N$ is a smoothed out version of $H(\theta)$ and $H_N(\theta) \to H(\theta)$ as $N $ tends to infinity.  Thus
+
+\begin{equation} 
+S_N(X): = S_{H_N}(X) = \ {\frac{\log X}{{\sqrt{X}}}}\sum_{p \le X}V_N(\theta_p)
+\end{equation}
+
+
+is a smoothed out version of 
+
+\begin{equation}\label{smooth} 
+S(X): = S_{H}(X) = \ {\frac{\log X}{{\sqrt{X}}}}\sum_{p \le X}H(\theta_p)
+\end{equation}
+
+Therefore, by formula (\ref{eqnmean}), we would have:
+
+\begin{equation}
+{\mathcal E}(S_N))\ = \ {\frac{8}{3\pi}}(1-2r) + {\frac{2}{\pi}} \sum_{k=1}^{N}  (-1)^{k+1}\big[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\big]\big(2r_{2k+1}-1\big).
+\end{equation}
+
+ {\bf  A naive guess:} 
+ 
+ \begin{itemize}
+ 
+ \item  If $n  \ge 2$ is even, then $r_n = 0$; 
+  \item  If $n \ge 3$ is odd, then $r_n$ is either $0$ or $1$, and of the same parity as $r=r_1$.
+\end{itemize}
+
+
+{\bf Note:} The above is---at least---compatible with the signs of the $\epsilon$ factors involved, and our guess is simply that (beyond $r_1$) we have only the minimal order of vanishing that is allowed, given parity constraints, for our $L$-functions at their central points. This---to my mind--is not terribly likely to happen exactly, but the appealing thing here is that since we are largely interested in general statistical behavior, even if we are slightly {\it off} in our guess, we may still be  zeroing in on {\it qualitative behavior} in the short discussion to follow.
+
+
+Given the above guess we would have the following formula for the mean.
+
+\ \begin{equation} {\mathcal E}(S_N)) \to {\mathcal E}(S))\ = \  {\frac{2}{3\pi}}\big(4+(-1)^{r+1}\ - \ 8r\big)
+\end{equation}
+\vskip40pt
+
+\noindent which gives us the following table to compare with our graphs:
+
+
+\vskip40pt
+
+
+\begin{tabular} {l | r}\hline
+r & ${\mathcal E}(S)$\\
+\hline\hline
+0 & +0.636...  \\
+\hline
+1 & -0.636...  \\
+\hline
+2 &  -2.758... \\
+\hline
+3 &  -4.031... \\
+\hline
+\end{tabular}
+
+
+
+ \vskip40pt
+
+ 
+ \centerline{\bf Graphs of the ``normalized race" between over-counts and under-counts:\ \   $X\mapsto S(X)$}
+ 
+ \vskip60pt
+   
+   
+  \centerline{\bf Rank $r=0$:\ \ \  ${\mathcal E}=$11A.}~\ill{normalized_straight-prime_race-11a-4million.png}{.8}~\label{nr11}
+  \
+  
+  
+ \vskip60pt
+   
+   
+  \centerline{\bf Rank $r=1$:\ \ \  ${\mathcal E}=$37A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{normalized_straight-prime_race-37a-4million.png}{.8}~\label{nr37}  
+%
+
+  \vskip60pt
+
+   
+   
+  \centerline{\bf Rank $r=2$:\ \ \  ${\mathcal E}=$389A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{normalized_straight-prime_race-389a-4million.png}{.8}~\label{nr389}
+    
+    
+      
+   
+  \centerline{\bf Rank $r=3$:\ \ \  ${\mathcal E}=$5077A.}
+ 
+ 
+ \bigskip
+ 
+ 
+ 
+    \ill{normalized_straight-prime_race-5077a-4million.png}{.8}~\label{nr389}
+    
+
+ 
+ 
+
+\
+
+\
+
+There is---to my eye--some correlation here, but we might ask for a bit more precision than the naked eye---without expecting too much, given that the current guess ( via a computation based on some plausible conjectures analogous to those labelled GSH in articles of Rubenstein and Sarnak) is that the variance is infinite.
+
+
+\section{Expository accounts of  Sato-Tate}\label{exp}
+ 
+ I wrote a brief article in the journal Nature article (NATURE Vol 443, 7 September 2006) meant to give a hint of the nature of the Sato-Tate Conjecture and some related mathematical problems  to scientists who are not necessarily familiar with much modern mathematics. For professional mathematicians, a number of excellent articles and videos---requiring different levels of  prerequisites of their audiences---are devoted to exposing this material:
+ 
+\begin{enumerate}
+\item
+Available through the MSRI website (http://www.msri.org/):
+
+\begin{enumerate}
+\item
+An introductory one hour lecture by Nicholas Katz  emphasizing the background and the historical perspective of the work, 
+\item
+A series of lectures for a number theory workshop, by Richard Taylor where an exposition of the proof itself is given,
+\item
+Two lectures by Michael Harris, one on some of the material in [\ref{CHT}], and one on [\ref{HSBT}],
+
+\end{enumerate}
+\item
+Two hours of expository lectures  by Laurent Clozel  on this topic, aimed at a general mathematical audience in the conference on Current Developments in Mathematics, at Harvard University. The notes for these should soon be available as well,
+\item
+An expository article by Michael Harris: ``The Sato-Tate Conjecture: introduction to the proof,"
+\item
+A talk by Henri Carayol given in the Bourbaki seminar (June 17, 2007): ``La conjecture de Sato-Tate [d'apr{\`e}s  Clozel, Harris, Shepherd-Barron, Taylor],"
+\item
+The three articles by the principal authors, [\ref{CHT}], [\ref{HSBT}], and [\ref{Tay}], which can be obtained from Richard Taylor's web-site (http://www.math.harvard.edu/$\sim$rtaylor/),
+\item  An expository article that I wrote ``Finding Meaning in Error Terms," published this April in the Bulletin of the AMS  (pp. 185-228 in Volume {\bf 45} no. 2  2008).
+\end{enumerate}
+ 
+
+
+\begin{thebibliography}{bib}
+ \bibitem{GM}\label{GM}  Granville, A., Martin, G.:  Prime number races, 
+American Mathematical Monthly {\bf 113} (2006) 1-33.
+  
+  \bibitem{R-S}\label{R-S}   Rubinstein, M., Sarnak, P.: Chebyshev's Bias,  Experimental  Mathematics {\bf 3}  (1994) 174-197.
+\end{thebibliography}
+\end{document}
+
+
+   \begin{equation}
+{\rm Var}(S_V) := \sum_{n=1}^{\infty}\sum_{\gamma_{j,n} > 0} {\frac{|c_n|^2}{{\frac{1}{4}}+\gamma_{j,n}^2}}.
+\end{equation}
+
+
+\begin{equation}
+m_n(1/2)  \ = \ {\frac{1 - \epsilon({\frac{1}{2}}, \pi, {\rm symm}^n) }{2}}
+\end{equation} 
+
+\noindent where $\epsilon({\frac{1}{2}}, \pi, {\rm symm}^n)$ is the  global root number of $L(s, \pi, {\rm symm}^n)$. By Shahidi, 
+\begin{equation}
+\epsilon({\frac{1}{2}}, \pi, {\rm symm}^n)\ = \ -1
+\end{equation}
+\noindent when $n\equiv 3,5$ mod $8$ and $+1$ otherwise.
+
+\begin{equation}
+ m_n(1/2) = 1
+\end{equation}
+\noindent  if $n \equiv 3,5$ mod $8$  and zero if $n \equiv \pm 1$ mod $8$.
+
+\bigskip
+
+
+For $N \ge 1$ let 
+
+\begin{equation} 
+V_N(X): = \ \sum_{n=1}^Na_n(H)U_n(\theta)
+\end{equation}
+
+
+So $V_n$ is a smoothed out version of $H(\theta)$ and $V_N(\theta) \to H(\theta)$ as $N $ tends to infinity.  Thus
+
+\begin{equation} 
+S_N(X): = \ {\frac{\log X}{{\sqrt{X}}}}\sum_{p \le X}V_N(\theta_p)
+\end{equation}
+
+
+is a smoothed out version of 
+
+\begin{equation}\label{smooth} 
+S(X): = \ {\frac{\log X}{{\sqrt{X}}}}\sum_{p \le X}H(\theta_p)
+\end{equation}
+
+Applying Formulas (\ref{sv18}), (\ref{sv19}), (\ref{sv20}), (\ref{bessel}) to $V_N$ yields that $S_N(X)$ has a limiting distribution $\mu_N$ with {\it mean}
+
+\begin{equation}\label{meanN} 
+E(S_N) = \ {\frac{2}{\pi}}\sum_{n \ {\rm odd}}^N (-1)^{(n-1)/2}\big[{\frac{1}{n}} + {\frac{1}{n+2}}\big]\big(1 -2 I_{3,5}(n)\big)
+\end{equation}
+
+
+\end{remark}
+\   
+and 
+
+\begin{equation}
+-{\frac{L'}{L}}(s, E, {\rm sym}^n): = \sum_p {\frac{\log p}{p^s}}\big(\sum_{j=0}^n \alpha_p^{n-j}\beta_p,^j\big)\ + \   \sum_p {\frac{\log p}{p^{2s}}}\big(\sum_{j=0}^n \alpha_p^{2n-2j}\beta_p,^2j\big)\ + \ \cdots
+\end{equation}
+
+
+
+%%%
+\begin{equation}
+= \sum_p {\frac{\log p}{p^s}}U_n(\theta_p)\ + \   \sum_p {\frac{\log p}{p^{2s}}}U_n(2\theta_p)\ + \ \cdots
+\end{equation}
+
+
+where 
+
+\begin{equation}
+U_n(\theta):= {\frac {\sin(n+1)\theta}{\sin\theta}}
+\end{equation}
+
+
+
+so, by Riemann-Von-Mangoldt:
+
+\begin{equation}\label{rvm}
+\sum_{p \le X} \log p \ U_n(\theta_p)\ + \  \sum_{p^2 \le X} \log p \ U_n(2\theta_p)\ = \sum_{\rho_{j,n}}{\frac {X^{\rho_{j,n}}}{\rho_{j,n}}} \ + \ O_{\epsilon}(X^{{\frac{1}{3}}+ \epsilon})
+\end{equation}
+
+
+
+where $\rho_{j,n}$ ranges over the nontrivial zeroes of $L(s, E, {\rm sym}^n)$ and where we assume that 
+\begin{itemize}
+\item $L(s, E, {\rm sym}^n)$ extends to an entire function of $s$ and satisfies an expected functional equation  (possibly meromorphicity is enough for us though).
+\item $L(s, E, {\rm sym}^n)$ satisfies RH so that   $\rho_{j,n} = {\frac{1}{2}} + i \gamma_{j,n}$ with $ \gamma_{j,n} \in \R$.
+\end{itemize}
+
+
+For $V(\theta)$ a smooth function on $[0,\pi]$ consider
+
+\begin{equation}
+\sum_{p \le X} \log p \ V(\theta_p)
+\end{equation}
+
+and we have that
+
+\begin{equation}\label{inner}
+\sum_{p \le X} \log p \ V(\theta_p)\ = \ \sum_{p \le X} \log p \ \sum_{n=0}^{\infty} \langle V, U_n\rangle U_n(\theta_p)
+\end{equation}
+
+where 
+
+\begin{equation}
+\langle V_1, V_2\rangle:= {\frac{2}{\pi}}\int_0^{\pi}V_1(\theta) V_2(\theta) \sin^2 \theta d\theta
+\end{equation}
+
+noting that $\{U_n\}_{n= 1,2,\dots}$ forms an o.n.b. for $L^2[0,\pi]$ with this inner product, which is what gives formula~(\ref{inner}). 
+
+If these $L$-functions have no pole at $s=1$  ($n \ge 1$) then we deduce
+
+\begin{equation} \sum_{p \le X} \log p \ V(\theta_p)\ \sim\ \langle V, U_0\rangle X
+\end{equation}
+as $X$ tends to infinity.
+
+We apply this to $V(\theta) = U_m(2 \theta)$ for which 
+\begin{equation} \langle V, U_0\rangle\ = {\frac{2}{\pi}}\int_0^{\pi}\int_0^{\infty}U_m(2\theta) \sin^2 \theta d\theta\ = \ (-1)^m.
+\end{equation}
+
+ Hence, from  formula~(\ref{rvm}) we get
+\begin{equation}
+\sum_{p \le X} \log p \ U_n(\theta_p)\ = \ (-1)^{n+1}X^{\frac{1}{2}} \ - \ \sum_{\rho_{j,n}}{\frac {X^{\rho_{j,n}}}{\rho_{j,n}}} \ + \ {\rm small}
+\end{equation}
+
+
+So, separating out the zeroes $\rho_{j,n} = 1/2$ (assume they occur with multiplicity $m_n(1/2)$) to get
+
+\begin{equation}
+\sum_{p \le X} \log p \ U_n(\theta_p)\ = \ \big(-2m_n(1/2) + (-1)^{n+1}\big)X^{\frac{1}{2}} \ - \ \sum_{\rho_{j,n} \ne {\frac{1}{2}}}{\frac {X^{\rho_{j,n}}}{\rho_{j,n}}} \ + \ {\rm small}
+\end{equation}
+ 
+ 
+ 
+ If $V$ is a smooth function on $[0,\pi]$ for which $\langle V, U_0\rangle = 0$ we have  a rapidly convergent expansion
+  \begin{equation} V(\theta) \ = \ \sum_{n=1}^{\infty} c_n U_n(\theta)
+ \end{equation}
+ with
+ 
+  \begin{equation}  c_n \ = \ \langle V, U_n\rangle. 
+    \end{equation}
+  So,
+  
+  \begin{equation}
+{\frac{1}{\sqrt{X}}}\sum_{p \le X} \log p \ V(\theta_p)\ =  \sum_{n=1}^{\infty} c_n \big(-2m_n(1/2) + (-1)^{n+1}\big) \ - \  \sum_{n=1}^{\infty} c_n \sum_{\gamma_{j,n}\ne 0}{\frac {X^{\gamma_{j,n}}}{{\frac{1}{2}} + i\gamma_{j,n}}} \ + \ o(1).
+\end{equation}
+
+
+It follows (see analysis in [2]) that 
+\begin{equation}\label{sv18}
+S_V(X):= {\frac{\log X}{\sqrt{X}}}\sum_{p\le X}V(\theta_p)
+ \end{equation}
+ 
+\noindent  has a limiting distribution $\mu_V$ with respect to $dX/X$.  That is, for continuous functions $f$ we have 
+ 
+ \begin{equation}\label{sv19}
+{\frac{1}{\log X}}\int_0^Xf( S_V(x)) dx/x \ \to\  \int_0^X\mu_V(x)  dx 
+ \end{equation}
+ 
+\noindent  as $X$ tends to infinite.
+ 
+ 
+   The measure $\mu_V$ contains all the information about the fluctuations of $S_V$ and of any bias. The {\it mean} $Exp.(S_V)$ is given by 
+   
+   \begin{equation}\label{sv20}
+Exp.(S_V)\ = \  \sum_{n=1}^{\infty} c_n \big(-2m_n(1/2) + (-1)^{n+1}\big).
+\end{equation}
+
+ To examine $\mu_V$ further we make the {\bf working hypothesis:}
+ 
+ \begin{quote} The numbers $\gamma_{j,n} > 0$  ($j\ge 1, n\ge 1$) are linearly independent over $\Q$.
+ \end{quote}
+ 
+ 
+ We then compute the Fourier transform of $\mu_V$:
+ 
+   \begin{equation}\label{bessel}
+{\hat \mu_V}(\xi)\ = \ e^{-iExp.(S_V)\xi}\prod_{n=0}^{\infty}\ \prod_{\gamma_{j,n} > 0}J_0\big({\frac{2 |c_n|\xi}{{\sqrt{{\frac{1}{4}}+\gamma_{j,n}^2}}}}\big).
+\end{equation}
+ 
+ 
+ where 
+ 
+  \begin{equation}
+J_0\big(z\big):= \sum_{m=0}^{\infty}{\frac{(-1)^m(z/2)^{2m}}{(m!)^2}}.
+\end{equation}
+ 
+ The product in formula (\ref{bessel}) converges absolutely and one concludes that the measure $\mu_V$ is symmetric about its mean $Exp.(S_V)$ and has support all of $(-\infty, +\infty)$.
+ 
+ Moreover, its variance is given by
+ 
+   \begin{equation}
+{\rm Var}(S_V) := \sum_{n=1}^{\infty}\sum_{\gamma_{j,n} > 0} {\frac{|c_n|^2}{{\frac{1}{4}}+\gamma_{j,n}^2}}.
+\end{equation}
+
+
+Applying this to $V(\theta) = U_1(\theta)$ yields a limiting distribution $\mu_1$ for 
+   \begin{equation}
+S_1(x) := {\frac {\log X}{{\sqrt{X}}}}\sum_{p\le X}\lambda_p.
+\end{equation}
+
+Put $m_1(1/2) := r$ (i.e., $r$ is the {\it analytic rank} of $E$)  to get 
+
+\begin{equation} 
+Exp.(S_1) = 1-2r
+\end{equation}
+\noindent  so (following these, and standard, conjectures) the weighted sum over $a_E(p)/p^{1/2}$ has a definite bias to being \begin{itemize}
+\item  {\it positive} if $E$ has only finitely many rational points, and
+\item  {\it negative} if it has infinitely many.
+\end{itemize}
+\section{For $\pi_E$ with $E$ an elliptic curve}
+
+
+Here we deal with
+ \begin{equation}
+S_{1,E}(x) := {\frac {\log X}{{\sqrt{X}}}}\sum_{p\le X}a_E(p).
+\end{equation}
+
+\noindent  and the same analysis then gives that $S_{1,E}(x)$ has a limiting 
+distribution $\mu_{1,E}$ with {\it mean} equal to 
+
+ \begin{equation}
+E(S_{1,E}) := -2r(E) + 1
+\end{equation}
+
+where $r(E)$ is the (analytic) rank of $E$. The variance  is 
+
+
+   \begin{equation}
+{\rm Var}(S_{1,E}) \ = \ \sum_{\gamma_{j,E} > 0} {\frac{1}{{\frac{1}{4}}+\gamma_{j,n}^2}}
+\end{equation}
+
+where ${\frac{1}{2}}+\gamma_{j,E}$ runs through the nontrivial zeroes ($\gamma_{j,E} > 0$) of $L(s, \pi_E)$. 
+
+  This corresponds to the biases seen in the diagrams.
+  
+  
+  If $N(E)$ is the conductor of $E$ the standard winding number arguments show that 
+  
+  \begin{equation}\label{varcond}
+{\rm Var}(S_{1,E})\ \sim \ c\log N(E)
+\end{equation}
+
+
+\noindent for a fixed positive constant $c$. 
+
+\begin{quote}{\it Question: } Peter's letter claimed that if $\delta$ denotes 
+logarithmic density, then among elliptic curves of positive (analytic rank) the negative bias we have seen above translates to
+$$\delta\big(\{X\ | \ S_{1,E}(X) < 0\}\big) \ > \ 1/2.$$  (this is, I suppose, some limit assertion as $X$ tends to infinity)  but formula~(\ref{varcond}) apparently tells us that $\delta$ tends to $1/2$ as $N(E) \to \infty$  (among such elliptic curves). I'm vague about this, and would like to see more details.
+\end{quote}
+
+\section{More Bias}
+We return to $\lambda(p) = \tau(p)/p^{\frac{11}{2}}$. Let $H(\theta)$ be the Heaviside function, i.e., the function with value 
+
+\begin{equation}
+H(\theta) \ = \ +1
+\end{equation}
+ for $\theta \in [0, \pi/2)$ and  $-1$ for $\theta \in [\pi/2, \pi)$.  So
+\begin{equation}
+\sum_{p\le X} H(\theta_p) \ = \ \sum_{p\le X, \tau(p) > 0}1\  - \ \sum_{p\le X, \tau(p) < 0}1.
+\end{equation}
+
+
+For $n \ge 0$, set
+
+
+\begin{equation}
+a_n(H)  \ = \ \langle H, U_n\rangle \ = \ {\frac{2}{\pi}}\big[\int_0^{\pi/2}U_n\sin^2\theta d \theta - \int_{\pi/2}^{\pi}U_n\sin^2\theta d \theta \big]
+\end{equation}
+
+
+which is $0$ if $n$ is even and $$(-1)^{(n-1)/2}{\frac{2}{\pi}}\big[{\frac{1}{n}} + {\frac{1}{n+2}}\big]$$ if $n$ is odd.
+
+We have (assume, rather) that
+
+\begin{equation}
+m_n(1/2)  \ = \ {\frac{1 - \epsilon({\frac{1}{2}}, \pi, {\rm symm}^n) }{2}}
+\end{equation} 
+
+\noindent where $\epsilon({\frac{1}{2}}, \pi, {\rm symm}^n)$ is the  global root number of $L(s, \pi, {\rm symm}^n)$. By Shahidi, 
+\begin{equation}
+\epsilon({\frac{1}{2}}, \pi, {\rm symm}^n)\ = \ -1
+\end{equation}
+\noindent when $n\equiv 3,5$ mod $8$ and $+1$ otherwise.
+
+\begin{equation}
+ m_n(1/2) = 1
+\end{equation}
+\noindent  if $n \equiv 3,5$ mod $8$  and zero if $n \equiv \pm 1$ mod $8$.
+
+\bigskip
+
+
+For $N \ge 1$ let 
+
+\begin{equation} 
+V_N(X): = \ \sum_{n=1}^Na_n(H)U_n(\theta)
+\end{equation}
+
+
+So $V_n$ is a smoothed out version of $H(\theta)$ and $V_N(\theta) \to H(\theta)$ as $N $ tends to infinity.  Thus
+
+\begin{equation} 
+S_N(X): = \ {\frac{\log X}{{\sqrt{X}}}}\sum_{p \le X}V_N(\theta_p)
+\end{equation}
+
+
+is a smoothed out version of 
+
+\begin{equation}\label{smooth} 
+S(X): = \ {\frac{\log X}{{\sqrt{X}}}}\sum_{p \le X}H(\theta_p)
+\end{equation}
+
+Applying Formulas (\ref{sv18}), (\ref{sv19}), (\ref{sv20}), (\ref{bessel}) to $V_N$ yields that $S_N(X)$ has a limiting distribution $\mu_N$ with {\it mean}
+
+\begin{equation}\label{meanN} 
+E(S_N) = \ {\frac{2}{\pi}}\sum_{n \ {\rm odd}}^N (-1)^{(n-1)/2}\big[{\frac{1}{n}} + {\frac{1}{n+2}}\big]\big(1 -2 I_{3,5}(n)\big)
+\end{equation}
+
+\noindent and {\it variance} 
+
+\begin{equation} 
+{\rm Var}(S_N) = \ {\frac{4}{\pi^2}}\sum_{n \ {\rm odd}}^N (-1)^{(n-1)/2}\big[{\frac{1}{n}} + {\frac{1}{n+2}}\big]^2\sum_{\gamma_{j,n} > 0}{\frac {1}{{\frac{1}{4}} + \gamma_{j,n}^2}}
+\end{equation}
+
+Here $I_{3,5}(n)$  is $1$ if $n \equiv 3,5$ mod $8$ and zero otherwise.
+
+
+Let $N \to \infty$ in formula (\ref{meanN}) and summing the infinite series one finds that the bias tends to 
+
+\begin{equation} 
+ E(S_N) \to E(S) \ =\  {\frac{2}{\pi}}\big(1 + 2\int_0^1{\frac{x^2}{1+x^4}}dx\big)
+\end{equation}
+
+
+This is then the {\it mean} of the graph in Fig 1.6 (after scaling by $\log X/{\sqrt X}$).  
+
+
+  However, as $N \to \infty$ there is a new feature with the variance which has to do with $L(s, \pi, {\rm symm}^n)$.  An analysis of the zeroes of height, say, $ < 100$ with $n$ large using the method in [3[]  (after computing the archimedean factors $L(s, \pi_{\infty}, {\rm symm}^n)$) shows that
+  \begin{equation}\label{zeroes} 
+\#\{ 0 \le \gamma_{j,n} \le 100\} \ /ge \ c_1\cdot n
+\end{equation}
+  \noindent with $c_1$ fixed). 
+  
+    This will suffice for our purposes but in fact one can give a lower bound of $c\cdot n\log n$ in (\ref{zeroes}).
+    
+    
+      It follows that there is a $c_2>0$ such that 
+      
+        \begin{equation}\label{zeroes} 
+V(S_N) \ \ge \ c_2 \sum_{n\ {\rm odd},\ n \le N} n/n^2 \ >>\ \log N
+\end{equation}
+
+which means that for $S$ in (\ref{smooth})  $$V(S) = \ \infty.$$
+
+Or,
+
+$$\delta\big(\{X: \ S(X) > 0\} \ = \ 1/2.$$
+
+\section{Appendix}
+
+\subsection{Density of Zeroes}
+\   
+\subsection{ Error Terms modulo $m$ }
+
+
+ Our main subject is the statistics governing the position of
+the {\it real numbers} ${\frac{a_p}{2{\sqrt p}}}$  in the interval $(-1,+1)$.  But the $a_p$'s are integers and so it is also perfectly reasonable to ask for the statistics of their congruence classes modulo a given positive integer $m$. For any $\alpha$ modulo $m$ {\it how often is $a_p \equiv \alpha \mod\ m$?}    This is  a genuine  ``companion" to the question that this article is devoted to; it is an older question, and has long been answered, and even (given the Generalized Riemann Hypothesis) with precise information about convergence rates. So, let us briefly discuss it.
+
+
+First, returning to the data of the $N_E(p)$'s given in section~\ref{ourell} one suspects (and---as it turns out---with good reason) that the question of congruences  modulo $5$ might be idiosyncratic. (This is related to the fact that our elliptic curve has a rational point of order $5$.)  Questions of congruences modulo $11$ and $2$ also have some (minor) peculiarities, $11$ because the elliptic curve has bad reduction at $11$, and $2$ for other more general reasons.  So, to get a clean statement let us restrict our attention to a modulus $m$ that is not divisible by $2,5,$ or $11$.
+\begin{theorem}  Fix $m$ an integer not divisible by $2,5,$ or $11$, and $\alpha$  a congruence class modulo $m$.   For any cutoff $C$, let $Y_C(\alpha; m)$ denote the proportion of prime numbers $p  < C$ such that  $a_p \equiv \alpha\ \mod\ m$.  Let $X(\alpha; m)$ denote the proportion of nonsingular $2\times 2$ matrices with coefficients in $\Z/m\Z$ that have trace $\alpha$.  Then $$\lim_{C \to \infty} Y_C(\alpha; m) = X(\alpha; m).$$
+\end{theorem}
+
+  This is a particular consequence of the classical theorem of Cebotarev, and we have strikingly effective version of this theorem due to Lagarias and Odlyzko [\ref{LO}]  (see also Th{\'e}or{\`e}me 2 of section 2.2 in [\ref{S2}]). If we assume the Generalized Riemann Hypothesis (for the Dedekind zeta function of the splitting field of the group of $m$-torsion points in our elliptic curve $E$) we would have that the analogue of Conjecture~\ref{qrate} holds. That is, for any positive $ \epsilon$, 
+  $$|Y_C(\alpha; m) - X(\alpha; m)| < C^{-{\frac{1}{2}}+\epsilon}$$ for $C$ sufficiently large (Th{\'e}or{\`e}me 4 of section 2.4 in [\ref{S2}]).
+  
+  It might be amusing to rephrase the standard proof of the Cebotarev theorem to follow a bit more closely than it does the scenario for the proof of the Sato-Tate Conjecture discussed in Part III below.
+  
+  \subsection{ Correlations }
+  
+   Having discussed both  the statistics governing the position of
+the  ${\frac{a_p}{2{\sqrt p}}}$  in the interval $(-1,+1)$ and statistics of the congruence classes the $a_p$'s modulo  $m$ it is natural to ask whether the two kinds of data we have been discussing are correlated or not. Specifically, fixing a congruence class modulo  an $m$ (not divisible by $2,5,$ or $11$) and restricting attention {\it only} to the primes $p$ for which $a_p$ falls in that congruence class, do we still get the Sato-Tate distribution for the statistics giving the placement of  ${\frac{a_p}{2{\sqrt p}}}$  in the interval $(-1,+1)$? We don't yet know the answer to this{\footnote{But, quite recently, Michael Harris [\ref{Har}] has made a major stride toward a {\it noncorrelation} theorem  of another sort (the error term statistics of two nonisogenous elliptic curves, both of which having multiplicative reduction at some prime,  each follow the Sato-Tate prediction  (as has been shown) and are noncorrelated).}}.
+
+
+  
+  \bigskip
+  
+\end{document}  
+  
+  \bigskip
+  
+  
+  
+{\LARGE{\centerline{ \bf Part III}} 
+{\centerline{\bf  About the proof of Sato-Tate}}
+{\centerline{\bf  for the elliptic curve $E$.}}}
+
+
+  
+  \bigskip
+  
+ 
+
+  \section{ Reducing the problem to a question about analytic continuation of $L$-functions}
+  
+  
+  
+  \subsection{  The Sato-Tate distribution}
+  
+   %%%%%%%%
+     
+       As discussed in subsection~\ref{ratesconv} above we now know that  the data    $$p \longmapsto \cos(\theta_p) = 1/2(e^{i\theta_p} + e^{-i\theta_p} )$$ associated to our elliptic curve $E: y^2+y=x^3-x^2$  conforms to the  Sato-Tate distribution ${\frac{2}{\pi}}{\sqrt{1-t^2}}$. That is, Theorem~\ref{bigtheorem} formulated in section~\ref{ratesconv} tells us that for any  continuous function $F(t)$ on the interval $[-1,+1]$, the limit
+   $$\lim_{C\to \infty} \ {\frac{1}{\pi(C)}}\sum_{p\le C} F(\cos \theta_p )$$ exists and is equal to the integral 
+   ${\frac{2}{\pi}}\int_{-1}^{+1}F(t){\sqrt{1-t^2}}dt.$
+ 
+
+How does one prove such a theorem?
+
+To express our expected distribution in terms of the $\theta_p$'s, one could make the change of variables  ($t \mapsto \cos\theta$) $${\frac{2}{\pi}}\int_{-1}^{+1}F(t){\sqrt{1-t^2}}dt \ = \ {\frac{1}{\pi}}\int_{-\pi}^{+\pi}F(\cos \theta) \sin^2 \theta d\theta,$$
+ i.e., expressing things in terms of $\theta$ we get a ``sine-squared" distribution.  Here is what the data looks like in these terms:
+ \ill{newellst}{.3}{The horiziontal axis is the interval  $0 \le \theta \le \pi$, segmented into subintervals. The  height above a subinterval is proportional to the percentage of primes $p < 10^6$  that have the property that $\theta_p$ lies in the given subinterval. }
+ %\ill{sage0_011.png}{.3}{}
+
+     The rest of this article is devoted to saying some things about the proof  (see also [\ref{T}], and Serre's letter to Shahidi  [\ref{S3}], and comments in [\ref{S1}]).  To prove the theorem, it would be enough, thanks to the Weierstrass approximation theorem, to show Theorem~\ref{bigtheorem} true for all real-valued polynomial functions  $F(t)$, and since our task is linear, we could concentrate on proving this for $F(t)=$  all the powers of the variable $t$, i.e., $$1,t, t^2, t^3, \dots$$ or, for that matter it would suffice to prove it for $F(t)=$ any other ${\bf R}$-basis of the ring of real-valued polynomials{\footnote{ As mentioned in the discussion related to Question~\ref{qrate}, this luxury---of proving things for a dense basis---is not yet quite enough if we aim to prove the finer  rate-of-convergence result formulated by that question. 
+     
+     
+      For some explicitness in our application of the Weierstrass approximation theorem for the continuous function $F$ we might make use, for example, of the (S.N.) {\it Bernstein polynomials} defined (for $n \ge 0$)  as
+$$P_{F,n}(t):= {\frac{1}{2^{2n}}}\sum_{k=-n}^nF({\frac{n+k}{2n}}){{2n}\choose{n+k}}(1+t)^{n+k}(1-t)^{n-k},$$ for this family of degree $n$ polynomials, $P_{F,n}$ tend  uniformly to $F$ on the interval $[-1,+1]$.
+}}.
+    
+    \subsection{Bases for the ring of polynomials}
+    
+    
+    Write the variable $t$ as a sum $\alpha + \alpha^{-1}$  so that any polynomial in $t$ (with, e.g.,  real coefficients) is a polynomial in $\alpha$ and $\alpha^{-1}$ invariant under the interchange $\alpha \leftrightarrow \alpha^{-1}$, and conversely: any  polynomial in $\alpha$ and $\alpha^{-1}$  invariant under the above interchange is a polynomial in $t$.  Consider then, these polynomials   (let's call them {\it symmetric power polynomials})
+    
+    \begin{eqnarray}
+    s_0 &=& 1 \nonumber\\
+    s_1 &=& \alpha + \alpha^{-1} \nonumber\\
+    s_2 &=& \alpha^2 + 1 + \alpha^{-2} \nonumber\\
+    s_3 &=& \alpha^3 +\alpha^1 +\alpha^{-1} +  \alpha^{-3}\nonumber\\
+    s_4 &=& \alpha^4 +\alpha^2 + 1 + \alpha^{-2} +  \alpha^{-4} \nonumber\\
+    s_5 &=& \alpha^5 +\alpha^3 + \alpha^1+ \alpha^{-1}+\alpha^{-3} +  \alpha^{-5} \nonumber\\
+ \dots
+    \end{eqnarray}
+    
+  \noindent which, when expressed as polynomials in $t$ look like  
+    
+    \begin{eqnarray}
+    s_0 &=& 1\nonumber\\
+    s_1 &=& t\nonumber\\
+    s_2 &=& t^2-1\nonumber\\
+    s_3 &=& t^3-2t\nonumber\\
+    s_4 &=& t^4-3t^2+1\nonumber\\
+    s_5  &=& t^5-4t^3+3t\nonumber\\
+ \dots
+    \end{eqnarray}
+    
+  \noindent where $s_n$ is a monic polynomial in $t$ of degree $n$  (they are the  {\it Chebychev polynomials of the second kind}).  They form a basis, as do any collection of products 
+  $$\{s_ns_m\}_{(n,m) \in {\mathcal I}}$$ where $\mathcal I$ is a collection of pairs of nonnegative integers such that the sums $n+m$ run through all nonegative numbers with no repeats.
+  
+  Here is an elementary calculus exercise:
+  
+  \begin{proposition}
+  
+    If $F(t) = s_n(t)s_m(t)$ with $n \ne m$ then  $${\frac{2}{\pi}}\int_{-1}^{+1}F(t){\sqrt{1-t^2}}dt  = 0.$$
+    \end{proposition}
+    
+    \begin{corollary}\label{bigcor} Theorem~\ref{bigtheorem} would follow if for every positive integer $k$ there is a pair of distinct nonnegative integers $(n,m)$ with $n+m=k$ and such that  $$\lim_{C\to \infty} \ {\frac{1}{\pi(C)}}\sum_{p\le C} s_m(\cos \theta_p) s_n(\cos \theta_p)= 0.$$
+    \end{corollary}
+
+
+ A colloquial way of expressing the existence and vanishing of the above limit is to say:  {\it the mean value of the quantities $ s_m(\cos \theta_p) s_n(\cos \theta_p)$ is zero.}
+ 
+    But how can we show such mean values to exist, and  vanish?  The standard strategy---in fact, it seems, the only known strategy---is to invoke $L$ functions   {\footnote{ As mentioned, one can establish the distribution of values of our error terms once we know---for {\it some} basis  $\{F_i(t)\}_i$ ($i=1,2,\dots$) of the vector space of polynomials---the {\it mean values} of the quantities $F_i(\cos \theta_p)$ for all $i$. The basis we chose to work with in Corollary~\ref{bigcor} has to do with the $L$-functions that will be available to us.  Another way of dicing the problem as mentioned to me by Andrew Granville, uses the basis of polynomials in $t= \alpha + \alpha^{-1}$  given by $P_{\nu}(t) = \alpha^{\nu} + \alpha^{-\nu}$, allowing us to conclude that the Sato-Tate conjecture for our data is equivalent to the statement that, for each  $\nu > 0$, the mean values of the quantities $a_{p^{\nu}}/p^{\frac{\nu}{2}}$ are zero, where the $a_{p^{\nu}}$ are the $p^{\nu}$-th Fourier coefficients of the cuspidal modular form of level $11$ and weight two introduced in section~\ref{ourell}  above.}\label{ftnt}}.
+    So we turn to:
+    
+    \subsection{$L$-functions}
+    
+    
+   To study  $$p \longmapsto \theta_p$$ effectively it is a good idea to ``package this data" into   complex analytic functions (Dirichlet series) whose behavior will tell us about the limits described in Corollary~\ref{bigcor}. 
+   
+    Let us do this. For any choice of prime number $p$ different from $11$ and for any pair of nonnegative numbers $0\le m \le n$,   define {\it the local factor at $p$ of the $L$-function $L_{m,n}(s)$} as follows{\footnote{ This is the  Hasse-Weil $L$-function associated to the  symmetric $m$-th power tensored with the symmetric $n$-th power of the fundamental Galois representation $\rho$ of our elliptic curve. If these symmetric powers of $\rho$ are automorphic---an issue we shall discuss later---then $L_{m,n}(s)$ would be (up to some elementary factors) the $L$-function attached to the pair of corresponding automorphic representations.}}  
+    
+      $$L_{m,n}^{\{p\}}(s):= \prod_{j=0}^m\prod_{k=0}^n\big(1-e^{i(m+n-2j-2k)\theta_p}p^{-s}\big)^{-1}.$$
+      
+     If $m$ (or $n$) is zero, the factors  in  ``$\prod_{j=0}^m$" (or ``$\prod_{k=0}^n$") don't amount to much, so, for example:
+     
+     $$L_{0,n}^{\{p\}}(s):= \prod_{k=0}^n\big(1-e^{i(n-2k)\theta_p}p^{-s}\big)^{-1}.$$
+     
+     
+     Now form the infinite product over all prime numbers $p$:
+    $$L_{m,n}(s):=\ \ \ \prod_p L_{m,n}^{\{p\}}(s)$$ and expand this to get a Dirichlet series
+    
+    $$L_{m,n}(s) = \sum_{r=0}^{\infty} a_{m,n}(r)r^{-s}.$$
+   
+   Here we rely on analytic number theory in the form of a classical theorem of Ikehara which gives us that if we know enough analytic facts about these Dirichlet series   $\sum a_{m,n}(r)r^{-s}$ we can control limits of the form  $$\lim_{C \to \infty}{\frac{\sum_{p< C}a_{m,n}(p)}{\pi(C)}},$$ i.e., since $a_{m,n}(p) =  s_m(\cos \theta_p ) s_n(\cos \theta_p )$, these are exactly the limits we are interested in{\footnote{ For a related discussion see [\ref{O}].}}. 
+   
+
+\begin{proposition}\label{mero} let $m < n$. If $L_{m,n}(s)$ extends to a meromorphic function on the entire complex plane, holomorphic on the right half-plane ${\Re}(s) \ge 1$  and nonzero on all points ${\Re}(s) \ge 1$ other than $s=1$  then
+$$\lim_{C\to \infty} \ {\frac{1}{\pi(C)}}\sum_{p\le C} s_m(\cos \theta_p ) s_n(\cos \theta_p )= 0.$$
+\end{proposition}
+    
+    
+    If, by the way, $L_{m,n}(s)$ extended to a meromorphic function on the entire complex plane, holomorphic and nonzero on ${\Re}(s) \ge 1$ except for having a pole of order $k$ at $s=1$  (which it does not) the analytic proposition above{\footnote{ For a concise expository summary of variant hypotheses that might be considered in the above proposition yielding a similar conclusion, see Nick Katz's MSRI lecture  (available on the MSRI website). Also see  [\ref{S1}] IA.2;   [\ref{O}];  and [\ref{Del2}]  (specifically, Theorem 2.1.4  in Chapter II (``la M{\'e}thode  de Hadamard-De La Vall{\'e}e-Poussin") of Deligne's paper)   for further  material relevant to this discussion.  For a general reference on Tauberian Theorems of which these propositions are examples, see [\ref{K}].}} would tell us that the limit is $k$, rather than $0$.
+    
+    \subsection{Sato-Tate and the Generalized Riemann Hypothesis}\label{STGRH}
+    
+   It is striking that---upon assuming $L_{m,n}(s)$ extends to an entire function on the complex plane, satisfying a functional equation as expected---a proof of Conjecture~\ref{qrate} for the polynomial $F_{n,m}(t):=  s_m(t) s_n(t)$ would imply the Generalized Riemann Hypothesis for the Dirichlet series $L_{m,n}(s)$. The proof of the implication  (which is mutatis mutandis the proof of this same statement for  $L_{0,1}(s)$ as given in  the article of  Akiyama and Tanigawa [\ref{AT}]) is briefly as follows  (and we assume below that $n\ne m$). Noting that, under our initial hypothesis, $$\log L_{m,n}(s)\ =\  \sum_p\{\sum_{j=0}^m\sum_{k=0}^ne^{i(n+m-2j-2k)\theta_p}\}p^{-s}+ A(s) \ =\  \sum_p F_{n,m}(\cos \theta_p)p^{-s}+ A(s),$$  where $A(s)$ is holomorphic in the right half-plane $\Re(s) > {\frac{1}{2}}$, GRH for $L_{m,n}(s)$ will follow if we show holomorphicity of $\sum_p F_{n,m}(\cos \theta_p)p^{-s}$ for $\Re(s) > {\frac{1}{2}}$. A partial summation argument gives:
+   \begin{lemma}\label{holext} If, for any positive $\epsilon$, $\sum_{p<C}F_{n,m}(\cos \theta_p)$ is $O(C^{{\frac{1}{2}}+\epsilon})$ then  $\sum_p F_{n,m}(\cos \theta_p)p^{-s}$ converges to yield a holomorphic function in the region $\Re(s) > {\frac{1}{2}}$.
+   \end{lemma}
+   
+   \begin{proof}  For $k = 1,2,\dots$ set $a_k:= F_{n,m}(\cos \theta_p)$ if $k =p$ is a prime number, and otherwise set $a_k:=0$.  So our Dirichlet series is now denoted $\sum_k a_kk^{-s}$ and we have  (for any positive $\epsilon$)  $\sum_{k\le N} a_k = O(N^{{\frac{1}{2}}+\epsilon})$ for any $N$. Partial summation gives 
+   $$\sum_{k<N} a_kk^{-s} = \sum_{k<N} a_k\cdot N^{-s} - \sum_{n < N}\{\sum_{k<n} a_k\}\cdot\{(n+1)^{-s}-n^{-s}\}.$$   The first term on the right hand side of this equation is bounded by $N^{{\frac{1}{2}}+\epsilon-s}$ which, if $\Re(s) > {\frac{1}{2}}$,  is bounded independent of $N$ for an appropriate choice of $\epsilon$.  Moreover, since $|(n+1)^{-s}-n^{-s}| \le n^{-s-1}$  the second term is bounded by $\sum_n n^{{\frac{1}{2}}+\epsilon-s-1}$ which again, if $\Re(s) > {\frac{1}{2}}$,  is bounded independent of $N$ for an appropriate choice of $\epsilon$. 
+   \end{proof}
+   
+ It remains, then, to show the following.
+ 
+ \begin{proposition} Let $m \ne m$. Assume that  $L_{m,n}(s)$ extends to an entire function on the complex plane, and satisfies the expected functional equation. Assume, furthermore, that  Conjecture~\ref{qrate} holds for the polynomial $F_{m,n}(t)$. Then  $L_{m,n}(s)$ satisfies the Generalized Riemann Hypothesis; i.e., all its zeroes lie on the line $\Re(s)={\frac{1}{2}}$.
+\end{proposition}
+\begin{proof}  Assuming Conjecture~\ref{qrate} we have $$\Delta_{F_{m,n}}(C):=\ |{\frac{1}{\pi(C)}}\sum_{p\le C} F_{m,n}(\cos \theta_p)\ -\ {\frac{2}{\pi}}\int_{-1}^{+1}F_{m,n}(t){\sqrt{1-t^2}}dt|  < C^{-{\frac{1}{2}}+\epsilon}$$ for $C$ sufficiently large. Since the integral vanishes ($(m,n) \ne (0,0)$), and (for any $\delta > 0$) $\pi(C) \ge C^{1-\delta}$ for $C$ sufficiently large, we get that $$|\sum_{p\le C} F_{m,n}(\cos \theta_p)| < C^{{\frac{1}{2}}+\epsilon}$$ for $C$ sufficiently large, and our proposition follows from Lemma~\ref{holext}.
+\end{proof}
+
+
+%sThe above proposition together with  Proposition~\ref{conjconj} gives us that the  single estimate predicted by the Akiyama-Tanigawa conjecture (i.e., Conjecture~\ref{qvrate}) implies  the Generalized Riemann Hypothesis for {\it all} of the $L$-functions  $L_{m,n}(s)$ ($m \ne n$)  or at least for any of these $L$-functions that extend to an entire function on the complex plane, and satisfies the expected functional equation. 
+
+%It is intriguing that Conjecture~\ref{ufqvrate} {\it ties together} so many distinct GRH's in a single package.
+
+
+    \subsection{Meromorphic extension of $L$-functions} 
+    But, returning to our discussion of Sato-Tate, how can we get that Dirichlet series such as $L_{m,n}(s)$ extend meromorphically to the entire complex plane, and how can we determine the nature of their poles?  A standard strategy---in fact, it seems, the only one of two known strategies---is to connect these $L$-functions with automorphic forms.  The other strategy is closely related---and is only nominally different---and relies directly upon Poisson summation. This latter  method was used by Riemann, then extended by a number of mathematicians, including Hecke to deal with abelian $L$-functions, and from that, to construct automorphic forms of complex multiplication; and this method too will play a (key!) role in the proof, only later.
+    
+    
+    
+    \section{ Replacing the problem of analytic continuation of $L$-functions by questions about automorphic forms}
+    
+   \subsection{The Reciprocity ``Divide"}\label{recdiv}
+   
+   
+   
+   Consider these two species of mathematical objects:
+  \begin{itemize}
+   \item Quadratic  field extensions of the field of rational numbers, i.e., $\Q({\sqrt d})/\Q$ for square-free integers $d$, and
+
+  \item
+Functions $\chi: \Z \to \{0,\pm 1\}$ that are multiplicative, i.e. $\chi(m\cdot n) = \chi(m)\cdot \chi(n)$, nontrivial, and ``congruence," in the sense that there is some positive integer $N$ such that $\chi(a)$ depends only on $a$ mod $N$  (for all $a$).
+    \end{itemize}
+ 
+To truly understand the first of these structures, the quadratic number fields, surely we should know the splitting properties of prime numbers in these fields, i.e., we should know, for any prime  number $p =2,3,5,7,11,\dots$ , whether 
+
+  \begin{itemize}
+     \item 
+the ideal generated by $p$ is a prime ideal in the ring of integers of $\Q({\sqrt d})$,
+
+   \item 
+the ideal generated by $p$ splits into a product of two distinct prime ideals $(p) = P{\bar P}$ in the ring of integers of $\Q({\sqrt d})$, or
+
+  \item
+the ideal generated by $p$ is the square of a prime ideal $(p) = P^2$ in the ring of integers of $\Q({\sqrt d})$,
+
+    \end{itemize}
+
+these being the only three things that can happen to the ideal generated by $p$ in the ring of integers of   $\Q({\sqrt d})$.
+
+
+ Let us say that a quadratic number field $\Q({\sqrt d})$ and a character $\chi$ with the properties listed above are {\bf linked} if 
+  \begin{itemize}
+     \item 
+$\chi(p) = -1$ if and only if $p$ is a prime ideal in the ring of integers of $\Q({\sqrt d})$,
+
+   \item 
+$\chi(p) = +1$ if and only if the ideal generated by $p$ splits into a product of two distinct prime ideals $(p) = P{\bar P}$ in the ring of integers of $\Q({\sqrt d})$, and
+
+  \item
+$\chi(p) = 0$ if and only if the ideal generated by $p$ is the square of a prime ideal $(p) = P^2$ in the ring of integers of $\Q({\sqrt d})$.
+\end{itemize}
+
+So, $\chi$ is {\it linked} to $K$ if $\chi$ provides us with complete information about  the splitting properties of primes in the field extension $K/\Q$.  Of course, given a quadratic number field $K$, we can simply construct a multiplicative function, $\chi_K$, of $\Z$ with the  properties listed in the three bullets above, and the only serious issue is: does the character $\chi_K$ we have constructed by those rules also have {\it the congruence property}? The answer to this is, in fact,  {\it yes,} and goes back to Gauss, it being  a consequence of the quadratic reciprocity theorem (whence the title of this subsection).
+
+  The $\chi_K$'s we have just described are the simplest examples of automorphic representations{\footnote{their official technical name being: {\it quadratic Dirichlet characters over $\Q$}.}}. One of the goals of the Langlands program is to establish a vast generalization of this type of linkage, where two quite distinct species of mathematical objects are under consideration:
+
+\begin{itemize}
+\item A  number-theoretic structure (such as the quadratic fields of the example just discussed, or the sample problem in part 1 of this article)
+\item
+ 
+Automorphic representations
+\end{itemize}
+and where the type of linkage one envisions is as follows: each member of either of the two species of mathematical objects alluded to above provide, in a natural way, certain  {\it numerical data} (typically: this data takes the form of a function on primes, such as in the example given above). A specific {\it number-theoretic structure} and a specific {\it automorphic representation} are considered {\it linked} if they provide the same numerical data. We will say a bit more about what  ``number-theoretic structures" are being considered in this linkage in  subsection~\ref{Lang}  below.
+
+  Since we will be packaging this type of ``numerical data" into {\it $L$-functions} we might hint at what is afoot by mentioning that the number-theoretic structure and the automorphic function are considered {\it linked} if they produce (via their respective data) the {\it same}   $L$-function.   
+In specific contexts considered by the Langlands program if one can establish such a link, one sometimes obtains, as reward, the analytic continuation of the $L$-function attached to the corresponding number-theoretic structure alluded to in the bullet above.
+     
+    \subsection{Automorphic Representations, Automorphic forms}\label{repform}
+    
+     Here I will try to write things that are useful to people not in this specific field, so that they might get a sense---admitting a trail of black boxes---of the thread of ideas that lead to the recent work on Sato-Tate.  For the purposes of this discussion, only the most salient aspects of the type of {\it automorphic form} involved in this story will be discussed below. We will be using the phrase {\it Hecke operators} with no explanation, but hope that for the moment, it is sufficiently evocative, and that readers for whom this notion is unfamilar will go to the literature to seek out the story that I am omitting. A good start would be Diamond and Shurman's text [\ref{DS}]. 
+     
+     I want to say why there are two phrases {\it automorphic representations}  and {\it  automorphic forms} in the title of this subsection.  
+     
+      Suppose you are faced with $\G$, some group  (a Lie group, perhaps) acting smoothly on $M$, some manifold  (a homogenous space for the group, perhaps). Then whenever you have a function  on $M$, or a differential form, $\omega$, on $M$ (or, more generally a section of any vector bundle over $M$ that admits a compatible action of $\G$) you can use $\omega$ to construct a representation $V$ of the group $\G$ by simply considering the vector space generated by all  translates of $\omega$ by elements of the group; you might also pass to the completion of this vector space with respect to  some natural metric if there is such, and if you want to do that.  You, of course, have the option of studying the $\G$-representation space $V$ ``abstractly," but you also have a ``model" for this representation of $\G$ (e.g., as a space of functions, or differential forms, etc.) which may prove to be useful; even better: you have a certain preferred vector in your representation space; namely the $\omega$ that you started with.
+     The groups $\G$ that are relevant for the discussion of the previous subsection  will have as connected component, the Lie group  $\GL_{n+1}^+(\R)$ for $n=1,2,3,\dots$ (where the $+$ means positive determinant) and the manifold $M$ on which $G$ acts will often have, as connected components, the $\GL_{n+1}^+(\R)$ homogenous space $\GL_{n+1}^+(\R)/{\rm SO}_{n+1}\cdot \R^+$, this being the space of right cosets with respect to the group generated by rotations (i.e., elements of  ${\rm SO}_{n+1}$) and positive homotheties (i.e., positive scalar matrices).  Our automorphic forms will also be required to behave well with respect to the action of a discrete group on $M$, often a discrete subgroup of $G$ viewed as acting on the left---via multiplication---on the right coset space $\GL_{n+1}^+(\R)/{\rm SO}_{n+1}\cdot \R^+$.
+     
+     
+      We will focus most of our attention on our specific sample problem  $$p \mapsto e^{\pm  \theta_p}$$  as discussed throughout Part II, and on its ``symmetric powers," $$p \longmapsto \ \  \{e^{-n \theta_p},   e^{-(n-2) \theta_p},   e^{-(n-4) \theta_p},\dots,  e^{(n-4) \theta_p},   e^{(n-2) \theta_p},   e^{n\theta_p}\},$$   and we shall be treating each (small value of) $n$ separately, and discussing---very briefly---the relationship between the data and automorphy.
+        \begin{itemize}
+      \item
+      When $n=0$, the data above just boils down to $$p \mapsto 1$$ and this data  indeed corresponds to an automorphic form on $\GL_1$, but it plays quite a special role in our proceedings since its $L$-function is none other than the Riemann zeta-function. 
+     
+
+      \item
+      When $n=1$, we view the  complex upper half-plane  ${\bf H} =\{z = x+iy\ | \ y >0\}$   as a homogeneous space under the action of the group $\GL(2, {\bf R})$ via the usual formulas: $$\left(\begin{array}{cc}a & b\\ c & d\end{array}\right)z \ = \ {\frac{az+b}{cz+d}}.$$  The  symmetric $1$-st power of our data  (i.e., our data) is {\it cuspidal automorphic}  since there is a holomorphic differential form $\omega = \omega(z)$  on ${\bf H}$---{\it linked to our data} in a way that we shall mention below--- having the following properties: for some positive number $N$ the differential form   $\omega$ is invariant{\footnote{ This ``invariance property" is  analogous to the {\it congruence property} that the quadratic characters $\chi_K$ possess, as discussed in subsection~\ref{recdiv}.}} under the action of the group, usually denoted $\Gamma_1(N)$, of all matrices of determinant one of the form    \[\left(\begin{array}{cc}a & b\\ Nc & d\end{array}\right)\] with $a,b,c,d $ rational   integers, and $a \equiv d \equiv 1$ modulo $N$.  The way in which $\omega$ is ``linked to our data" is that $\omega$ is an eigenvector under the action of the $p$-th  Hecke operator with eigenvalue $(e^{-\theta_p}+ e^{ \theta_p}){\sqrt{p}} = s_1(e^{-\theta_p}+ e^{ \theta_p}){\sqrt{p}}$ for all but finitely many primes $p$.
+      
+      We can take $N = 11$ and there is such an $\omega$ invariant even under the slightly larger group $\Gamma_0(11)$  (defined as above but where one does not require $a \equiv d \equiv 1$ modulo $11$).  In fact, as a function on the upper half plane $z=x+iy$  ($y > 0$)  $$\omega = 2\pi i \prod_{\nu\ge 1}(1-e^{2\pi i\nu z})^2(1-e^{22\pi i\nu z})^2dz=2\pi i\sum_{n=1}^{\infty}a_ne^{2\pi in z}dz,$$ this being a Fourier series that we have already fleetingly referred to in  subsection~\ref{ourell}{\footnote{We rigged our sample problem to be given by the elliptic curve that is the quotient of the upper half plane under the action of $\Gamma_1(11)$.  Thanks to the  work on modularity due to Wiles, Taylor-Wiles, et al, we could have chosen any elliptic curve over $\Q$ as well, and still enjoy the fact that  the symmetric $1$-st power of the corresponding data  (in short, the ``data" itself)  be automorphic.}}.  The requirement of cuspidality is that the differential form $\omega$ has sufficiently good behavior as one goes to the points at infinity in the quotient Riemann surface ${\bf H}/\Gamma_1(11)$ so that it extends to a regular differential form on the natural compactification of that Riemann surface. 
+      \item     When  $n=2$, the  symmetric $2$-nd power of our data  is {\it cuspidal automorphic} since there is a (real analytic) differential $2$-form $\omega_2 $  on the  homogeneous space $\GL_3(\R)/{\rm SO}_{3}\cdot \R^+$  enjoying, as in the previous case,  an appropriate (``in")variance property with respect to an appropriate discrete group; moreover, the differential $2$-form  $\omega_2 $ is an eigenform, with specific eigenvalues, of a certain ring of differential operators, this being the  feature analogous to ``holomorphicity" discussed in the case $n=1$. Furthermore, our $\omega_2 $  exhibits good behavior as one goes to infinity in the symmetric space, and finally the all-important {\it link to our data} is that for all but finitely many primes $p$, the differential form $\omega_2$ is also an eigenvector under the action of certain correspondences (Hecke operators related to $p$) and with prescribed eigenvalues related to $(e^{-2 \theta_p}+ 1+ e^{-2 \theta_p})\cdot p = s_2(e^{-\theta_p}+ e^{ \theta_p})\cdot p$ (see [\ref{GJ}]).
+      
+      \item
+           Similarly for $n=3$ (see  [\ref{KS1}]{\footnote{ Some of the relevant history of this, and part of the history of Proposition~\ref{LNM} below,  is recorded in the introduction of [\ref{KS1}], where it is explained that the automorphy of the symmetric cube of a ${\rm GL}_2$ representation, a project of Shahidi's since 1978, following upon  Langlands' work on Eisenstein series  ([\ref{L1}], [\ref{L2}]),  led Shahidi to develop a machinery [\ref{Sh3}], [\ref{Sh4}], [\ref{Sh5}] all of which is used to prove a (Langlands) functoriality result for ${\rm GL}_2\times {\rm GL}_3$, and from this to deduce automorphy of the symmetric cube of automorphic forms on ${\rm GL}_2$.}}).
+       \item
+     Similarly for $n=4$ (see [\ref{Kim}]).
+ 
+    
+
+     \end{itemize}     
+ What happens for $n \ge 5$?  One has, at the present moment, a somewhat weaker automorphy result  (potential automorphy for even $n$; see subsection~\ref{potaut}) which is sufficient to establish the  Sato-Tate result that this article is discussing (see Corollary~\ref{corsymm}). 
+
+      %([\ref{[Shi]}], [\ref{KS1}], [\ref{KS2}], [\ref{Sh1}], [\ref{Sh2}] ) it then follows that the symmetric $n$-th power of our data is cuspidal automorphic for $n \le 4$.
+      
+      
+    The connection between cuspidal automorphy and the desired behavior of the $L$-functions we care about is:
+    
+
+        \begin{proposition}\label{LNM}
+        
+        
+    If, for two unequal nonnegative integers $n$ and $m$, the  symmetric $n$-th power of our data and the  symmetric $m$-th power of our data are both {\it cuspidal automorphic} then $L_{n,m}$ extends to a holomorphic function on the  entire complex plane, nonzero on the line $\Re(s) =1$  (for $z \ne 1$).
+    \end{proposition}
+    
+   In particular, taking $m=0$ and $n >0$, one has that    if   the  symmetric $n$-th power of our data is {cuspidal automorphic} then $L_{n}$ extends to a holomorphic function on the  entire complex plane. See [\ref{Sh1}], [\ref{Sh2}] for proof of holomorphicity and meromorphicity  of various symmetric powers.  
+   
+   
+    This proposition in itself is a great piece of mathematics, which when $n$ and $m$ are nonzero involve either  
+    
+    \begin{itemize}
+    
+    \item a method of Langlands and Shahidi (see [\ref{Sh1}], [\ref{KS2}]) where one uses Langlands' theory of Eisenstein series {\footnote{ To be a bit more specific, one views  $\GL_n\times \GL_m$ as a Levi component in a parabolic subgroup of $\GL_{n+m}$, and relates $L_{n,m}$, initially defined only in some right half-plane,  to the constant term of certain Eisenstein series on $\GL_{n+m}$. See the three lectures of the Langlands-Shahidi method in [\ref{Sh6}]. The nonvanishing on $\Re(s)=1$ is shown in [\ref{Sh1}].}}, or
+    \item
+    
+     a method of Rankin and Selberg  (developed in the context of pairs of automorphic forms for $\GL_n$ and $\GL_m$  by Jacquet, Piatetski-Shapiro, and Shalika  [\ref{JPS}], and completed by the publication of [\ref{CP}]).    
+    
+    
+    \end{itemize}
+    To see how automorphy might help one to control $L$-functions, consider the special case of $(n,m) = (0,1)$ of our sample problem and recall the integral expression for the $L$ -function $L_{0,1}$ valid for $\Re(s)$ large enough; namely:
+    $${\frac{\Gamma(s)}{(2\pi)^s}}L_{0,1}(s)  = \int_{y=0}^{y=\infty}y^{s-1}\omega(iy) =  \int_{y={\sqrt-11}}^{y=\infty}y^{s-1}\omega(iy)  + \int_{y=0}^{y={\sqrt-11}}y^{s-1}\omega(iy)$$  where $\omega$ is the differential $1$-form discussed previously.
+    
+    Here the first integral on the right side, i.e.,  $\int_{y={\sqrt-11}}^{y=\infty}y^{s-1}\omega(iy) $, has an integrand $$y^{s-1}\omega(iy) = 2\pi i\sum_{n=1}^{\infty}a_ne^{-2\pi n y}y^sdy/y,$$ which goes to zero essentially exponentially as $y$ tends to $\infty$.  Therefore this integral converges to an entire function of $s$.  The second integral is the troublemaker, for naive estimates will not work to show convergence. Nevertheless, since (miracle!) the differential form $\omega$ is an eigenform for the transformation $z \mapsto {\frac {-1}{11z}}$, i.e., for the action of the matrix   \[\left(\begin{array}{cc}0& -1\\ 11 & 0\end{array}\right)\] on the upper half plane ${\bf H}$, it follows that the second integral is easily expressible in terms of the first integral, so the sum  of the two integrals on the right hand side---that is, the $L$-function $L_{0,1}(s)$ decorated by ${\frac{\Gamma(s)}{(2\pi)^s}}$---converges to an entire function.   The essence of this type of proof goes all the way back to Riemann's famous 1859 article [\ref{R}].
+    
+    An example, then, of what would suffice  to achieve the Sato-Tate Conjecture for our data, is the following corollary of the past work cited, and of Proposition~\ref{LNM}:
+    
+    \begin{corollary}\label{corsymm} If for every odd value of $m$  greater than or equal to $7$, the  symmetric $m$-th power of our data is cuspidal automorphic, then the Sato-Tate conjecture holds for our data.
+    \end{corollary}
+  
+  
+  As readers will see in subsection~\ref{potaut} below, somewhat weaker hypotheses  will also suffice{\footnote{{\it Potentially} cuspidal automorphic is also enough.}}, and this is a lucky thing. 
+  
+    \begin{proof}
+     
+     We would then have that $L_{n,m}(s)$ is entire for $$(n,m)= (0,1), (0,2), (1,2), (1,3),(2,3), (2,4), (3,4),$$ and for $(0, m) $ and $(1,m)$ ranging through all positive odd integers $m\ge 7$ (here we depend on the earlier work cited to cover $m< 7$).  The theorem then follows from the previous propositions and Corollary~\ref{bigcor}.
+     \end{proof}  
+
+  
+    To show the {\it cuspidal automorphy} of all the symmetric $m$-th powers of our data that are required by Corollary~\ref{corsymm} it seems that we must, at least at present, connect this data with Galois representations. So we now turn to:
+
+    \subsection{Galois Representations associated to  the symmetric $m$-th powers of our data}
+    
+    Our elliptic curve $E$, which we've focussed on to provide us with our ``sample problem,"  whose equation in the finite plane is given by $$y^2+y = x^3-x^2,$$ is a  {\it commutative  algebraic group} (the point at infinity playing the role of origin). Therefore, for any positive integer $N$ we may consider the kernel of multiplication by $N$ in $E$, and this subgroup of $E$ we will denote $E[N]$.
+    
+      Working with the points of $E$ whose coordinates lie in an algebraic closure of $\Q$,  the subgroup $E[N]$ consists of those points  on the  algebraic group $E$ of order dividing $N$.  This group is, on the one hand, a product of two cyclic groups of order $N$, and on the other hand, if we adjoin to the rational field $\Q$ all the dehomogenized coordinates of the (finitely many) points of $E[N]$ we obtain a finite Galois field extension of $\Q$---denote it $K_N/\Q$---but we also get, along with the field extension itself, a natural injection of $\Gal(K_N/\Q)$ into the automorphism group of $E[N]$  (via the natural action of the Galois group on the coordinates of the points in $E[N]$. Since the automorphism group of a product of two cyclic groups of order $N$ is isomorphic to $\GL_2(\Z/N\Z)$, we emerge from this discussion with quite a beautiful structure.  Namely, given our elliptic curve $E$ we get for every positive integer $N$ a Galois field extension $K_N/\Q$ and a two-dimensional representation of its Galois group over the ring $\Z/N\Z$.  Viewing that Galois group as a quotient of the full profinite Galois group  $G$ of the algebraic closure of $\Q$ over $\Q$, we may consider this information to be equivalent to having representation
+    
+    $$\rho_{E,N}:G \to \GL_2(\Z/N\Z)$$
+    
+ the kernel of which restricts to the identity on $K_N$.
+ Since these $\rho_{E,N}$'s {\it compile well,} in the sense that if $N$ divides $M$ the representation $\rho_{E,N}$ is equivalent to the composition of $\rho_{E,M}$ and the natural projection $\GL_2(\Z/M\Z)\to \GL_2(\Z/N\Z)$ we may pass to limits, so that, for example, for any prime number $\ell$ taking the projective limit of the $\rho_{E,N}$'s  for the sequence $N =\ell^{\nu}$ ($\nu$ tending to $\infty$) gives us a representation to $\GL_2(\Z_{\ell})$ where $\Z_{\ell}$ denotes the $\ell$-adic integers, and passing, then, to $\Q_{\ell}$ we get representations $$\rho_{E,{\ell}_{\infty}}:G \to \GL_2(\Q_{\ell}).$$  Let $V_{E, \ell}$ denote the two-dimensional  $\Q_{\ell}$-vector space $\Q_{\ell}^2$ equipped with a continuous $\Q_{\ell}$-linear action of $G$ (via $\rho_{E,{\ell}_{\infty}}$).
+ 
+  The connection between these representation spaces $V_{E, \ell}$  and our ``data,:" i.e., the data $$p \mapsto e^{\pm i\theta_p}$$ we have been discussing in the previous sections of this article, is quite neat:
+ 
+ For all but finitely many primes $p$   (in fact, in this case, for $p \ne 11, \ell$) there is a well defined class of elements in $G$ (called Frobenius elements at $p$) that have the property that the action any of these {\it Frobenius elements at $p$} on the $G$-representation space $V_{E,\ell}$ have the same characteristic polynomial, and the roots of this common characteristic polynomial are  the quadratic irrationalites: $e^{\pm i\theta_p}{\sqrt{p}}.$ The set of these Frobenius elements at $p$ are dense in $G$ and so, since the $G$-representation $V_{E,\ell}$ is irreducible, knowledge of the traces of  representation of the action of the Frobenius elements at $p$, i.e., the integer-valued function
+ 
+ $$p \longmapsto e^{i\theta_p}{\sqrt{p}}+ e^{-i\theta_p}{\sqrt{p}}  \ =\  N_E(p) -(p+1)$$ for all but finitely many primes $p$ {\it determines} the representation.
+ 
+  It should also not escape our notice that we have here a somewhat extraordinary structure: for {\it every} prime number $\ell$ we get a two-dimensional $G$ representation space $V_{E,\ell}$ for which the  Frobenius elements at $p$ (for $p \ne 11, \ell$) all have the same eigenvalues: the quadratic irrationalities  $e^{\pm i\theta_p}{\sqrt{p}}.$  We will refer to such a family, $W_{\ell}$,  of $\Q_{\ell}$-vector space representations of $G$  ($\ell$ running through all prime numbers) possessing the property that the traces of  Frobenius elements at $p$ for all but finitely many $p$ are integers  independent of $\ell$, as a {\bf compatible family} of Galois representations.
+ 
+ Of course, for any nonnegative integer $n$, if we take the $n$-th symmetric power of the vector space $V_{E, \ell}$, denote it 
+ $Symm^n(V_{E, \ell})$, endow it with its induced $G$-action, then the  Frobenius elements at $p$ (for $p \ne 11, \ell$) will act on  $Symm^n(V_{E, \ell})$ with eigenvalues $$e^{ni\theta_p}p^{n/2}, e^{(n-2)i\theta_p}p^{n/2},\dots e^{-(n-2)i\theta_p}p^{n/2}, e^{-ni\theta_p}p^{n/2},$$ i.e. with eigenvalues  (up to normalization) equal to what we've been referring to as the {\it $n$-th symmetric power of our data.} In particular, for every positive integer $n$ the $Symm^n(V_{E, \ell})$ (with $\ell$ running through all prime numbers) is also a {\it  compatible family of Galois representations}.
+ 
+ \subsection{Digression on Compatible Families and Galois characters}
+ 
+   The general notion we have just been considering, of compatible families of Galois representations, is as surprising and elegantly intricate a mathematical concept as---luckily for us---it is ubiquitous. We were working, in the previous subsection, with representations of $G = G_{\Q}$, the Galois group of the algebraic closure of $\Q$ over the rational field $\Q$, but we might equally well study---for any number field $K$---the analogous  structure, pinned down by ``data" that  one might call a {\it Galois character over $K$ with values in a number field.}  The {\'e}tale cohomology groups of algebraic varieties over number fields give plentiful examples of this kind of mathematical object, so let us briefly discuss it.
+   
+ Let $K,F$ be number fields, and for ${\bar K}$ an algebraic closure of $K$, put $G_K:=\Gal({\bar K}/K)$.   Let $S$ be a finite collection of places of $K$ containing all archimedean places, and  $T$, similarly, a finite collection of places of $F$ containing all archimedean places. 
+ 
+ By a {\bf Galois character of degree $d$ on $K$ with values in $F$} (relative to the sets of places $S$ and $T$) let us mean a function $\chi$ on the places of $K$ not in $S$ with values in $F$ that has the property that for every place $v$ of $F$ not in $T$ there exists a $d$-dimensional vector space $W_v$ over $F_v$ (where $F_v=$ the completion of $F$ at $v$) endowed with a continuous $F_v$-linear (semisimple) action of $G_K$ that is unramified for all places $w$ of $K$ that are neither in $S$ nor of the same residual characteristic as that of $v$. For each such place $w$ we require that
+ 
+ \begin{itemize}
+ 
+ \item  the characteristic polynomial $\det(1-{\rm Frob}_w|_{W_v}x)$ of a Frobenius element ${\rm Frob}_w$ at $w$   (which is, a priori, only a polynomial in  $F_v[x]$) actually have coefficients in the subfield $F \subset F_v$, and moreover, that
+ \item the polynomial $$\det(1-{\rm Frob}_w|_{W_v}x) = 1- {\rm Trace}_{F_v}({\rm Frob}_w|_{W_v})\cdot x +\dots+(-1)^d{\rm Det}_{F_v}({\rm Frob}_w|_{W_v})\cdot x^d\  \in \  F[x]$$  be independent of $v \notin T$ , and finally, 
+ \item  $\chi(w) = {\rm Trace}_{F_v}({\rm Frob}_w) \in F \subset F_v$ for all $v \notin T$, and for  $w \notin S$ and $w$ not of the same residual characteristic as that of $v$. 
+ \end{itemize}
+ 
+ 
+  Since these Frobenius elements ${\rm Frob}_w$   are dense in the image of $G_K$ in ${\rm Aut}(W_v)$, knowledge of their traces pins down the character of the representation of $G_K$ on $W_v$, which determines up to isomorphism the representation itself, since we have assumed it to be semisimple. In summary, then, the Galois character $\chi$ over $K$ with values in $F$ determines, and is determined by, the compatible family of $G_K$-representations  $\{W_v\}_{v \notin T}$ (taken up to isomorphism){\footnote{ This definition of {\it Galois character  with values in a number field} is just a mild generalization of the concept of {\it strictly compatible family of rational $\ell$-adic representations} as defined in 1968 in Chapter I of Serre's treatise [{\ref{S1}].  See also (in loc. cit.) Serre's list of Open Questions regarding these families of representations.}}.   One can try to deal with these Galois characters with values in number fields in a manner as close to the way we deal with characters in any other aspect of representation theory as possible{\footnote{ Note that  if $\chi_1$ and $\chi_2$ are both Galois characters over $K$ with values in $F$ relative to $S$ (and $T$) and if they agree as functions on the complement of any finite set of places $S'$ containing $S$, they agree on $S$. As a result, for any $\chi$  we can always take $S$ and $T$ to be the minimal set of places for which $\chi$ is a Galois character over $K$ with values in $E$ relative to $S$ and $T$. In a word, one can ignore the extra clause ``(relative to $S$ and $T$)" except when we wish to make those sets of places precise for a given character.}}. For example, the collection of Galois characters over $K$ with values in number fields in ${\bar \Q}$ forms a $\lambda$-ring in the usual sense of representation theory.
+  
+  Say that a Galois character with values in a number field corresponding to the compatible family $\{W_v\}_{v \notin T}$ is {\bf irreducible} if {\it every} $W_v$ is irreducible as $G_K$-representation ($v \notin T$). 
+ 
+   Galois characters of small degree with values in number fields  have an immensely rich history.  The study of  Galois characters of degree $1$ are treated by Class Field Theory (and cf. [\ref{S1}]).  The $\chi_K$ already encountered in the exposition above (subsection~\ref{recdiv}) are, in fact, Galois characters of degree $1$ over $\Q$ with values in $\Q$, where the associated compatible family $\{W_{\ell}\}_{\ell}$ of $G_{\Q}$ representations  is somewhat atypical in that the entire family comes from a single $1$-dimensional $\Q$-vector space $W$ with nontrivial $G_{\Q}$-action trivialized when restricted to $G_K$, and where for any prime $\ell$, $W_{\ell}:= W \times_{\Q}\Q_{\ell}$. The Galois character attached to the simplest data $p \mapsto 1$, discussed in the previous subsection is an even more basic example  (``basic," but not elementary, since its associated $L$-function is the Riemann zeta-function; one should have great respect for it).
+   
+   Galois characters of degree $2$ with values in number fields  are related to much of the classical theory of modular forms.  This  brings us to:
+ 
+ \subsection{Langlands Reciprocity}\label{Lang}
+ 
+ One grand goal of number theory is to  manage to link, as far as possible,  these two species of mathematical structures, 
+ 
+ 
+ \begin{itemize}
+ \item
+  Irreducible Galois characters $\chi$ of degree $d$  of $K$  with values in a number field $F$,  
+  \item
+   Cuspidal automorphic forms $\omega$ for $\GL(d)$ over $K$ that are eigenforms for the appropriate Hecke operators, with eigenvalues in $F$,
+   \end{itemize}
+   
+\noindent  where a given Galois character $\chi$ would be said to be  {\bf linked} to a cuspidal automorphic form $\omega$ if for every place $w\notin S$ of $K$ the value $\chi(w)$ is equal to the eigenvalue of an appropriate (``Hecke") operator attached to $w$ acting on the form $\omega$.  
+
+When such a thing happens for an irreducible Galois character $\chi$ with values in a number field  we will say that the character $\chi$ itself  and also the corresponding compatible family  $\{W_{v}\}_{v}$ are {\bf cuspidal automorphic}.
+
+In this language, going back to our data as discussed in the previous subsection, we have been asking whether  $$Symm^n(V):= \{Symm^n(V_{\ell}); {\rm for\ all\ primes\ }\ell\}$$ and, equivalently, its corresponding Galois character, be linked in this way to a cuspidal automorphic eigenform for $\GL(n+1)$ over $\Q$; i.e., that they be {\it cuspidal automorphic.}
+
+     
+     But, as already hinted,  one can get away with a slightly more malleable notion of automorphy to establish  the conjecture of Sato and Tate. Since this is crucial for the recent work we will now say a few words.
+     
+     \subsection{Potential Automorphy}\label{potaut} 
+      Given any compatible family of Galois representations over $\Q$, i.e., representations of the group $G_{\Q}=\Gal({\bar \Q}/\Q)$ and given any finite  extension $F/\Q$ we can restrict our compatible family of representations to $G_F:= \Gal({\bar K}/F) \subset G_{\Q}$ to get a compatible family of Galois representations over $F$.  We might call this {\it lifting compatible families of Galois representations from $\Q$ to $F$} but there is no cause for such a high-sounding name for this evident operation, which is nothing more than ``restriction."   There is a ``corresponding" operation for automorphic forms that is, in contrast, far from evident. 
+     Our automorphic forms have been described as ``functions with certain properties" on the symmetric spaces attached to the algebraic groups $\GL_{n+1}$, these being algebraic groups over the rational field $\Q$. For every finite  extension $F/\Q$, we may think of  $\GL_{n+1}$ as an algebraic group over $F$, and this algebraic group has a corresponding symmetric space associated to it, and which---in general---is larger in dimension than the symmetric space attached to $\GL_{n+1}$ over  $\Q$. A good deal of work---over decades---have been devoted to proving aspects of what is called {\it Langlands lifting} (of automorphic forms from one number field to a larger one) and every step of progress here has been hard won.  
+     
+     
+     Let us say that a compatible family of Galois representations over $\Q$  is {\bf strongly potentially cuspidal automorphic} if there is {\it some} totally real number field $K$, Galois over $\Q$, such that its lifting to a compatible family of Galois representations over $F$ is cuspidal automorphic over $K$.  (Here the adverb ``strongly" reminds one that the field extension $K/\Q$ over which the family of Galois representations achieves automorphy is required to be Galois, and $K$ is required to be totally real.)
+     
+     
+     %To show the Sato-Tate conjecture for our data, using a classical argument of Brauer, it suffices to show that for every odd integer $n$  ($\ge 7$) the $n$-th symmetric power of our data is {\it strongly potentially} cuspidal automorphic. This will have the effect of obtaining for us sufficient  meromorphic, rather than entire analytic, continuation of the relevant $L$-functions---sufficient, that is, so that we may  make use of  Proposition~\ref{mero}, giving what is needed in the application to the Sato-Tate conjecture. 
+     
+     To show the Sato-Tate conjecture for our data, we wish to make use of  Proposition~\ref{mero}. We would be more than happy, for example, if we knew that for every odd integer $n$  ($\ge 7$) the $n$-th symmetric power of our data  were cuspidal automorphic; for the corresponding $L$-functions would then be known to be entire, and the other requisite hypotheses of Proposition~\ref{mero} would also hold.  However,  Proposition~\ref{mero} does not require analyticity, but merely {\it meromorphicity} (and the appropriate behavior on the right half plane $\Re(s)\ge 1$). To achieve this, (strong) potential automorphicity---rather than {\it straight} automorphicity over $\Q$---is enough, using a fundamental result of Langlands (insuring descent of automorphicity for appropriate solvable field extensions) coupled with a classical  argument of Brauer{\footnote{Any character of a finite group $G$ is a linear combination with {\it integer} (possibly negative, however) coefficients   of characters induced from characters of elementary subgroups.}}---an argument first employed in showing meromorphicity of the nonabelian $L$ functions of Artin---would gain for us sufficient  meromorphic  (although not necessarily holomorphic)  continuation of the relevant $L$-functions---sufficient, that is,  to deduce the Sato-Tate conjecture{\footnote { In fact, as a consequence of potential automorphy (and cuspidality) the above relevant symmetric power $L$-functions  will be expressed as a quotients of  finite products of ``standard $L$-functions" attached to the General Linear Group and therefore the holomorphicity and nonvanishing of each factor for $\R(s)\ge 1$ gives both holomorphicity and nonvanishing (up to the line $\Re(s) =1$) of those  symmetric power $L$-functions.}}.
+     
+     There is yet another brand of malleability that is critical in the method:
+           
+    
+
+\subsection{  Galois Deformation Theorems and the pivotal role played by residual representations} 
+
+We have discussed how the issue of Sato-Tate is connected to the condition of certain compatible families of Galois representations (of degree $n+1$, for various $n$ and over some totally real number field $K$, Galois over $\Q$) being {\it cuspidal automorphic}.
+
+
+
+Now we will change gears and consider {\it single} representations rather than {\it compatible families} of them.  So, let $K$  be a number field  as before, $\ell$ a prime number, ${\bar \Q}_\ell$ an algebraic closure of $\Q_\ell$, with $\O_\ell$ its ring of integers, and  ${\bar {\bf F}}_\ell$ the residue field (an algebraic closure of the prime field of characteristic $\ell$). Let ${\tilde W}$ be a $d$-dimensional ${\bar \Q}_\ell$-vector space with an irreducible ${\bar \Q}_\ell$-linear $G_K$-action represented by a homomorphism $$\rho: G_K \longrightarrow \GL_d(\O_\ell) \subset \GL_d({\bar \Q}_\ell) \cong \Aut_{{\bar \Q}_\ell}{\tilde W},$$ the isomorphism on the right given by an appropriate choice of ${\bar \Q}_\ell$-basis of ${\tilde W}$.
+
+Pass from $\O_{\ell}$ to its residue field, ${\bar {\bf F}}_\ell$, to get the the associated {\bf residual representation:}
+    $${\bar \rho}_{v}: G_K\longrightarrow \GL_{d}({\bar {\bf F}_\ell}),$$ the semisimplification of which is  uniquely determined (up to equivalence)  by the equivalence class of the $G_K$-representation ${\tilde W}$.
+
+ If, for a number field $F$, there is a (strongly) potentially automorphic compatible family, $\{W_v\}_{v\in T}$,  of Galois representations over $K$  with values in $F$ and a prime $v$ of $F$ of residual characteristic $\ell$ such that for some imbedding $\iota: F_v \hookrightarrow {\bar \Q}_\ell$ the base change of the representation $W_v$ to ${\bar \Q}_\ell$ via $\iota$ is equivalent to ${\tilde W}$, then   we'll say that the $G_K$
+-representation ${\tilde W}$ itself is {\it (strongly) potentially automorphic}{\footnote{ So, for a ``single" representation to be potentially automorphic, it must be (the base change to ${\bar \Q}_\ell$ of) a member of a compatible family of representations.  This might seem like a big restriction on ${\tilde W}$ for it is indeed a rare occurrence for irreducible $G_K$-representations to be the base change of a representation   fitting into a compatible family of representations. Nevertheless, there are conjectures [\ref{FM}] that suggest that the main obstruction to this happening consist in (local) conditions  that the representation must satisfy when restricted to the decomposition groups of $K$ at primes dividing $\ell$.}}. 
+
+
+
+It pays to consider the ``inverse problem."  That is, fix a prime number $\ell$ and a specific (irreducible, say) representation  
+     $${\bar r}: G_K\to \GL_{d}({\bar {\bf F}}_{\ell})$$ and consider the collection  ${\mathcal V}({\bar r})$ of  {\it liftings to characteristic $0$} of ${\bar r}$.  That is, ${\mathcal V}({\bar r}): =$ the set of equivalence classes of  Galois representations over $K$ into $d$-dimensional vector spaces ${\tilde W}$ over ${\bar {\Q}}_{\ell}$   such that their residual representations ${\bar \rho}_{\ell}: G_K\to \GL_{d}({\bar{\bf F}}_{\ell})$  are equivalent to ${\bar r}$  {\footnote{One of the great advances during the past few years---in our understanding of this structure---is in the special case where $d=2$, $K = \Q$ (say $\ell \ne 2$, and ${\bar r}$ absolutely irreducible) and where complex conjugation does not act as a scalar in the representation ${\bar r}$.  It is in this context that Serre had conjectured that  ${\mathcal V}({\bar r})$ contains a compatible family of Galois representations that is cuspidal automorphic (for $\GL_2$). Of course, a simple consequence of this is that ${\mathcal V}({\bar r})$  is {\it nonempty} if ${\bar r}$ is of the form described above.  This conjecture of  Serre has been settled  by recent work of Khare and Wintenberger [\ref{KW}]. For more material consult Khare's web page (http://www.math.utah.edu/$\sim$shekhar/papers.html) and cf. [\ref{Dieul}]; also the proceedings of the summer school on Serre's Conjecture held at Luminy  in July 2007 will provide--- when they appear---background prerequisites for appreciation of these results, as well as an exposition of the proof of Serre's Conjecture.}}.
+   
+     
+    By a {\bf residual condition}  {\bf [RC]}  we mean a condition imposed on ${\bar r}: G_K\to \GL_{d}({\bar {\bf F}}_{\ell})$.  (For example: {\it irreducible},  {\it surjective}, etc.)
+     
+     By a {\bf global condition}  {\bf [GC]}  we mean a condition, or a number of conditions, of the following sort imposed on the global representation ${r}: G_K\to \GL_{d}({\bar {\Q}}_{\ell})$: we  might ask that the determinant of the representation be equal to a specified character, and/or that the Galois representation  be isomorphic to its dual, or to the twist of its dual by a  specified character, or that it be skew-symmetric, or that the Galois action  preserve some specified tensor.
+     
+     
+     If $w$ is a place of $K$, by a {\bf local condition} (at $w$)  {\bf [LC(w)]}  we mean a condition imposed on the restriction of  a representation ${r}: G_K\to \GL_{d}({\bar {\Q}}_{\ell})$ to  the decomposition group $G_{K_w}$ of $w$.  (For example: we  might ask that the  restriction of ${r}$ to $G_{K_w}$ be unramified,  etc.)
+     
+     
+     A number of theorems have been proved of the following shape, and they therefore might deserve a collective name.
+     
+     \begin{definition}  ``A" {\bf Galois deformation theorem}  is a theorem with specific {\it hypotheses} of the following form:
+     
+     \bigskip
+     
+     \centerline{\fbox{{\bf [RC]}, {\bf [GC]}, and  {\bf [LC($w$)]} for all places $w$ of $K$}}
+     
+     
+     \bigskip
+     
+    and with a conclusion of the following form:
+    
+     \bigskip
+     
+  
+    For any residual representation ${\bar r}$ satisfying the specified condition {\bf [RC]}, if there is {\it some} lifting of ${\bar r}$ to characteristic zero---i.e. element of ${\mathcal V}({\bar r})$---that 
+    
+     \bigskip
+     
+   {\bf (1)} satisfies {\bf [GC]}, and  {\bf [LC($w$)]} for all places $w$ of $K$, and
+    \newline
+    {\bf (2)} is strongly potentially automorphic in the sense alluded to at the beginning of this subsection, with possible further conditions on the field $K'$ that realizes the 'potentiality' of automorphy{\footnote{Some {\it Galois deformation theorems} require, for example, that $K'/\Q$ be Galois with the prime $p$ split. Some variants hypothesize that the automorphic form invoked in this hypothesis satisfy certain local conditions, and then obtain that the automorphic form invoked in the conclusion will satisfy the analogous local conditions.}},
+   
+     \bigskip
+     
+    then {\it every} lifting of ${\bar r}$ to characteristic zero---i.e. element of ${\mathcal V}({\bar r})$---that   satisfies   {\bf (1)}
+      also  satisfies  {\bf (2)}, i.e,  is strongly potentially automorphic.
+    \end{definition}
+    
+    The most powerful such {\it Galois deformation theorems} recently proved, with the most flexible and useful conditions {\bf [RC]}, {\bf [GC]}, and  {\bf [LC($v$)]}, are due to Mark Kisin{\footnote {See [\ref{Ki}] where the {\bf [LC($v$)]} condition for $v|p >2$ is that the local representation is Barsotti-Tate; [\ref{Ki2}] deals with $p=2$; and  [\ref{Ki1}] covers the case where the local representations for $v|p$  become semi-stable over an abelian extension of $\Q_p$; consult Kisin's web-page for more: http://www.math.uchicago.edu/$\sim$kisin/preprints.html.}}, and to Richard Taylor [\ref{Tay}].  When such a Galois deformation theorem can be applied, we often get---at our disposal---large quantities of strongly potentially automorphic Galois representations, all liftings the same residual representation, and each--of course--fitting into their own family of compatible Galois representations. This allows us to move from residual characteristic to residual characteristic, as we shall now describe.
+    
+    \subsection{Hopping from one prime to another}
+   The Galois deformation theorems discuss in the previous subsection can be applied in {\it one stage}; or---at times---they can be applied  iteratively, in {\it multiple stages} allowing us to hop from residual representations relative to algebraic closures of finite fields  ${\bar{\bf F}}_\ell$  of different characteristics, obtaining ---as corollary---strong potential automorphy for more and more Galois representations. This was already done---a {\it single hop}---moving from characteristic $3$ to $5$ in Wiles' and Taylor-Wiles' proof of Fermat's Last Theorem. Multiple such hops (an inductive argument being in play) were at work in Khare's orginal work [\ref{Kh}] on Serre's Conjecture for level $1$, and also in the full proof of Serre's Conjecture by Khare and Wintenberger. Moreover a very elegant such hop plays a role in the recent work on the Sato-Tate Conjecture. Here is the general idea of how a ``prime hop" works:
+   
+{\bf Stage one:} You might start with ${\bar r}: G_K\to \GL_{d}({\bar {\bf F}}_{\ell})$, for which you know that  ${\mathcal V}({\bar r})$ contains one lifting of ${\bar r}$ that is strongly potentially automorphic, and then deduce that many other liftings---i.e., those satisfying the specified conditions {\bf [GC]}, and  {\bf [LC($v$)]}---lift to a strongly potentially automorphic (characteristic zero) representation $$\rho':G_{K'}\to \GL_{d}({\bar {\Q}}_{\ell}),$$   for $K'/K$ some totally real finite extension of $K$ such that $K'/\Q$ is Galois.  Since $\rho'$ is then potentially automorphic, after passing to a possibly larger totally real field $K''$ over $K'$, Galois over $\Q$, one gets a compatible family of associated Galois representations,
+    $$\rho_{\tilde {\ell}}'':G_{K''}\to \GL_{d}({\bar {\Q}}_{{\tilde {\ell}}}),$$  for {\it all} primes ${\tilde {\ell}}$.
+    This alone is a  powerful enough application.
+    
+    
+  {\bf Stage two:}   But for many purposes, the fact that we now have a compatible family of representations $\rho_{\tilde {\ell}}''$ allows us to  pass to a residual representation of $\rho''$  with respect to a prime number ${\tilde {\ell}}$,  {\it different} from $\ell$,  i.e., 
+   $$\rho_{{\tilde {\ell}}}'':G_{K''}\to \GL_{d}({\bar {\bf F}}_{{\tilde {\ell}}}),$$  which, if $\rho_{{\tilde {\ell}}}''$ satisfies {\bf [RC]}, would  again be a candidate for a further application of the Galois deformation theorems, since it lifts to a potentially automorphic Galois representation.  
+
+  \subsection{A rich source of potentially automorphic Galois representations}
+  
+  To summarize our discussion up to this point, we have that the error term of our sample problem 
+  $$p\longmapsto e^{\pm i \theta_p}$$
+  will be shown to satisfy the Sato-Tate distribution if the compatible family of Galois representations attached to the $n$-th symmetric power of $V$  is shown to be potentially automorphic, for all odd values of $n$.  This, in turn, could be demonstrated if the following list of requirements are met:
+  
+\begin{itemize}
+\item
+  if we have a good Galois deformation theorem requiring residual, local and determinantal conditions, appropriate for what will be required of it below, and
+\item
+ if, for each odd positive integer $n$, we can find a prime number ${\ell}$ for which the residual representation attached to $Symm^n(V_{\ell})$  can be shown to satisfy the residual condition, the Galois representations themselves; and the characteristic zero Galois representations $Symm^n(V_{\ell})$ satisfy the local and determinantal conditions, and
+ 
+ \item
+  if, for each of the residual representations in the previous bullet, we can find a lifting to characteristic zero  satisfying the local and determinantal conditions that is potentially automorphic.
+  
+\end{itemize}
+
+
+ It is at this point that the important family of hypersurfaces 
+ 
+ 
+ $$Y_t:\ \ \ \ \   X_0^{n+1}+X_0^{n+1}+\dots +X_0^{n+1} \ = \ (n+1)tX_0X_1\dots X_n$$
+ 
+ ($n$ even) comes to play its role ([\ref{HSBT}]).  This family has the property that
+for appropriate values $t_o$ of $t$ in totally real number fields $F_o$, Galois over $\Q$, 
+ there is  a compatible family of $n+1$ dimensional representations $$W^{(n)}_{t_o}= \{ W^{(n)}_{t_o, \ell}\} \ {\rm (for\ all\ primes\ {\ell})}$$ of  $G_{F_o}$ occurring as subquotients of the compatible family of Galois representations attached to the middle dimensional cohomology of $Y_{t_o}$ such that there is a choice of  primes $\ell_1$ and ${\ell_2}$, and a Galois deformation theorem, with these properties:
+
+ \begin{itemize}
+\item
+the representations $W^{(n)}_{t_o, \ell_1}$, $W^{(n)}_{t_o, \ell_2}$ and $Symm^n(V_{E, \ell_1})$  (the latter when restricted to $G_{F_o}$) all satisfy the determinantal and local conditions of the Galois deformation theorem,
+\item
+the residual $G_{F_o}$ Galois representations attached to $W^{(n)}_{t_o, \ell_1}$ and $W^{(n)}_{t_o, \ell_2}$ satisfy the residual conditions of the Galois deformation theorem,
+\item
+the residual $G_{F_o}$ Galois representations attached to $W^{(n)}_{t_o, \ell_1}$ is equivalent to the residual $G_{F_o}$ Galois representation obtained from $Symm^n(V_{E, \ell_1})$,
+
+\item
+
+ 
+the residual $G_{F_o}$ Galois representation attached to $W^{(n)}_{t_o, \ell_2}$ has a lifting to characteristic zero that is potentially automorphic and that satisfies the local and determinantal conditions of the Galois deformation theorem.
+
+  \end{itemize}
+ 
+ 
+  One cannot get something for nothing  (or at least, for absolutely nothing)  in mathematics, and it is the last bullet above that reminds us that although the {\it output} of our theorem may give us a wealth of Galois representations that are potentially automorphic, the {\it input} requires that we prime the pump with some small supply, at least, of Galois representations that we know to be potentially automorphic. This small supply consists of certain representations induced from one dimensional characters (see Theorem 4.4.4 of [\ref{CHT}] and Theorem 4.2 of [\ref{AC}]). 
+  
+  The conclusion of this scenario is that for $n$ an even positive integer {\it both} $W^{(n)}_{t_o}$ and $Symm^n(V_{E})$ are potentially automorphic. 
+  
+  \subsection{Concluding the theorem}
+  
+  The direct consequence of the previous subsection is that for all even $n$ the Galois representations $Symm^n(V_{E})$ are potentially automorphic. We also know (see section~\ref{repform}) that the Galois representations $Symm^m(V_{E})$ are  automorphic---and hence, of course, potentially automorphic---for $m \le 4$. It follows that we have the desired meromorphicity (and nonvanishing) behavior for the $L$-functions $L_{m,n}(s)$ for $m\le 4$ and even positive integers  $n \ne m$.  Using merely the pairs $(0,n)$ and $(1,n)$ for even $n$  we get, as consequence, that  for every positive integer $k$ there is a pair of distinct nonnegative integers $(n,m)$ with $n+m=k$ and such that   $$\lim_{C\to \infty} \ {\frac{1}{\pi(C)}}\sum_{p\le C} s_m(\cos \theta_p ) s_n(\cos \theta_p )= 0.$$   Corollary~\ref{bigcor} then tells us that the sought-for  Theorem~\ref{bigtheorem}  follows.
+
+  
+  The theorem proved in the articles I have been reporting on, is established---of course---much more generally than only for our  sample problem,  the elliptic curve $E: y^2+y=x^3-x^2$ which has conductor $11$. What is proved is that if $E$ is any elliptic curve  over $\Q$ for which there is (at least) one prime number ${\ell}$ dividing its conductor and such that ${\ell}^2$  doesn't divide its conductor, its error terms (i.e., $p \mapsto (1+p)- \#E({\bf F}_p)$) conform to the Sato-Tate distribution; moreover, there is a corresponding result for elliptic curves over totally real number fields.  
+
+{\it Can one establish 
+potentially automorphicity for the Galois representations $Symm^n(V_{E})$ for all $n$, even or odd and all elliptic curves $E$ over $\Q$?}
+
+If one has an affirmative answer to this, one will get  the  further corollary that the error term statistics for any two such elliptic curves  that are non-isogenous are also noncorrelated.  Recently Michael Harris has made significant progress towards that goal (see his [\ref{Har}]).
+
+  A major sticking point to generalize this result to other problems (for example: to the ``sample problem" in Part I) is that the {\it rich source of potentially automorphic Galois representations,} i.e., the family $Y_t$ of the previous subsection has a Hodge structure that parallels the Hodge structure of symmetric powers of Galois representations associated to {\it weight two} modular forms, while our first sample problem is of weight $12$ and so is not approachable in this manner. Nor would there be an easy replacement for $Y_t$ that is suitable to tackle weights greater than $2$, given the restrictions placed on variation of Hodge structure imposed by Griffiths transversality.  We await progress here!
+     
+ \subsection{Interpreting Sato-Tate as a statement about {\it equidistribution}}
+ 
+ We have not yet said a word about {\it why} we might expect the Sato-Tate distribution to be the distribution that accounts for, say, the error term in the elliptic curve data $$p \mapsto N_E(p)= 1+p -{\sqrt p}\{e^{i\theta_p}+e^{-i\theta_p}\}$$attached to our elliptic curve $E$. The relevant word here is {\it equidistribution} as modeled by the Cebotarev Theorem for a finite Galois extension of number fields $K/\Q$---for example{\footnote{and even more germane would be the field extensions that split the Galois representations over $\Q$ acting on groups of $n$-torsion points of $E$}}---that guarantees equidistribution of  
+  $$p \ \mapsto\  \{{\rm conjugacy\ class\ of\ }Frob_p\} \ \subset \Gal(K/\Q),$$ where the finite Galois group   $\Gal(K/\Q)$ is given its natural  (e.g. ``Haar") measure. In concrete terms this means that the  probability that a fixed conjugacy class ${\mathcal C} \subset \Gal(K/\Q)$ occurs as  the ${\rm conjugacy\ class\ of\ }Frob_p$ is  $$\frac{\#{\mathcal C}}{[K:\Q]}.$$
+\bigskip
+
+  The specific example of the Sato-Tate Conjecture  (now a theorem) that we have been dealing with can be expressed in a vocabulary analogous to the above formulation of the Cebotarev Theorem as follows.  Recall that $USP(2)$ is the unitary symplectic group of genus $1$, i.e. the group of complex matrices $$\left( \begin{matrix} a & b \\ c & d \end{matrix}
+\right)$$ of determinant $1$ and such that  $a{\bar c}+ b{\bar d} = 0$ and  $|a|^2+|b|^2 = |c|^2+|d|^2 = 1$.
+  
+  \begin{definition} {\bf The unitarized Frobenius conjugacy class at $p$ of $E$}, denoted ${\mathcal C}(p) \subset USP(2)$ is the (unique) conjugacy class of elements in the Lie group $USP(2)$ with eigenvalues $e^{i\theta_p}$ and $e^{-i\theta_p}$.
+  \end{definition}
+  
+  
+  The  Sato-Tate Conjecture for our elliptic curve $E$  guarantees equidistribution of  
+  $$p \ \mapsto\ {\mathcal C}(p) \subset USP(2)$$  where the Lie group   $USP(2)$ is given its natural  (e.g. Haar) measure. Since the trace of an element in $USP(2)$ determines its conjugacy class, this ``natural measure" on conjugacy classes can---more concretely---by viewed simply as the direct image of Haar measure on $USP(2)$ under the trace mapping from  $USP(2)$ to the interval $[-2,+2]$. To follow up on this thread, and on a discussion of equidistributional properties of a host of other number theoretic  problems, see page 7 of [\ref{KS}] (and, indeed, the entire volume [\ref{KS}]).  
+  
+  I find---and I imagine that many people find---the definition we have just given as raising more questions than it answers.  
+  
+    About a century ago, Hensel and others formulated the analogy between 
+    \begin{itemize}
+    
+    \item arithmetic (related to a finite prime $\ell$) in the field of $\ell$-adic numbers, the  completion of $\Q$ with respect to $\ell$-adic topology, and 
+    \item arithmetic (related to the so-called {\it infinite prime}) in the  field of real numbers, i.e., the completion of $\Q$ with respect to usual topology. 
+    \end{itemize}
+    But number theorists have been acquainted with an unsettling oddness in that analogy, ever since. In the above definition we see an example of this ``oddness" as I'll try to explain below.
+  
+   Our elliptic curve $E$ provides us with an elegant compatible family of $\ell$-adic Galois representations for all {\it finite primes} $\ell$. Fix such an $\ell$ and for any prime number $p$ different from $11$ and $\ell$, the natural Galois action on $\ell$-power torsion points allows us to ``naturally" associate to $p$ a conjugacy class of elements in the $\ell$-adic Lie group $GL_2(\Z_{\ell})$ simply by choosing a Frobenius element at $p$ and {\it allowing it to act naturally} on the $\ell$-adic vector space $V_{E, \ell}$. Call that conjugacy class ${\mathcal C}_{E,\ell}(p)$.  
+   
+   Now---as would seem to follow the format of the above analogy---we do obtain a similar structure relative to the infinite prime.  Namely, for every finite $p$---we can pinpoint a conjugacy class, ${\mathcal C}_{E,\infty}(p)={\mathcal C}(p)$, of elements in   a {\it real} Lie group.  But to get these conjugacy classes, on the one hand, we must invoke Hasse's theorem; and on the other hand, (at least at the present time) we get them only by executing a peculiarly formal gesture: we simply pick out the unique class with just the right eigenvalues; this is quite different from what we do when we work $\ell$-adically for $\ell$ a finite prime, where we actually find the relevant conjugacy classes selected in some natural way given the structure at hand.  All this seems to cry out for some better understanding.
+    
+  
+ 
+  
+  
+\bigskip
+
+
+  
+  \subsection{Expository accounts of this recent work}
+ 
+ Different audiences benefit from different shapes of exposition. I wrote a brief article in the journal Nature article (NATURE Vol 443, 7 September 2006) meant to give a hint of the nature of the Sato-Tate Conjecture and some related mathematical problems  to scientists who are not necessarily familiar with much modern mathematics. For professional mathematicians, a number of excellent articles and videos---requiring different levels of  prerequisites of their audiences---are devoted to exposing this material:
+ 
+\begin{enumerate}
+\item
+Available through the MSRI website (http://www.msri.org/):
+
+\begin{enumerate}
+\item
+An introductory one hour lecture by Nicholas Katz  emphasizing the background and the historical perspective of the work, 
+\item
+A series of lectures for a number theory workshop, by Richard Taylor where an exposition of the proof itself is given,
+\item
+Two lectures by Michael Harris, one on some of the material in [\ref{CHT}], and one on [\ref{HSBT}],
+
+\end{enumerate}
+\item
+Two hours of expository lectures  by Laurent Clozel  on this topic, aimed at a general mathematical audience in the conference on Current Developments in Mathematics, at Harvard University. The notes for these should soon be available as well,
+\item
+An expository article by Michael Harris: ``The Sato-Tate Conjecture: introduction to the proof,"
+\item
+A talk by Henri Carayol given in the Bourbaki seminar (June 17, 2007): ``La conjecture de Sato-Tate [d'apr{\`e}s  Clozel, Harris, Shepherd-Barron, Taylor],"
+\item
+The three articles by the principal authors, [\ref{CHT}], [\ref{HSBT}], and [\ref{Tay}], which can be obtained from Richard Taylor's web-site (http://www.math.harvard.edu/$\sim$rtaylor/).
+
+\end{enumerate}
+ 
+  
+ \begin{thebibliography}{bib}
+ 
+ 
+ \bibitem{AC}\label{AC}  Arthur, J., Clozel, L.: {\it Simple algebras, base change and the advanced 
+theory of the trace formula,} Annals of Math. Studies {\bf 120}, Princeton University Press (1989)
+  \bibitem{AT}\label{AT} Akiyama, S.,  Tanigawa, Y.: Calculation of values of $L$-functions associated to elliptic curves, Mathematics of Computation,
+{\bf 68}, No. 227 (1999) 1201-1231. 
+ 
+  \bibitem{CHT}\label{CHT} Clozel, L., Harris, M.,  Taylor, R.: Automorphy for some $\ell$-adic lifts of automorphic mod $\ell$ representations  (preprint) http://www.math.harvard.edu/$\sim$rtaylor/
+    \bibitem{CP}\label{CP} Cogdell, J., Piatetski-Shapiro, I.: Remarks on Rankin-Selberg convolutions, in {\it Contributions to automorphic forms, geometry, and number theory} Johns Hopkins Press, Baltimore Md. (2004)
+   \bibitem{Crem}\label{Crem}  Cremona, J. E.: {\it Algorithms for Modular Elliptic Curves}, Cambridge University Press (1992) 
+
+  \bibitem{Del}\label{Del} Deligne, P: La conjecture de Weil: I, Pub. I.H.E.S. {\bf 43} (1974) 273-307.
+  \bibitem{Del2}\label{Del2} Deligne, P.: La conjecture de Weil II, Pub. Math. I.H.E.S. {\bf 52} (1981)  313-428
+   \bibitem{DS}\label{DS} Diamond, F.,  Shurman, J.:
+  {\it A First Course in Modular Forms}, Graduate Texts in Mathematics, Springer (2005)
+  \bibitem{Dieul}\label{Dieul}  Dieulefait, L.: The level $1$ case of Serre's conjecture revisited, preprint,  ArXiv:0705.0457v1  (2007) 
+ \bibitem{El}\label{El} Elkies, N.: The existence of infinitely many supersingular primes for every elliptic curve over $\Q$, Invent. Math. {\bf 89} (1987) 561-568.
+ \bibitem{El1}\label{El1} Elkies, N.: Distribution of supersingular primes, 
+{\it Journ{\'e}es Arithm{\'e}tiques, 1989 (Luminy, 1989)},
+Ast{\'e}risque {\bf 198-200} (1991), {\bf 127-132} (1992) 
+ 
+ \bibitem{FM}\label{FM} Fontaine, J.-M.,  Mazur, B.: Geometric Galois representations, in 
+{\it Elliptic Curves, Modular Forms, \& Fermat's Last Theorem}, J. Coates and S. T. Yau, editors,  vol. 1 of Series in Number Theory, International
+Press, Cambridge, MA, (1995)
+ \bibitem{GJ}\label{GJ} Gelbart, S., Jacquet, H.: A relation between automorphic representations of $GL(2)$ and $GL(3)$, Ann. Sci. {\'E}cole Norm. Sup. (4) {\bf 11} (1978) 471-552.
+    
+ \bibitem{GM}\label{GM}  Granville, A., Martin, G.:  Prime number races, 
+American Mathematical Monthly {\bf 113} (2006) 1-33.
+    
+    
+    \bibitem{HW}\label{HW} Hardy, G.H.,  Wright, E.M.:  {\it An introduction to the theory of numbers,} Oxford University Press, fifth edition (1979)
+    \bibitem{Har}\label{Har} Harris, M.: Potential automorphy of odd-dimensional symmetric powers of elliptic curves, and applications. To appear in {\it Algebra, Arithmetic, and Geometry---Manin Festschrift,} Birkh{\"a}user  (In Press)
+  \bibitem{HSBT}\label{HSBT} Harris, M., Shepherd-Barron, N., Taylor, R.:  Ihara's lemma and potential automorphy  (preprint) http://www.math.harvard.edu/$\sim$rtaylor/
+
+
+\bibitem{Ha}\label{Ha}  H. Hasse, H,: Beweis des Analogons der Riemannschen Vermutung f{\"u}r die Artinschen und
+F.K.Schmidtschen Kongruenzzetafunktionen in gewissen zyklischen F{\"a}llen. Vorl{\"a}ufige
+Mitteilung. Nachr. Ges. Wiss. G{\"o}ttingen I. Math.-Phys. Kl. Fachgr. I Math. Nr.42 (1933)
+253-262. See also: {\it Helmut Hasse Mathematische Abhandlungen}, Band {\bf 2}, de-Gruyter (1975) 85-94. 
+   \bibitem{JPS}\label{JPS} Jacquet, H.,  Piatetskii-Shapiro, I., Shalika, J.: Rankin-Selberg Convolutions,
+American Journal of Mathematics, {\bf 105}  (1983) 367-464. 
+  \bibitem{Ka}\label{Ka} Katz, N.: An overview of Deligne's proof of the Riemann hypothesis for
+varieties over finite fields, A.M.S. Proc. Symp. Pure Math, {\bf 28} (1976)
+275-305.
+  \bibitem{KS}\label{KS} Katz, N., Sarnak, P.: {\it Random Matrices, Frobenius Eigenvalues, and Monodromy,} AMS Colloquium Publications, {\bf 45} AMS (1999)
+  \bibitem{Kh}\label{Kh} Khare, C.: Serre's modularity conjecture: The level one case, Duke Math.
+J. {\bf 134} (2006), 557-589.
+  \bibitem{KW}\label{KW} Khare, C., Wintenberger, J-P.: On Serre's reciprocity conjecture for $2$-
+dimensional mod $p$ representations of the Galois group of $\Q$, preprint, (2004);
+available at: www.arxiv.org
+
+  \bibitem{Kim}\label{Kim} Kim, H.: Functoriality for the exterior square of ${\rm GL}_4$ and the symmetric fourth power of ${\rm GL}_2$, J. Amer. Math. Soc.  {\bf 16} (2003) 139-183. With Appendix 1 by Dinakar Ramakrihnan and Appendix 2 by Kim and Peter Sarnak.
+  
+  
+  \bibitem{KS1}\label{KS1} Kim, H.,  Shahidi, F.: Cuspidality of symmetric powers with applications, Duke Math. J.  {\bf 112}, no. 1 (2002), 177Ð197.
+    
+  \bibitem{KS2}\label{KS2} Kim, H.,  Shahidi, F.: Functorial products for $\GL(2)\times \GL(3)$  and the symmetric cube for $\GL(2)$, Annals of Math. {\bf 155} (2002), 837-893.
+  
+  
+    \bibitem{Ki}\label{Ki} Kisin, M.: Moduli of finite flat group schemes and modularity, preprint (2004)
+     \bibitem{Ki2}\label{Ki2} Kisin, M.: Modularity of $2$-adic 
+Barsotti-Tate representations, preprint (2006) 
+    
+    \bibitem{Ki1}\label{Ki1} Kisin, M.: The Fontaine-Mazur conjecture for ${\rm GL}_2$, preprint (2006) 
+ 
+  \bibitem{K}\label{K} Korevaar, J.: {\it Tauberian Theory: A century of developments,}
+    Grundlehren der mathematischen Wissenshaften, {\bf 329}  Springer (2004)
+    
+  \bibitem{Serge2}\label{Serge2} Lang, S.:  {\it Algebraic Number Theory,} Second Edition,  Springer (1994)
+   \bibitem{Serge}\label{Serge} Lang, S.: {\it Math talks for Undergraduates,} Springer (1999)
+  
+  
+   \bibitem{LT}\label{LT} Lang, S., Trotter, H.: Frobenius distributions in $GL_2$-extensions, Lecture Notes in Mathematics, {\bf 504}  Springer (1975)
+  
+    \bibitem{L1}\label{L1} Langlands, R.: {\it Euler Products,} Yale University Press (1971) 
+     \bibitem{L2}\label{L2} Langlands, R.: {\it On the Functional Equations satisfied by Eisenstein Series,} Lecture Notes in Mathematics, {\bf 544} Springer (1976)
+   \bibitem{LO}\label{LO} Lagarias, J., Odlyzko, A.: Effective versions of the Cebotarev density theorem. In: A. Frolich (ed.),{\it Algebraic Number Fields} Proceedings of the 1975 Durham Symposium, Academic Press, London and New York (1977)
+  \bibitem{M}\label{M} Mazur, B.: Controlling our Errors, Nature Vol {\bf 443}, {\bf 7}  (2006) 38-40.
+   \bibitem{O}\label{O} Ogg, A.:
+A remark on the Sato-Tate conjecture, 
+Invent. Math. {\bf 9} (1970) 198--200.
+  \bibitem{R}\label{R}  Riemann, G. F. B.: {\"U}ber die Anzahl der Primzahlen unter einer gegebenen Gr{\"o}sse.  Monatsber. K{\"o}nigl. Preuss. Akad. Wiss. Berlin, (1859) 671-680.
+  \bibitem{R-S}\label{R-S}   Rubinstein, M., Sarnak, P.: Chebyshev's Bias,  Experimental  Mathematics {\bf 3}  (1994) 174-197.
+ \bibitem{S1}\label{S1} Serre, J.-P.: {\it Abelian $\ell$-adic Representations} Benjamin (1968)
+ 
+ \bibitem{S2}\label{S2} Serre, J.-P.: Quelques applications du th{\'e}or{\`e}me de densit{\'e} de Cebotarev, Pub. I.H.E.S, {\bf 54} (1981); also: pp. 563-641 in {\it Jean-Pierre Serre. Oeuvres. Collected Papers.}  Volume III 1972-1984, Springer (1986)
+  \bibitem{S3}\label{S3} Serre, J.-P.: Letter to F. Shahidi, January 24, 1992; Appendix (pp. 175-180) in reference~\ref{Sh2} below,
+    \bibitem{Sh1}\label{Sh1} Shahidi, F.: On certain $L$-functions, Am. J. Math. {\bf 103} (1981) 297-355.
+    \bibitem{S4}\label{S4} Serre, J.-P.: Propri{\'e}t{\'e} conjecturales des groups de Galois motiviques et des repr{\'e}sentations $\ell$-adiques, pp. 325-348 in {\it Jean-Pierre Serre. Oeuvres. Collected Papers.}  Volume IV 1985-1998, Springer (2000)  
+    
+    
+       \bibitem{Sh3}\label{Sh3} Shahidi, F.: On the Ramanujan Conjecture and finitenes of poles of certain $L$-functions, Annals of Math. {\bf 127} (1988) 547-584.
+        \bibitem{Sh4}\label{Sh4} Shahidi, F.:  A proof of Langlands' conjecture on Plancherel measures; complementary series for $p$-adic groups. Ann. of Math. (2) 132 (1990), no. 2, 273--330. (Reviewer: Stephen Gelbart)
+
+    \bibitem{Sh2}\label{Sh2} Shahidi, F.: Symmetric power $L$-functions for $\GL(2)$, pp. 159-182, in {\it Elliptic Curves and Related Topics,}  Volume 4 of CRM Proceedings and Lecture Notes (Eds.: H. Kisilevsky, M.R. Murty), American Mathematical Society, (1994)
+    
+      
+   \bibitem{Sh5}\label{Sh5} Shahidi, F.: Twists of a general class of $L$-functions by highly ramified characters. Canad. Math. Bull. 43 (2000), no. 3, 380--384. 
+       
+      
+   \bibitem{Sh6}\label{Sh6} Shahidi, F.: Langlands-Shahidi method, pp. 299-330 in {\it Automorphic Forms and Applications,} (Eds: P. Sarnak, F. Shahidi)  IAS/ Park City Mathematics Series {\bf 12}  AMS/ IAS (2002)
+  
+     %\bibitem{Shi}\label{[Shi]}  Shimura, G.: On the holomorphy of certain Dirichlet series, Proc. London Math. Soc (3) {\bf 31} (1975) 79-98
+
+  
+ \bibitem{Si}\label{[Si]}  Silverman, J.: {\it The Arithmetic of Elliptic Curves}, Graduate Texts in Mathematics, {\bf 106}, Princeton University Press (1992)
+ 
+   \bibitem{T}\label{T} Tate, J.: Algebraic Cycles and Poles of Zeta Functions, pp. 93-110 in {\it Arithmetic Algebraic Geometry}, Proceedings of a conference held in Purdue, Dec. 5-7 1963,  Harpers (1965) 
+   
+   \bibitem{Tay}\label{Tay} Taylor, R.:  Automorphy for some $\ell$-adic lifts of automorphic mod  $\ell$ representations. II  (preprint) http://www.math.harvard.edu/$\sim$rtaylor/
+
+   \bibitem{We}\label{We} Weil, A: Sur les courbes alg{\'e}briques et les vari{\'e}t{\'e}s qui s'en d{\'e}duisent, Hermann (Paris) 1948.
+ \end{thebibliography}
+
+ 
+
+  
+  \    
