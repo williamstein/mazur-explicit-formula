@@ -386,3 +386,27 @@ def ap_sign_count(aplist):
         elif ap > 0:
             pos += 1
     return {"pos":pos, "neg":neg}
+
+
+
+#######################################
+def zero_sum_distribution1(list zeros, int samples, double Xmax=50):
+    cdef list v = []
+    zeros = [float(x) for x in zeros if x>0]
+
+    # start at X=2
+    cdef double s, gamma, X=2
+    cdef double delta = Xmax/samples
+
+    while X <= Xmax:
+        s = 0
+        for gamma in zeros:
+            s += sin(gamma*X)/gamma
+        v.append(2*s)
+        X += delta
+
+    return v
+
+
+
+
