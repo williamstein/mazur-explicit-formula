@@ -327,12 +327,12 @@ def zero_sum_plot(list zeros, int n, double Xmax):
     """
     Plot this function on a log scale up to X at n sample points:
 
-       (2/log(X))  * sum sin(gamma*log(X))/gamma,
+       f(X) = (2/log(X))  * sum sin(gamma*log(X))/gamma,
 
     where gamma runs over positive imaginary parts of the first few
     zeros of an elliptic curve L-function.
 
-    OUTPUT: list of pairs (x,y), which are points on the plot.
+    OUTPUT: list of pairs (log(X), f(X)), which are points on the plot.
     """
     cdef list v = []
     zeros = [float(x) for x in zeros if x>0]
@@ -346,6 +346,33 @@ def zero_sum_plot(list zeros, int n, double Xmax):
         for gamma in zeros:
             s += sin(gamma*logX)/gamma
         v.append((logX, 2*s/logX))
+        logX += delta
+
+    return v
+
+def zero_sum_no_log_plot(list zeros, int n, double Xmax):
+    """
+    Plot this function on a log scale up to X at n sample points:
+
+      f(X) = 2  * sum sin(gamma*log(X))/gamma,
+
+    where gamma runs over positive imaginary parts of the first few
+    zeros of an elliptic curve L-function.
+
+    OUTPUT: list of pairs (log(X),f(X)), which are points on the plot.
+    """
+    cdef list v = []
+    zeros = [float(x) for x in zeros if x>0]
+
+    # start at X=2
+    cdef double s, gamma, logX=log(2), logXmax = log(Xmax)
+    cdef double delta = logXmax / n
+
+    while logX <= logXmax:
+        s = 0
+        for gamma in zeros:
+            s += sin(gamma*logX)/gamma
+        v.append((logX, 2*s))
         logX += delta
 
     return v

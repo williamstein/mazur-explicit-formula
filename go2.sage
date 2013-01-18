@@ -146,3 +146,29 @@ def zero_sum_animations(curves=list1+list2, num_zeros=[10,15,..,500], Xmax='1e20
     for input, output in f(curves):
         print input, output
 
+
+def zero_sum_no_log_animations(curves=list1+list2, num_zeros=[10,20,..,500], Xmax='1e20', num_points='2000'):
+    assert max(num_zeros) <= 10000
+    path = "plots/zero_sums_no_log/animations/%s-%s"%(Xmax, num_points)
+    if not os.path.exists(path):
+        os.makedirs(path)
+    if isinstance(Xmax,str):
+        Xmax = float(Xmax)
+    if isinstance(num_points, str):
+        num_points=int(float(num_points))
+    @parallel(ncpus)
+    def f(lbl):
+        fname = "%s/%s.gif"%(path, lbl)
+        if os.path.exists(fname):
+            return "already done"
+        v = zeros(lbl)
+        frames = [line(zero_sum_no_log_plot(v[:n], num_points, Xmax), thickness=.4) +
+                  text(str(n),(log(Xmax)/10,.15),fontsize=16,color='black')   for n in num_zeros]
+        ymax = max([f.ymax() for f in frames])
+        ymin = min([f.ymin() for f in frames])
+        A = animate(frames, ymax=ymax, ymin=ymin, figsize=[8,5])
+        A.save(fname)
+
+    for input, output in f(curves):
+        print input, output
+
