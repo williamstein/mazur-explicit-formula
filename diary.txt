@@ -1,0 +1,9 @@
+Fri Jan 18
+-----------
+
+[x] (17min) start draw plots of S(X,T), but without dividing by log(X)
+[x] (26min) recompute the pos/neg ap counts table (page 4) up to 1e9 for all curves.
+[ ] read
+
+
+ 
