@@ -241,7 +241,7 @@ def zero_sum_distribution1_mean_std(curves=list1+list2, samples=100000, Xmax=50,
         print input, output
 
 def zero_sum_distribution1_normal(curves=list1+list2, samples=100000, bins=1000,
-                                  Xmax=[5, 50, 1000, 5000], exclude=[0,5]):
+                                  Xmax=[5, 50, 1000, 5000], exclude=[0,5,10]):
     if not isinstance(Xmax, list):
         Xmax = [Xmax]
     if not isinstance(exclude, list):
