@@ -3,7 +3,10 @@ Fri Jan 18
 
 [x] (17min) start draw plots of S(X,T), but without dividing by log(X)
 [x] (26min) recompute the pos/neg ap counts table (page 4) up to 1e9 for all curves.
-[ ] read
+[x] read
 
+Sat Jan 19
+----------
 
- 
+[ ] plot of normal on top of existing distribution of errors.
+[ ] look at hoa's computation for zeta: https://mail.google.com/mail/u/0/?shva=1#inbox/13c4b5a20cc13b01

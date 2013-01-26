@@ -240,3 +240,34 @@ def zero_sum_distribution1_mean_std(curves=list1+list2, samples=100000, Xmax=50,
     for input, output in f(curves):
         print input, output
 
+def zero_sum_distribution1_normal(curves=list1+list2, samples=100000, bins=1000,
+                                  Xmax=[5, 50, 1000, 5000], exclude=[0,5]):
+    if not isinstance(Xmax, list):
+        Xmax = [Xmax]
+    if not isinstance(exclude, list):
+        exclude = [exclude]
+
+    path = "plots/zero_sum_distribution1_normal/"
+    if not os.path.exists(path):
+        os.makedirs(path)
+    @parallel(ncpus)
+    def f(lbl, xmax, exclude):
+        base = "%s/%s-Xmax%s-samples%s-bins%s-exclude%s"%(path, lbl, xmax, samples, bins, exclude)
+        fname = base + '.svg'
+        if os.path.exists(fname):
+            return "already done with %s"%lbl
+        v = zero_sum_distribution1(zeros=zeros(lbl)[exclude:], samples=samples, Xmax=xmax)
+        r = EllipticCurve(lbl).rank()
+        t = finance.TimeSeries(v)
+        #save(v, base +'.sobj')
+        g = t.plot_histogram(bins=bins)
+        mean = t.mean(); sd = t.standard_deviation()
+        key = "%s: Xmax=%s, sd=%.2f, mean=%.2f, exclude=%s"%(lbl, xmax, sd, mean, exclude)
+        g += text(key, (-4*sd,1), color='black')
+        pdf(x) = 1/(sd*sqrt(2*pi)) * exp(-(x-mean)^2/(2*sd^2))
+        g += plot(pdf, (x,mean-4*sd,mean+4*sd), color='red', thickness=2)
+        g.save(fname)
+
+    for input, output in f([(lbl,xmax,ex) for lbl in curves for xmax in Xmax for ex in exclude]):
+        print input, output
+
