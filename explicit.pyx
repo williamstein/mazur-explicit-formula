@@ -420,12 +420,12 @@ def well_done_error_term(lbl, int n):
     """
     Plot the function f(x) on a log scale up to X at n sample points, where:
 
-       f(X) = log(X)*D(X) + log(X)*r - S(X)
+       f(X) = D(X) + r - S(X)/log(X)
 
     where
 
        S(X) = 2 * sum sin(gamma*log(X))/gamma,
-       D(X) = sum(a(p)*log(p)/p, p<=X)
+       D(X) = sum(a(p)*log(p)/p, p<=X)/log(X)
 
     where gamma runs over positive imaginary parts of the first 10000
     zeros of an elliptic curve L-function, and we use ap for p<=10^9
@@ -446,33 +446,33 @@ def well_done_error_term(lbl, int n):
     cdef list alist = aplist(lbl)
     cdef list plist = [float(q) for q in prime_range(10**9)]
 
-    cdef list zeros = zeros(lbl, 10000)
+    cdef list ellzeros = zeros(lbl)
 
     # start at X=2
+    cdef double Xmax = plist[-1]
     cdef double s, gamma, logX=log(2), logXmax = log(Xmax)
     cdef double delta = logXmax / n
     cdef double S, D
     cdef int i=0
     cdef double p=2, logp=log(2)
-    D = 0
-    while logX <= log(plist[-1]):
+    DlogX = 0
+
+    while logX <= logXmax:
         # Compute new value of S:
         S = 0
-        for gamma in zeros:
-            S += sin(gamma*logX)/gamma
+        for gamma in ellzeros:
+            if gamma > 0:
+                S += sin(gamma*logX)/gamma
         S *= 2
 
         # Update value of D:
-        while logp <= logX:
-            D += alist[i]*logp/p
+        while logp <= logX and i < len(alist):
+            DlogX += alist[i]*logp/p
             i += 1
-            if i < len(plist):
-                p = plist[i]
-                logp = log(p)
-            else:
-                logp = 1e100
+            p = plist[i]
+            logp = log(p)
 
-        f = logX*D + logX*r - S
+        f = (DlogX + logX*r - S)   /logX
 
         v.append((logX, f))
         w.append(f)

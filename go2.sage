@@ -294,3 +294,27 @@ def zero_sum_distribution1_params_table(curves=list1+list2, samples=100000, Xmax
 
     for input, output in f([(lbl,xmax) for lbl in curves for xmax in Xmax]):
         print input, output
+
+
+
+def well_done_error_terms(curves=list1+list2, samples=50000):
+    path = "plots/well_done_error_terms/"
+    if not os.path.exists(path):
+        os.makedirs(path)
+    ncpus = 8  # lots of RAM
+    @parallel(ncpus)
+    def f(lbl):
+        base = "%s/%s-samples%s"%(path, lbl, samples)
+        data_name = base + '.txt'
+        if os.path.exists(data_name):
+            return "already done with %s"%lbl
+        v, w = well_done_error_term(lbl, samples)
+        r = EllipticCurve(lbl).rank()
+        t = finance.TimeSeries(w)
+        data = [lbl, t.mean(), t.standard_deviation()]
+        open(data_name,'w').write("\t".join([str(x) for x in data]) + '\n')
+        line(v).save(base + '.svg', figsize=[8,3])
+        save(v, base + '.sobj')
+
+    for input, output in f(curves):
+        print input, output
