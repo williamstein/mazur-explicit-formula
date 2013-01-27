@@ -241,7 +241,7 @@ def zero_sum_distribution1_mean_std(curves=list1+list2, samples=100000, Xmax=50,
         print input, output
 
 def zero_sum_distribution1_normal(curves=list1+list2, samples=100000, bins=1000,
-                                  Xmax=[5, 50, 1000, 5000], exclude=[0,5,10,50,500]):
+                                  Xmax=[5, 50, 1000, 5000], exclude=[0,5,10,50,500]:)
     if not isinstance(Xmax, list):
         Xmax = [Xmax]
     if not isinstance(exclude, list):
@@ -271,3 +271,27 @@ def zero_sum_distribution1_normal(curves=list1+list2, samples=100000, bins=1000,
     for input, output in f([(lbl,xmax,ex) for lbl in curves for xmax in Xmax for ex in exclude]):
         print input, output
 
+
+
+def zero_sum_distribution1_params_table(curves=list1+list2, samples=100000, 
+                                        Xmax=[5, 50, 100, 200, 1000, 5000, 10000, 100000, 1000000]:)
+    if not isinstance(Xmax, list):
+        Xmax = [Xmax]
+
+    path = "plots/zero_sum_distribution1_params/"
+    if not os.path.exists(path):
+        os.makedirs(path)
+    @parallel(ncpus)
+    def f(lbl, xmax):
+        base = "%s/%s-Xmax%s-samples%s"%(path, lbl, xmax, samples)
+        fname = base + '.txt'
+        if os.path.exists(fname):
+            return "already done with %s"%lbl
+        v = zero_sum_distribution1(zeros=zeros(lbl), samples=samples, Xmax=xmax)
+        r = EllipticCurve(lbl).rank()
+        t = finance.TimeSeries(v)
+        data = [lbl, xmax, t.mean(), t.standard_deviation()]
+        open(fname,'w').write("\t".join([str(x) for x in data]) + '\n')
+
+    for input, output in f([(lbl,xmax) for lbl in curves for xmax in Xmax]):
+        print input, output
