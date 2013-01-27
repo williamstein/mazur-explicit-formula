@@ -274,7 +274,7 @@ def zero_sum_distribution1_normal(curves=list1+list2, samples=100000, bins=1000,
 
 
 def zero_sum_distribution1_params_table(curves=list1+list2, samples=100000, 
-                                        Xmax=[5, 50, 100, 200, 1000, 5000, 10000, 100000, 1000000]:)
+                                        Xmax=[5, 50, 100, 200, 1000, 5000, 10000, 100000, 1000000])
     if not isinstance(Xmax, list):
         Xmax = [Xmax]
 
