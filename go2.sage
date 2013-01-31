@@ -353,9 +353,9 @@ def animated_histogram(v, frames, log_scale=False, **kwds):
         h = v[:X].plot_histogram(**kwds)
         g.append(h)
         Xmin = min(Xmin, h.xmin())
-        Xmax = min(Xmax, h.xmax())
+        Xmax = max(Xmax, h.xmax())
         Ymin = min(Ymin, h.ymin())
-        Ymax = min(Ymax, h.ymax())
+        Ymax = max(Ymax, h.ymax())
         if log_scale:
             X += exp(log(X) + step)
         else:
@@ -419,7 +419,7 @@ class Madison:
         target = 'sato-tate-animation-%s.gif'%lbl
         if self.done(target):
             return
-        sato_tate_animation(lbl, frames=10, B=10^8).save(self.path(target))
+        sato_tate_animation(lbl, frames=10, B=10^8, bins=10000).save(self.path(target))
 
 def madison():
     m = Madison()
