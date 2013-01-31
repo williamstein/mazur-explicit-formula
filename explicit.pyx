@@ -479,3 +479,100 @@ def well_done_error_term(lbl, int n):
         logX += delta
 
     return v, TimeSeries(w)
+
+
+#################################################################
+#
+# Code for my talk in Madison, WI
+#
+#################################################################
+
+import sage.all
+def prime_powers(start, stop=None):
+    if stop is None:
+        (start, stop) = (1,start)
+    from math import log
+    from bisect import bisect
+    v = sage.all.prime_range(stop)
+    i = bisect(v, start)
+    if start > 2:
+        if v[i] == start:
+            i -= 1
+        w = [(p,p,1) for p in v[i:]]
+    else:
+        w = [(p,p,1) for p in v]
+    if start <= 1:
+        w.insert(0, (1, 1,0))
+    log_stop = log(stop)
+    for p in v:
+        q = p*p
+        n = int(log(stop)/log(p))
+        if n <= 1:
+            break
+        e = 2
+        for i in xrange(1,n):
+            if q >= start:
+                w.append((q,p,e))
+            q *= p
+            e += 1
+    w.sort()
+    return w
+
+def sato_tate_data(lbl, B=10**9):
+    """
+    Compute TimeSeries of numbers a_p/2*sqrt(p) for all primes p<=10^9.
+    """
+    cdef list aplist = load('data/%s-aplist-%s.sobj'%(lbl,B))
+    cdef list v = prime_range(B)
+    cdef int i
+    cdef double two = 2
+    return TimeSeries([aplist[i]/(two*sqrt(v[i])) for i in range(len(v))])
+
+
+def chebeshev_data(B):
+    """
+    Return timeseries whose i-th entry is -1 or +1 (or 0) depending on
+    whether the i-th prime is 3 or 1 mod 4, resp.
+    """
+    cdef int p, i
+    pr = prime_range(B)
+    v = TimeSeries(len(pr))
+    v[0] = 0
+    i = 0
+    for p in pr:
+        if i > 0:
+            v[i] = 1 if (p%4 == 1) else -1
+        i += 1
+    return v
+
+
+
+from sage.all import pi, zeta_zeros
+cdef list v = [float(y) for y in zeta_zeros()]
+cdef double PI = pi
+
+def zeta_oscillatory(double x, double t, double T):
+    cdef double s = 0
+    cdef double gamma
+    for gamma in v:
+        if t<= gamma <= T:
+            s += (gamma*sin(gamma*log(x))+0.5*cos(gamma*log(x)))/(0.25 + gamma*gamma)
+        else:
+            break
+    return 2*s/sqrt(x)
+
+def zeta_eps(int B, double T):
+    """
+    Return list of pairs (X,eps(X,T)) of the term eps(X,T) in the
+    explicit formula, evaluated at prime powers up to B.  We compute
+    this term by computing all other terms and solving for eps.
+    """
+    cdef list pp = prime_powers(B)
+    cdef double X, eps, p, e, Psi0X = 0
+    cdef list v = []
+    for X, p, e in pp:
+        Psi0X += log(p)
+        eps = Psi0X/X - 1 + zeta_oscillatory(X, 0, T) - (-log(2*PI) - log(1-1/(X*X))/2)/X
+        v.append((X, eps))
+    return v[1:]
+

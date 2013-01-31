@@ -5,6 +5,8 @@ list2 = ["816b", "5423a", "2340i", "2379b", "2432d", "29862s", "3776h", "128b", 
 
 ncpus = 16
 
+from math import log, exp
+
 def plots(curves=list1, rng="1e9", ncpus=ncpus) :
     B = int(eval(rng))
     print "output path = ", rng
@@ -318,3 +320,83 @@ def well_done_error_terms(curves=list1+list2, samples=50000):
 
     for input, output in f(curves):
         print input, output
+
+
+#################################################################
+#
+# Code for my talk in Madison, WI
+#
+#################################################################
+
+def animated_histogram(v, frames, log_scale=False, **kwds):
+    """
+    Given a time series, animate the sequence of histograms it
+    defines, where we have the given number of frames.
+
+    INPUT:
+
+    - v -- time series
+    - frames -- integer
+    - log_scale -- if true, sample at a log scale
+    """
+    if log_scale:
+        step = log(B)/frames
+        X = int(exp(step))
+    else:
+        step = float(B)/frames
+        X = int(step)
+
+    g = []
+    Xmin = Xmax = Ymin = Ymax = 0
+    while X <= len(v):
+        h = v[:X].plot_histogram(**kwds)
+        g.append(h)
+        Xmin = min(Xmin, h.xmin())
+        Xmax = min(Xmax, h.xmax())
+        Ymin = min(Ymin, h.ymin())
+        Ymax = min(Ymin, h.ymax())
+        if log_scale:
+            X += exp(log(X) + step)
+        else:
+            X += step
+        X = int(X)
+
+    return animate(g, xmin=Xmin, xmax=Xmax, ymin=Ymin, ymax=Ymax)
+
+#####################################
+# 1. BSD/Sato-Tate animation
+#####################################
+def sato_tate_animation(E, frames=50, B=10^9, **kwds):
+    """
+    Animation illustrating Sato-Tate for an elliptic curve.
+    """
+    v = sato_tate_data(E, B)
+    return animated_histogram(v, frames, **kwds)
+
+
+#####################################
+# 2. Chebeshev Bias
+#####################################
+def chebeshev_distribution_animation(E, frames=50, B=10^9, **kwds):
+    v = chebeshev_data(B)
+    return animated_histogram(v, frames, **kwds)
+
+def chebeshev_bias_data(B):
+    return chebeshev_data(B).sums()
+
+
+def ellcurve_data_plots(lbl, B, frames=50, **kwds):
+    d = data(EllipticCurve(lbl), B, aplist(lbl, B),
+          num_points=num_points, log_X_scale=log_X_scale)
+
+def ellcurve_data_histograms(data_object, frames=50, **kwds):
+    result = {}
+    for which in ['raw', 'medium', 'well']:
+        v = TimeSeries([y for x,y in data_object[which]['delta']])
+        result[which] = animated_histogram(v, frames, **kwds)
+    return result
+
+#####################################
+# 3. Explicit formula
+#####################################
+
