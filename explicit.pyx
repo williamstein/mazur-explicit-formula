@@ -28,7 +28,7 @@ sage: v = dp.data(num_points=5000)
 sage: plot_step_function(v['raw']['mean'],color='red',thickness=.5) + plot_step_function(v['raw']['delta'], thickness=.5)
 """
 
-def data(E, B, aplist, num_points=None, log_X_scale=True, verbose=True):
+def data(E, B, aplist=None, num_points=None, log_X_scale=True, verbose=True):
     """
     Return graphs of the raw, medium, and well-done delta's,
     along with their means.  By a graph, we mean a list of
@@ -134,17 +134,17 @@ def data(E, B, aplist, num_points=None, log_X_scale=True, verbose=True):
             plot_X_position = log(X)
         else:
             plot_X_position = X
-            
+
         if verbose and record_modulus >= 1000 and (i%(10*record_modulus)==0):
             per = float(i)/M
             if per > 0.1:
                 print "%.1f"%(walltime(tm)*(1-per)/per),
                 sys.stdout.flush()
-                
+
         if plot_X_position >= next_plot_X_position:
             next_plot_X_position += plot_X_delta
 
-            delta_raw.append((plot_X_position, sum_raw))
+            delta_raw.append((plot_X_position, sum_raw*logX/sqrtX))
             delta_medium.append((plot_X_position, sum_medium*logX/sqrtX))
             delta_well.append((plot_X_position, sum_well/logX))
 
@@ -554,6 +554,8 @@ cdef double PI = pi
 def zeta_oscillatory(double x, double t, double T):
     cdef double s = 0
     cdef double gamma
+    if v[-1] < T:
+        raise NotImplementedError("not enough precomputed zeros")
     for gamma in v:
         if t<= gamma <= T:
             s += (gamma*sin(gamma*log(x))+0.5*cos(gamma*log(x)))/(0.25 + gamma*gamma)
@@ -575,4 +577,3 @@ def zeta_eps(int B, double T):
         eps = Psi0X/X - 1 + zeta_oscillatory(X, 0, T) - (-log(2*PI) - log(1-1/(X*X))/2)/X
         v.append((X, eps))
     return v[1:]
-
