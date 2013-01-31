@@ -339,6 +339,7 @@ def animated_histogram(v, frames, log_scale=False, **kwds):
     - frames -- integer
     - log_scale -- if true, sample at a log scale
     """
+    B = len(v)
     if log_scale:
         step = log(B)/frames
         X = int(exp(step))
@@ -348,13 +349,13 @@ def animated_histogram(v, frames, log_scale=False, **kwds):
 
     g = []
     Xmin = Xmax = Ymin = Ymax = 0
-    while X <= len(v):
+    while X <= B:
         h = v[:X].plot_histogram(**kwds)
         g.append(h)
         Xmin = min(Xmin, h.xmin())
         Xmax = min(Xmax, h.xmax())
         Ymin = min(Ymin, h.ymin())
-        Ymax = min(Ymin, h.ymax())
+        Ymax = min(Ymax, h.ymax())
         if log_scale:
             X += exp(log(X) + step)
         else:
@@ -366,11 +367,11 @@ def animated_histogram(v, frames, log_scale=False, **kwds):
 #####################################
 # 1. BSD/Sato-Tate animation
 #####################################
-def sato_tate_animation(E, frames=50, B=10^9, **kwds):
+def sato_tate_animation(lbl, frames=50, B=10^9, **kwds):
     """
     Animation illustrating Sato-Tate for an elliptic curve.
     """
-    v = sato_tate_data(E, B)
+    v = sato_tate_data(lbl, B)
     return animated_histogram(v, frames, **kwds)
 
 
@@ -396,7 +397,32 @@ def ellcurve_data_histograms(data_object, frames=50, **kwds):
         result[which] = animated_histogram(v, frames, **kwds)
     return result
 
-#####################################
-# 3. Explicit formula
-#####################################
+#####################################################################################
+# This function orchestrates computing all plots not already computed for the talk
 
+class Madison:
+    def all(self):
+        self.sato_tate('11a')
+        self.sato_tate('5077a')
+    
+    def path(self, name):
+        return os.path.join('madison', name)
+    
+    def done(self, name):
+        d = os.path.exists(self.path(name))
+        if d:
+            print "%s done"%name
+        return d
+
+    def sato_tate(self, lbl):
+        print "sato-tate %s"%lbl
+        target = 'sato-tate-animation-%s.gif'%lbl
+        if self.done(target):
+            return
+        sato_tate_animation(lbl, frames=10, B=10^8).save(self.path(target))
+
+def madison():
+    m = Madison()
+    m.sato_tate('11a')
+            
+            
