@@ -500,3 +500,66 @@ def madison():
     m.oscillatory('11a')
     m.oscillatory('128b')
     m.oscillatory('5077a')
+
+
+
+#########################
+
+def negate(v):
+    return [(x,-y) for x,y in v]
+
+class PechaKucha:
+    def done(self, name):
+        d = os.path.exists(self.path(name))
+        if d:
+            print "%s done"%name
+            return d 
+
+    def path(self, name):
+        return os.path.join('pechakucha', name)
+    
+    def data_plots(self, lbl, B=10^9, force=False):
+        targets = ["raw-data-%s.svg"%lbl, "raw-mean-%s.svg"%lbl,
+                   "medium-data-%s.svg"%lbl, "medium-mean-%s.svg"%lbl,
+                   "well-data-%s.svg"%lbl, "well-mean-%s.svg"%lbl]
+        if not force and all(self.done(t) for t in targets):
+            return
+        dp = DataPlots(lbl, B, data_path='data')
+        v = dp.data(num_points=5000, log_X_scale=True)
+        for w in ['raw','medium','well']:
+            v[w]['delta'] = negate(v[w]['delta'])
+            v[w]['mean'] = negate(v[w]['mean'])
+            g = plot_step_function(v[w]['delta'],thickness=1,fontsize=18)
+            g.save('pechakucha/%s-data-%s.svg'%(w,lbl), gridlines=True, figsize=[10,4])
+            g = plot_step_function(v[w]['mean'],thickness=1,fontsize=18)
+            g.save('pechakucha/%s-mean-%s.svg'%(w,lbl), gridlines=True, figsize=[10,4])
+
+    def oscillatory(self, lbl, B=1e30):
+        target = "oscillatory-no_log-%s.gif"%lbl
+        if self.done(target): return
+        z = zeros(lbl)
+        v = [line(zero_sum_no_log_plot(z[:k], 10000, B), thickness=.4, figsize=[10,4]) for k in [5,50,..,500]]
+        ymax = max([g.ymax() for g in v])
+        ymin = min([g.ymin() for g in v])        
+        a = animate(v, ymin=ymin, ymax=ymax)
+        a.save(self.path(target))
+
+    def bite(self, lbl, B=1e30):
+        target = "bite-%s.svg"%lbl
+        if self.done(target): return
+        z = zeros(lbl)
+        t = TimeSeries(zero_sum_distribution1(z, 100000, math.log(B)))
+        g = t.plot_histogram(bins=1000)
+        mean = t.mean(); sd = t.standard_deviation()
+        pdf = lambda x: 1/(sd*sqrt(2*pi)) * exp(-(x-mean)^2/(2*sd^2))
+        key = "%s: sd=%.2f, mean=%.2f"%(lbl, sd, mean)
+        g += text(key, (-4*sd,1), color='black')
+        g += plot(pdf, (x,mean-4*sd,mean+4*sd), color='red', thickness=2)
+        g.save(self.path(target), figsize=[10,6])
+
+def pechakucha():
+    m = PechaKucha()
+    for lbl in ['11a', '37a', '5077a', '389a']:
+        m.data_plots(lbl)
+        m.oscillatory(lbl)
+        m.bite(lbl)
