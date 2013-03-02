@@ -378,7 +378,7 @@ def sato_tate_animation(lbl, frames=50, B=10^9, **kwds):
 #####################################
 # 2. Chebeshev Bias
 #####################################
-def chebeshev_distribution_animation(E, frames=50, B=10^9, **kwds):
+def chebeshev_distribution_animation(frames=50, B=10^9, **kwds):
     v = chebeshev_data(B)
     return animated_histogram(v, frames, **kwds)
 
@@ -419,10 +419,84 @@ class Madison:
         target = 'sato-tate-animation-%s.gif'%lbl
         if self.done(target):
             return
-        sato_tate_animation(lbl, frames=10, B=10^8, bins=10000).save(self.path(target))
+        sato_tate_animation(lbl, frames=100, B=10^9, bins=10000, ymax=1).save(self.path(target))
+
+    def primes_mod_4(self):
+        target = "primes-mod-4.gif"
+        if self.done(target):
+            return
+        chebeshev_distribution_animation(frames=100, B=10^9, bins=10).save(self.path(target))
+
+    def prime_race_mod4(self):
+        target = "primes-race-mod4.svg"
+        if self.done(target):
+            return
+        v = chebeshev_bias_data(10^9)
+        v.plot(thickness=0.3, plot_points=10^6).save(self.path(target), figsize=[8,3])
+
+    def riemann_oscillatory(self):
+        target = "riemann-oscillatory.svg"
+        if self.done(target): return
+        g = plot(lambda x: zeta_oscillatory(x, 0,10000), (3, 1000), plot_points=10000)
+        g.save(self.path(target)) 
+        
+    def riemann_epsilon(self):
+        target = "riemann-epsilon.svg"
+        if self.done(target): return
+        v = zeta_eps(1000, 10000)
+        line(v, thickness=.5).save(self.path(target),figsize=[8,3])
+
+    def data_plots(self, lbl, B=10^9, force=False):
+        targets = ["raw-data-%s.svg"%lbl, "raw-mean-%s.svg"%lbl,
+                   "medium-data-%s.svg"%lbl, "medium-mean-%s.svg"%lbl,
+                   "well-data-%s.svg"%lbl, "well-mean-%s.svg"%lbl]
+        if not force and all(self.done(t) for t in targets):
+            return
+        dp = DataPlots(lbl, B, data_path='data')
+        v = dp.data(num_points=5000, log_X_scale=True)
+        for w in ['raw','medium','well']:
+            g = plot_step_function(v[w]['delta'],thickness=1,fontsize=18)
+            g.save('madison/%s-data-%s.svg'%(w,lbl), gridlines=True, figsize=[10,4])
+            g = plot_step_function(v[w]['mean'],thickness=1,fontsize=18)
+            g.save('madison/%s-mean-%s.svg'%(w,lbl), gridlines=True, figsize=[10,4])
+
+    def oscillatory(self, lbl, B=1e30):
+        target = "oscillatory-%s.gif"%lbl
+        if self.done(target): return
+        z = zeros(lbl)
+        v = [line(zero_sum_no_log_plot(z[:k], 10000, B), thickness=.4, figsize=[10,4]) for k in [5,50,..,500]]
+        ymax = max([g.ymax() for g in v])
+        ymin = min([g.ymin() for g in v])        
+        a = animate(v, ymin=ymin, ymax=ymax)
+        a.save(self.path(target))
+
+    def bayesian(self, lbl, B=1e30):
+        target = "bayesian-%s.svg"%lbl
+        if self.done(target): return
+        z = zeros(lbl)
+        t = TimeSeries(zero_sum_distribution1(z, 100000, math.log(B)))
+        g = t.plot_histogram(bins=1000)
+        mean = t.mean(); sd = t.standard_deviation()
+        pdf = lambda x: 1/(sd*sqrt(2*pi)) * exp(-(x-mean)^2/(2*sd^2))
+        key = "%s: sd=%.2f, mean=%.2f"%(lbl, sd, mean)
+        g += text(key, (-4*sd,1), color='black')
+        g += plot(pdf, (x,mean-4*sd,mean+4*sd), color='red', thickness=2)
+        g.save(self.path(target), figsize=[10,6])
+        
+    
 
 def madison():
     m = Madison()
     m.sato_tate('11a')
-            
-            
+    m.sato_tate('5077a')
+    m.primes_mod_4()
+    m.prime_race_mod4()
+    m.riemann_oscillatory()
+    m.riemann_epsilon()
+    m.data_plots('11a')
+    m.data_plots('5077a')
+    m.data_plots('2379b')
+    m.data_plots('128b')
+    m.oscillatory('11a')
+    m.oscillatory('128b')
+    m.oscillatory('5077a')

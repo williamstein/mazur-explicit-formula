@@ -7,7 +7,7 @@
 
 import math, os, sys
 
-from sage.all import prime_range, line, tmp_dir, parallel, text, cached_method, nth_prime, load, EllipticCurve, walltime, TimeSeries
+from sage.all import prime_range, line, tmp_dir, parallel, text, cached_method, nth_prime, load, EllipticCurve, walltime, TimeSeries, animate
 
 from scipy.special import expi as Ei
 
@@ -242,6 +242,28 @@ class OscillatoryTerm(object):
     def plot(self, double X, **kwds):
         v = self(X)
         return line(enumerate(v), **kwds)
+
+    def animation(self, Xvals, output_path=None, ncpus=1, **kwds):
+        if not isinstance(Xvals, list):
+            raise TypeError, "Xvals must be a list"
+        if output_path is not None and not os.path.exists(output_path):
+            os.makedirs(output_path)
+
+        print("Rendering %s frames to %s using %s cpus"%(len(Xvals), output_path, ncpus))
+
+        @parallel(ncpus)
+        def f(X):
+            return self(X)
+
+        V = list(f(Xvals))
+        ymax = max([max(v[1]) for v in V])
+        ymin = min([min(v[1]) for v in V])
+        frames = []
+        for X, v in V:
+            frame = ( line(enumerate(v), ymax=ymax, ymin=ymin, **kwds) +
+                      text("X = %s"%X[0], (len(v)//6, ymax/2.0), color='black', fontsize=16) )
+            frames.append(frame)
+        return animate(frames)
 
     def animation_svg(self, Xvals, output_path, ncpus=1, **kwds):
         if not isinstance(Xvals, list):
