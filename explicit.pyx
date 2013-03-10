@@ -599,3 +599,52 @@ def zeta_eps(int B, double T):
         eps = Psi0X/X - 1 + zeta_oscillatory(X, 0, T) - (-log(2*PI) - log(1-1/(X*X))/2)/X
         v.append((X, eps))
     return v[1:]
+
+
+#################################################################
+#
+# Gibbs -- plot related to Gibbs phenom for elliptic
+# curve L-series.
+#
+#################################################################
+
+def oscillatory_gibbs(list zeros, int n, double Xmin, double Xmax):
+    """
+    Plot this function on a linear scale from Xmin to Xmax, at n sample points:
+
+      f(X) = 2  * sum sin(gamma*X)/gamma,
+
+    where the sum is over gamma that are the positive imaginary parts 
+    of the first few zeros of an elliptic curve L-function (the zeros
+    in the input list "zeros").
+
+    OUTPUT: list of pairs (log(X),f(X)), which are points on the plot.
+    """
+    raise NotImplementedError
+    cdef list v = []
+    zeros = [float(x) for x in zeros if x>0]
+
+    # start at X=2
+    cdef double s, gamma, logX=log(2), logXmax = log(Xmax)
+    cdef double delta = logXmax / n
+
+    while logX <= logXmax:
+        s = 0
+        for gamma in zeros:
+            s += sin(gamma*logX)/gamma
+        v.append((logX, 2*s))
+        logX += delta
+
+    return v
+
+
+
+
+
+
+
+
+
+
+
+

@@ -45,7 +45,7 @@ def aplist_data(curves=list1, rng="1e9"):
     for input, output in f(curves):
         print input, output
 
-def lseries_data(curves=list1+list2, rng="1e5"):
+def lseries_data(curves=list1+list2, rng="1e4"):
     B = int(eval(rng))
     @parallel(ncpus)
     def f(lbl):
@@ -53,7 +53,7 @@ def lseries_data(curves=list1+list2, rng="1e5"):
         zeros_sobj = 'data/%s-zeros-%s.sobj'%(lbl, B)
         if not os.path.exists(zeros_sobj):
             v = E.lseries().zeros(B)
-            v = [int(ap) for ap in v]
+            v = [float(z) for z in v]
             save(v, zeros_sobj)
 
     for input, output in f(curves):
@@ -61,7 +61,11 @@ def lseries_data(curves=list1+list2, rng="1e5"):
 
 def zeros(lbl, num_zeros=10000):
     assert num_zeros <= 10000
-    return load("data/%s-zeros-10000.sobj"%lbl)[:num_zeros]
+    file = "data/%s-zeros-%s.sobj"%(lbl,num_zeros)
+    if os.path.exists(file):
+        return load(file)
+    else:
+        return load("data/%s-zeros-10000.sobj"%lbl)[:num_zeros]
 
 def aplist(lbl,B):
     return load("data/%s-aplist-%s.sobj"%(lbl,B))
@@ -537,7 +541,8 @@ class PechaKucha:
     def oscillatory(self, lbl, B=1e30):
         target = "oscillatory-no_log-%s.gif"%lbl
         if self.done(target): return
-        z = zeros(lbl)
+        print "Plotting oscillatory plot (no log) for %s"%lbl
+        z = zeros(lbl,500)
         v = [line(zero_sum_no_log_plot(z[:k], 10000, B), thickness=.4, figsize=[10,4]) for k in [5,50,..,500]]
         ymax = max([g.ymax() for g in v])
         ymin = min([g.ymin() for g in v])        
@@ -547,7 +552,7 @@ class PechaKucha:
     def bite(self, lbl, B=1e30):
         target = "bite-%s.svg"%lbl
         if self.done(target): return
-        z = zeros(lbl)
+        z = zeros(lbl,500)
         t = TimeSeries(zero_sum_distribution1(z, 100000, math.log(B)))
         g = t.plot_histogram(bins=1000)
         mean = t.mean(); sd = t.standard_deviation()
@@ -559,7 +564,8 @@ class PechaKucha:
 
 def pechakucha():
     m = PechaKucha()
-    for lbl in ['11a', '37a', '5077a', '389a']:
+    #for lbl in ['11a', '37a', '5077a', '389a', '5002c1', '5021a1']:
+    for lbl in ['5002c1', '5021a1','431b1','443c1']:
         m.data_plots(lbl)
         m.oscillatory(lbl)
         m.bite(lbl)
