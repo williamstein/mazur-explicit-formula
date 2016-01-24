@@ -96,9 +96,9 @@
 The  term `Explicit Formula' as in our title refers to the genre of formula that expresses {\it arithmetically interesting quantities} in terms of the zeroes of  a related zeta-function or $L$-function.  The first such formula appears towards the end of Bernhard Riemann's short and great paper  ``\"{U}ber die Anzahl der Primzahlen unter einer
 gegebenen Gr\"{o}sse," published in the
 Monatsberichte der Berliner Akademie,
-November 1859.  Subsequently there have been many versions of Explicit Formulas, one such notable variant  proved by Hans von  Mangoldt, in his 1895 article  "Zu Riemann's Abhandlung ``\"{U}ber die Anzahl der Primzahlen unter einer gegebenen Gr\"{o}sse"", Journal f\"{u}r die reine und angewandte Mathematik.  We devote this expository  article in honor of Riemann to a discussion of formulas of this type. Our main aim is to formulate some open questions related to the application of the Explicit Formula to the arithmetic of elliptic curves.
+November 1859.  Subsequently there have been many versions of Explicit Formulas, one such notable variant  proved by Hans von  Mangoldt, in his 1895 article  ``Zu Riemann's Abhandlung `\"{U}ber die Anzahl der Primzahlen unter einer gegebenen Gr\"{o}sse'", Journal f\"{u}r die reine und angewandte Mathematik.  We devote this expository  article in honor of Riemann to a discussion of formulas of this type. Our main aim is to formulate some open questions related to the application of the Explicit Formula to the arithmetic of elliptic curves.
 
-  The {\it arithmetically interesting quantity} that appears in most of the `Explicit Formulas' of analytic number theory is often  a partial sum $F(X)\cdot\sum_{p<X}G(p)$ of locally defined quantities $G(p)$ attached to prime numbers $p$, summed to up to some cutoff value, $p<X$  (and normalized for convenience by an elementary factor $F(X)$). The formula expresses this function of the variable $X$, $F(X)\cdot\sum_{p<X}G(p)$, as a {\it dominant term}, plus an easily controlled error term, plus an interesting third term that might be called the {\it oscillatory term} that, in most cases, is only conjecturally controllable.
+  The {\it arithmetically interesting quantity} that appears in most of the `Explicit Formulas' of analytic number theory is often  a partial sum $F(X)\cdot\sum_{p<X}G(p)$ of locally defined quantities $G(p)$ attached to prime numbers $p$, summed to up to some cutoff value, $p<X$  (and normalized for convenience by an elementary factor $F(X)$). The formula expresses this function $F(X)\cdot\sum_{p<X}G(p)$ of the variable $X$ as a {\it dominant term}, plus an easily controlled error term, plus an interesting third term that might be called the {\it oscillatory term} that, in most cases, is only conjecturally controllable.
 
   Usually the {\it dominant term} is computed by knowing the order of specific zeroes `at central points' of relevant (global) $L$-functions, the `easy error term' is related to the so-called {\it trivial zeroes} of those relevant $L$-functions, while the {\it oscillatory term} is  a specific function of ($X$, and of) the infinitely many remaining nontrivial zeroes of those $L$-functions.
 
@@ -110,7 +110,7 @@ November 1859.  Subsequently there have been many versions of Explicit Formulas,
 
   Specifically we will  focus on {\it issues of bias}  following the classical ``Explicit Formula,'' and the work of:
 Sarnak, \ Granville,\  Rubenstein,\, Martin-Watkins,\ Fiorilli,\ Bober,\ Conrey-Snaith, and others.
- The example-problem we consider is related to the question---given an elliptic curve over the rational numbers and letting  $p$ range through prime numbers---of how often  $p+1$ is an {\it over-count} or an {\it under-count} for the number of rational points on the curve modulo $p$? The rough answer is 50/50, but there can be a `bias' similar to the classical Chebyshev bias  \cite{R-S}. For such finer statistics one resorts to `Explicit Formulas.'  Here, computation can even outstrip theory in that people have algorithms to make such computations whether or not the holomorphicity of the $L$-functions in question have been proved. Computations have depended on the work of many people.
+ The example problem we consider is related to the question---given an elliptic curve over the rational numbers and letting  $p$ range through prime numbers---of how often  $p+1$ is an {\it over-count} or an {\it under-count} for the number of rational points on the curve modulo $p$? The rough answer is 50/50, but there can be a `bias' similar to the classical Chebyshev bias  \cite{R-S}. For such finer statistics one resorts to `Explicit Formulas.'  Here, computation can even outstrip theory in that people have algorithms to make such computations whether or not the holomorphicity of the $L$-functions in question have been proved. Computations have depended on the work of many people.
 
 
  We have used this text to provide material for {\it unusually short lectures}. %Specifically, the notes were initially written for each of our 20 minute lectures at the San Diego Conference, as we have already mentioned, but also
@@ -119,12 +119,12 @@ Sarnak, \ Granville,\  Rubenstein,\, Martin-Watkins,\ Fiorilli,\ Bober,\ Conrey-
 \hskip20pt{\small{\tableofcontents}}
 
 \section{Brief Introduction}
- One of us (B.M.) having recently taught the classical {\it Explicit Formula} in a standard graduate course in analytic number theory, and having proved that eponymous formula, garnished---as it usually is--- by a number of so-called ``effective constants," $c_1, c_2,$ etc., felt  that, for some applications, this lettered effectiveness left us still too far from  the statistical phenomena behind the formula. To get a closer bead on things, one would do well to work with the numbers behind these   $c_1$'s and $c_2$'s, etc.  It is natural then to see how `actual data'---cutting off the terms of the formula at suitably large values of $X$ given the range of currently feasible computations---compare with the expected results for arbitrarily large $X$.
+ One of us (B.M.) having recently taught the classical {\it Explicit Formula} in a standard graduate course in analytic number theory, and having proved that eponymous formula, garnished---as it usually is---by a number of so-called ``effective constants," $c_1, c_2,$ etc., felt  that, for some applications, this lettered effectiveness left us still too far from  the statistical phenomena behind the formula. To get a closer bead on things, one would do well to work with the numbers behind these   $c_1$'s and $c_2$'s, etc.  It is natural then to see how `actual data'---cutting off the terms of the formula at suitably large values of $X$ given the range of currently feasible computations---compare with the expected results for arbitrarily large $X$.
 
  Happily, the other of us (W.S.) has produced relevant computations that do exactly that (for applications of the Explicit Formula to certain problems of current interest to both of us).% This, then, is a phenomenological talk, with (at least the beginning of)  a corpus  of graphs that offer some  illustration of the effectiveness---or non-effectiveness---of the explicit formula in the specific instances of interest to us.
 
- We offer no new theoretical results but use this occasion to mention some interesting recent work and conjectures  (of other people)  that might warrant more such computations and that raise a host of questions, both theoretical and computational.   For example, to do some systematic numerical computations related to an elliptic curve $E$ attached to a newform $f_E$  (along the lines of what has already been done in this paper)  it would be very useful to have a much larger data-set  of the arithmetic function  $$n \mapsto r_E(n)$$
- where $r_E(n)$ is the order of vanishing of the $L$-function of the automorphic forms $symm^nf_E$ for odd values of $n$.  Regarding this arithmetic function, aside from having control of the parity of   $r_E(n)$  (e.g., see \cite{DMW}))  hardly anything else is known. Nor do we (at least, the authors of this paper)  yet have enough experience---when $E$ has no complex multiplication---even to formulate a proper conjecture.
+ We offer no new theoretical results but use this occasion to mention some interesting recent work and conjectures  (of other people)  that might warrant more such computations and that raise a host of questions, both theoretical and computational.   For example, to do some systematic numerical computations related to an elliptic curve $E$ attached to a newform $f_E$  (along the lines of what has already been done in this paper)  it would be very useful to have a much larger data set  of the arithmetic function  $$n \mapsto r_E(n)$$
+ where $r_E(n)$ is the order of vanishing of the $L$-function of the automorphic forms ${\rm symm}^n f_E$ for odd values of $n$.  Regarding this arithmetic function, aside from having control of the parity of   $r_E(n)$  (e.g., see \cite{DMW}))  hardly anything else is known. Nor do we (at least, the authors of this paper)  yet have enough experience---when $E$ has no complex multiplication---even to formulate a proper conjecture.
 
  We might also mention that when making these numerical experiments one seems to be in a situation  that is not entirely dissimilar from the type of slightly annoying mismatch between conjecture and data that one encounters in more traditional studies of Mordell-Weil statistics  that was the subject of the survey article B-M-S-W.  But this may be unavoidable, given that even  the so-called  `easy error term' in the explicit formula will tend to converge  only $O(1/\log X)$ fast.
 
@@ -134,7 +134,7 @@ Sarnak, \ Granville,\  Rubenstein,\, Martin-Watkins,\ Fiorilli,\ Bober,\ Conrey-
  \section{A qualitative look at the Explicit Formula}
  As mentioned in the Preface, here is the shape of the explicit formula, given in even more qualitative vocabulary:
 
-{\Large $${\rm{\it Sum\ of\ local\ data\  }}  \ = \  {\rm{\it Global\ data}}\ +\  {\rm{\it  Easy\ error\ term}}\ +\  {\rm{\it  Oscillatory\ term}}.$$ }
+{\Large $${\text{Sum of local data}}  \ = \  {\text{Global data}}\ +\  {\text{Easy error term}}\ +\  {\text{Oscillatory term}}.$$ }
 
 Before getting started, some general comments. We will be dealing with examples where each of these terms are given as functions of $X$, a cutoff value, where
 
@@ -144,12 +144,12 @@ Before getting started, some general comments. We will be dealing with examples 
 
   where the rules of the game (in this paper) are as follows:
 
-  \begin{itemize} \item We require the value $G(p)$ to be determined by only {\it local }considerations at the prime $p$.
-The simplest example of such a {\it Sum\ of\ local\ data}  is given by taking $F(X)$ to be the constant $1$, and  $G(p)$ to be  $1$ for all $p$, giving us the classical $\pi(X):=\sum_{p\le X}1$. \item The normalizing factors $F(X)$ will be elementary smooth functions of the cutoff $X$. We sometimes choose this normalizing factor so that the  resulting  $\delta(X)$ has (conjecturally) finite mean.\end{itemize}
+  \begin{itemize} \item We require the value $G(p)$ to be determined by only {\it local }considerations at the prime~$p$.
+The simplest example of such a {\it Sum\ of\ local\ data}  is given by taking $F(X)$ to be the constant $1$, and  $G(p)$ to be  $1$ for all $p$, giving us the classical prime counting function $\pi(X):=\sum_{p\le X}1$. \item The normalizing factors $F(X)$ will be elementary smooth functions of the cutoff $X$. We sometimes choose this normalizing factor so that the  resulting  $\delta(X)$ has (conjecturally) finite mean.\end{itemize}
 
-We will be concentrating on  {\it sums\ of\ local\ data}  attached to elliptic curves over ${\Q}$,   $$\delta_E(X):=F(X)\sum_{p\le X}g_E(p)$$ where the weighting function $$p \mapsto g_E(p)$$   is a function of $a_E(p)$, the $p$-th Fourier coefficient of the eigenform of weight two parametrizing the elliptic curve.
+We will be concentrating on  {\it sums\ of\ local\ data}  attached to elliptic curves over ${\Q}$,   $$\delta_E(X):=F(X)\sum_{p\le X}g_E(p)$$ where the weighting function $$p \mapsto g_E(p)$$   is a function of $a_E(p)$, the $p$th Fourier coefficient of the eigenform of weight two parametrizing the elliptic curve.
 
-  We will specifically be interested in  issues of bias. This is what we mean: thanks to the recent resolution of the Sato-Tate Conjecture in this context, one knows that---roughly---half the Fourier coefficients  $a_E(p)$ are positive and half negative.  Indeed, the numbers of positive values and negative values look very close:
+  We will specifically be interested in  issues of bias. This is what we mean: thanks to the recent resolution \cite{} of the Sato-Tate Conjecture in this context, one knows that---roughly---half the Fourier coefficients  $a_E(p)$ are positive and half negative (for non-CM curves).  Indeed, the numbers of positive values and negative values look very close to each other:
 \vskip20pt
 
 \begin{center}
@@ -178,26 +178,26 @@ Curve & Rank & Negative $a_E(p)$ for $p<10^9$ & Positive $a_E(p)$ for $p<10^9$ &
 \end{center}
 
 \vskip20pt
-  To study, then, the weighted sums that directly reflect finer statistical issues related to this symmetric distribution, we will be concentrating on weighting functions $p \mapsto g_E(p)$ that have the property that \begin{itemize} \item for all primes $p$, $g_E(p)$ is an {\it odd} function of the value  $a_E(p)$, and \item the {\it sum\ of\ local\ data}  $$\delta_E(X):=\sum_{p\le X}g_E(p)$$ has---or can be convincingly conjectured to have---a finite mean{\footnote{ See Section {\ref{mean}} below}} relative to multiplicative measure $dX/X$.\end{itemize}  In such a context  the mean of $\delta_E(X)$ can be interpreted as a {\it bias}!
+  To study, then, the weighted sums that directly reflect finer statistical issues related to this symmetric distribution, we will be concentrating on weighting functions $p \mapsto g_E(p)$ that have the property that \begin{itemize} \item for all primes $p$, $g_E(p)$ is an {\it odd} function of the value  $a_E(p)$, and \item the {\it sum\ of\ local\ data}  $$\delta_E(X):=\sum_{p\le X}g_E(p)$$ has---or can be convincingly conjectured to have---a finite mean{\footnote{ See Section~\ref{mean} below.}} relative to multiplicative measure $dX/X$.\end{itemize}  In such a context  the mean of $\delta_E(X)$ can be interpreted as a {\it bias}!
 
 
  For example, to consider  the problem highlighted in our {\it Preface} (above) form  the `sum of local data'
   $${\frac{\log X}{{\sqrt X}}}\sum_{p\le X}\gamma_E(p)$$  where $\gamma_E(p)=0$ if $p$ is a bad or supersingular prime for $E$ and is otherwise is $+1$ if $E$ has less that $p+1$ rational points over ${\bf F}_p$; and $\gamma_E(p) = -1$ if more.  Then this sum, which will be denoted $\Delta_E(X)$ below, measures exactly the difference between over-count and under-count, as formulated in the {\it Preface}.\vskip10pt
-\section{ The three terms on the RHS  of these Explicit Formulas}
+\section{ The three terms on the right hand side (RHS)  of these Explicit Formulas}
   \vskip10pt
 \item The first  term on the RHS of our Explicit Formulas, i.e. the term we labeled ${\rm{\it Global\ data}}$, is a constant independent of $X$   determined by the certain `central'  (real)  zeros, or the poles, of the relevant $L$-function or collection of $L$-functions. The   collection of $L$-functions {\it relevant} to the problem highlighted in our {\it Preface} consists of  the $L$ functions attached to {\it all}  the {\it odd} symmetric powers of the newform $f_E$, and the Global data is a function of the multiplicity of the zeroes of these $L$-functions at their central (real) points, where central refers to the functional equation that they enjoy.
 
-Often, and under GRH, these {\it real, central} zeroes of the relevant $L$-functions will have---conjecturally---a clean {\it global arithmetic interpretation} (e.g., via BSD and its  variants) so that's why we call  that term simply  ``{\rm{\it Global\ data}}."  In the problems we will be discussing this ``global data" will be showing up as a certain {\it bias} in the arithmetic statistics of elliptic curves that hearkens back to the early work of Birch and Swinnerton-Dyer, but in the context of the vocabulary we will be using, was  first written down by Peter Sarnak; this is in the spirit of the classical Chebyschev bias, and 'prime races;' an `Explicit Formula' account of this classical theory can be found in {\cite{GM}}.
+Often, and under GRH, these {\it real, central} zeroes of the relevant $L$-functions will have---conjecturally---a clean {\it global arithmetic interpretation} (e.g., via BSD and its  variants) so that's why we call  that term simply  ``{\rm{\it Global\ data}}."  In the problems we will be discussing this ``global data" will be showing up as a certain {\it bias} in the arithmetic statistics of elliptic curves that hearkens back to the early work of Birch and Swinnerton-Dyer \cite{}, but in the context of the vocabulary we will be using, was  first written down by Peter Sarnak; this is in the spirit of the classical Chebyschev bias, and 'prime races;' an `Explicit Formula' account of this classical theory can be found in {\cite{GM}}.
 \item Often the
-'easy error term' converges (like $O(1/
-log X)$) to a value  (perhaps zero) as $X$ tends to infinity.
+`easy error term' converges (like $O(1/
+\log{X})$) to a value  (perhaps zero) as $X$ tends to infinity.
 \item The {\rm{\it  Oscillatory\ term}} is determined by the (infinitely many) complex (``nontrivial") zeroes. It is usually  an infinite sum, where  (after appropriate conjectures) the summands are of the form  $X^{i\gamma}/f(\gamma)$ where $\gamma$ runs through the imaginary parts of the complex zeroes of the relevant $L$-functions, and $f(y)$ is some natural function.  Numerically, this oscillatory term will indeed oscillate---as we shall amply see---but often one  is tempted to, at the very least, conjecture some control over this wild card.  In actual computations we are surprised by  how small it is.\end{itemize}
 
 
 \vskip20pt
  \centerline{ \Large{ Part I: Setting up}}
   \vskip30pt
- \section{Bias Questions} Let $E$ be an elliptic curve over ${\Q}$  with no complex multiplication, associated to a newform whose $p$-th Fourier coefficient for $p$ a prime is denoted, as usual, $a_E(p)$. Given the recent work on Sato-Tate, the probability distribution determined by  the normalized values   ${\frac{a_E(p)}{2{\sqrt {p}}}}$  is known to be symmetric about the origin for a large class of such elliptic curves. To repeat our starting question:
+ \section{Bias Questions} Let $E$ be an elliptic curve over ${\Q}$  with no complex multiplication, associated to a newform whose $p$th Fourier coefficient for $p$ a prime is denoted, as usual, $a_E(p)$. Given the recent work \cite{} on Sato-Tate, the probability distribution determined by  the normalized values   ${\frac{a_E(p)}{2{\sqrt {p}}}}$  is known to be symmetric about the origin for a large class of such elliptic curves. To repeat our starting question:
 
  % It is natural, then, to ask for more detailed description of this  data; for example, to raise what one might call {\it bias questions} that {\it race one side of that probability distribution against the other}. A typical such question is the one cited in our {\it Abstract}:
 \begin{quote} Given an elliptic curve over the rational numbers, and letting  $p$ range through prime numbers, how often is $p+1$  an over-count or an under-count for the number of rational points on the curve modulo $p$?  \end{quote}
@@ -208,13 +208,13 @@ log X)$) to a value  (perhaps zero) as $X$ tends to infinity.
 
   the ratio
 
- $${\frac{\#\{p < X \ | \ N_E(p) < p+1 \}} {\#\{p > X \ | \ N_E(p) > p+1 \}}}\ =\ {\frac{\#\{p < X \ | \ a_E(p) > 0 \}} {\#\{p > X \ | \ a_E(p) < 0 \}}}$$
+ $${\frac{\#\{p < X \ | \ N_E(p) < p+1 \}} {\#\{p < X \ | \ N_E(p) > p+1 \}}}\ =\ {\frac{\#\{p < X \ | \ a_E(p) > 0 \}} {\#\{p < X \ | \ a_E(p) < 0 \}}}$$
 
  tends to $1$ as $X$ goes to infinity, and we will be considering more delicate {\it bias questions} by examining a variety of ``rough," and ``smooth," ways of measuring  the preponderance of positive---or of negative---$a_E(p)$'s. We wish to actually make such measurements, and take a look at their graphs.
 
 
  This type of question, of course, bears on Birch's and  Swinnerton-Dyer's initial ``hunch" that the  statistical preponderance of solutions modulo $p$ of an elliptic curve is a predictor of whether or not the elliptic curve has infinitely many rational points.
- \section{ The LHS of our Explicit Formulas}
+ \section{ The left hand side (LHS) of our Explicit Formulas}
   To give some ad hoc terms for variant partial sums of {\it Local Arithmetic Data} that measure such preponderances,  let us refer to\begin{itemize}\item   (the slightly doctored version of) the straight difference,
  $${\Delta}_E(X):=  {\frac{\log\ X}{\sqrt X}}\big(\#\{ p < X\ | \ a_E(p) > 0\}\ - \ \#\{ p < X\ | \  a_E(p) < 0\}\big),$$  as  the {\bf raw data,} \item and to
  $${\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}}$$ as the {\bf medium-rare data}, and \item
