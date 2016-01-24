@@ -93,9 +93,12 @@
 \centerline{\bf Preface}
 \vskip10pt
 
-{\bf William:}  We need a sentence or paragraph saying what relationship our paper has to Riemann's work.
+The  term `Explicit Formula' as in our title refers to the genre of formula that expresses {\it arithmetically interesting quantities} in terms of the zeroes of  a related zeta-function or $L$-function.  The first such formula appears towards the end of Bernhard Riemann's short and great paper  ``\"{U}ber die Anzahl der Primzahlen unter einer
+gegebenen Gr\"{o}sse," published in the
+Monatsberichte der Berliner Akademie,
+November 1859.  Subsequently there have been many versions of Explicit Formulas, one such notable variant  proved by Hans von  Mangoldt, in his 1895 article  "Zu Riemann's Abhandlung ``\"{U}ber die Anzahl der Primzahlen unter einer gegebenen Gr\"{o}sse"", Journal f\"{u}r die reine und angewandte Mathematik.  We devote this expository  article in honor of Riemann to a discussion of formulas of this type. Our main aim is to formulate some open questions related to the application of the Explicit Formula to the arithmetic of elliptic curves.
 
- Any `Explicit Formula' in analytic number theory deals with an {\it arithmetically interesting quantity}, often given as a partial sum $F(X)\cdot\sum_{p<X}G(p)$ of locally defined quantities $G(p)$ attached to prime numbers $p$, summed to up to some cutoff value, $p<X$  (and normalized for convenience by an elementary factor $F(X)$). The formula expresses this function of $X$  as a {\it dominant term}, plus an easily controlled error term, plus an interesting third term that might be called the {\it oscillatory term} that, in most cases, is only conjecturally controllable.
+  The {\it arithmetically interesting quantity} that appears in most of the `Explicit Formulas' of analytic number theory is often  a partial sum $F(X)\cdot\sum_{p<X}G(p)$ of locally defined quantities $G(p)$ attached to prime numbers $p$, summed to up to some cutoff value, $p<X$  (and normalized for convenience by an elementary factor $F(X)$). The formula expresses this function of the variable $X$, $F(X)\cdot\sum_{p<X}G(p)$, as a {\it dominant term}, plus an easily controlled error term, plus an interesting third term that might be called the {\it oscillatory term} that, in most cases, is only conjecturally controllable.
 
   Usually the {\it dominant term} is computed by knowing the order of specific zeroes `at central points' of relevant (global) $L$-functions, the `easy error term' is related to the so-called {\it trivial zeroes} of those relevant $L$-functions, while the {\it oscillatory term} is  a specific function of ($X$, and of) the infinitely many remaining nontrivial zeroes of those $L$-functions.
 
@@ -105,18 +108,20 @@
 
    In this expository article, we will examine the analytic formula in various interesting cases to advertise the need for some  precise conjectures and computational projects regarding this problem and to recount some recent work.\  We focus on applications to elliptic curves, but we take this only as a basic (important) example of a fuller story for general motives.  We have  future plans for a web-accessible resource: a repository of some of the numerics for the cases related to elliptic curves that interest us.
 
-  Specifically we will  focus on {\it issues of bias}  following the classical `Explicit Formula," and the work of:
+  Specifically we will  focus on {\it issues of bias}  following the classical ``Explicit Formula,'' and the work of:
 Sarnak, \ Granville,\  Rubenstein,\, Martin-Watkins,\ Fiorilli,\ Bober,\ Conrey-Snaith, and others.
- The example-problem we consider is related to the question---given an elliptic curve over the rational numbers and letting  $p$ range through prime numbers---of how often  $p+1$ is an {\it over-count} or an {\it under-count} for the number of rational points on the curve modulo $p$? The rough answer is 50/50, but there can be a `bias' similar to the classical Chebyshev bias  \cite{R-S}. For such finer statistics one resorts to `Explicit Formulas.'  Here, computation can even outstrip theory in that people have algorithms to make such computations whether or not the holomorphicity of the $L$-functions in question have been proved. Computations have depended on the work of many people, notably Mike Rubenstein's ****
+ The example-problem we consider is related to the question---given an elliptic curve over the rational numbers and letting  $p$ range through prime numbers---of how often  $p+1$ is an {\it over-count} or an {\it under-count} for the number of rational points on the curve modulo $p$? The rough answer is 50/50, but there can be a `bias' similar to the classical Chebyshev bias  \cite{R-S}. For such finer statistics one resorts to `Explicit Formulas.'  Here, computation can even outstrip theory in that people have algorithms to make such computations whether or not the holomorphicity of the $L$-functions in question have been proved. Computations have depended on the work of many people.
 
- We have used these notes to provide material for {\it unusually short lectures}. Specifically, the notes were initially written for each of our 20 minute lectures at the San Diego Conference, as we have already mentioned, but also one of us replayed it all{\footnote{ Well, not quite all$\dots$}} in a 6 minute and 40 second lecture at Harvard (See PechaKucha web page ****). We say this to make it clear that this article is meant to be  somewhat light reading; it contains no new results, as we have mentioned, and no proofs of anything. But we feel that the issues here are a good source of student projects, and that our text might be  a companion to any reader of the beautiful expository articles on classical Chebyshev bias, such as \cite{R-S}, or on the biases we discuss, as in \cite{S}.
+
+ We have used this text to provide material for {\it unusually short lectures}. %Specifically, the notes were initially written for each of our 20 minute lectures at the San Diego Conference, as we have already mentioned, but also
+ E.g., one of us replayed it all{\footnote{ Well, not quite all$\dots$}} in a 6 minute and 40 second lecture at Harvard. We say this to make it clear that this article is meant to be  somewhat light reading; it contains no new results, as we have mentioned, and no proofs of anything. But we feel that the issues here are a good source of student projects, and that our text might be  a companion to any reader of the beautiful expository articles on classical Chebyshev bias, such as \cite{R-S}, or on the biases we discuss, as in \cite{S}.
 
 \hskip20pt{\small{\tableofcontents}}
 
 \section{Brief Introduction}
  One of us (B.M.) having recently taught the classical {\it Explicit Formula} in a standard graduate course in analytic number theory, and having proved that eponymous formula, garnished---as it usually is--- by a number of so-called ``effective constants," $c_1, c_2,$ etc., felt  that, for some applications, this lettered effectiveness left us still too far from  the statistical phenomena behind the formula. To get a closer bead on things, one would do well to work with the numbers behind these   $c_1$'s and $c_2$'s, etc.  It is natural then to see how `actual data'---cutting off the terms of the formula at suitably large values of $X$ given the range of currently feasible computations---compare with the expected results for arbitrarily large $X$.
 
- Happily, the other of us (W.S.) has produced relevant computations that do exactly that (for applications of the Explicit Formula to certain problems of current interest to both of us). This, then, is a phenomenological talk, with (at least the beginning of)  a corpus  of graphs that offer some  illustration of the effectiveness---or non-effectiveness---of the explicit formula in the specific instances of interest to us.
+ Happily, the other of us (W.S.) has produced relevant computations that do exactly that (for applications of the Explicit Formula to certain problems of current interest to both of us).% This, then, is a phenomenological talk, with (at least the beginning of)  a corpus  of graphs that offer some  illustration of the effectiveness---or non-effectiveness---of the explicit formula in the specific instances of interest to us.
 
  We offer no new theoretical results but use this occasion to mention some interesting recent work and conjectures  (of other people)  that might warrant more such computations and that raise a host of questions, both theoretical and computational.   For example, to do some systematic numerical computations related to an elliptic curve $E$ attached to a newform $f_E$  (along the lines of what has already been done in this paper)  it would be very useful to have a much larger data-set  of the arithmetic function  $$n \mapsto r_E(n)$$
  where $r_E(n)$ is the order of vanishing of the $L$-function of the automorphic forms $symm^nf_E$ for odd values of $n$.  Regarding this arithmetic function, aside from having control of the parity of   $r_E(n)$  (e.g., see \cite{DMW}))  hardly anything else is known. Nor do we (at least, the authors of this paper)  yet have enough experience---when $E$ has no complex multiplication---even to formulate a proper conjecture.
@@ -228,7 +233,7 @@ log X)$) to a value  (perhaps zero) as $X$ tends to infinity.
    For a picture gallery of graphs of these Sums of Local Data, see Part III below. For a more extensive data base of such pictures, see ****
 
   \section{ The RHS of our Explicit Formulas}
-   Here are some brief comments on each of the `terms' on the RHS of the Explicit  Formula for our three variants, where we write that RHS of--for example--the well-done variant above for an elliptic curve $E$  as given below:
+   Here are some brief comments on each of the three  `terms' (i.e., {\it Global data}, {\it  Easy error term}, and {\it  Oscillatory term})  on the RHS of the Explicit  Formula for the well-done variant (see above) for the elliptic curve $E$:
 
    $${D}_E(X):= {\frac{1}{\log\ X}}\sum_{p \le X}{\frac{a_E(p)\log p}{ p}}\hskip30pt = \hskip30pt \rho_E\ \ \  + \  \ \ \epsilon_{E}(X)\ \ \  + \ \ \ {\frac{1}{\log X}}S_E(X).$$ For the definition of $S_E(X)$, see section \ref{osc} below.
  \subsection {The `{\it Global Data}' or---conjecturally-- the {\it `Mean'}}\label{mean}
@@ -275,16 +280,16 @@ log X)$) to a value  (perhaps zero) as $X$ tends to infinity.
   \newpage
   \centerline{ $E = 11a$}
  \vskip10pt
-  \includegraphics[width=0.9\textwidth]{OSC11.pdf}
+  \includegraphics[width=0.9\textwidth]{plots/OSC11.pdf}
 
   \centerline{ $E = 37a$}
-  \includegraphics[width=0.9\textwidth]{OSC37.pdf}
+  \includegraphics[width=0.9\textwidth]{plots/OSC37.pdf}
 %\vskip20pt
- % \includegraphics[width=1.0\textwidth]{OSC.pdf}
+ % \includegraphics[width=1.0\textwidth]{plots/OSC.pdf}
    \vskip20pt
   \centerline{ $E = 389a$}
 \vskip20pt
-  \includegraphics[width=0.9\textwidth]{OSC389.pdf}
+  \includegraphics[width=0.9\textwidth]{plots/OSC389.pdf}
 
  From these examples, one might imagine that for 'most arguments $X$' the range of actually achieved values of $S_E(X)$  may be even more restricted than Sarnak's suggestion, i.e., $o(\log X)$ as quoted above. That is, even if  the function $X \mapsto S_E(X)$ is in fact unbounded, it might be the case that it spends most of its time having a very restricted upper bound for its values.  To study this, let us consider the distribution of values of $S_E(X,T)$ for any fixed $(X,T)$ with $T$ large.
 
@@ -299,22 +304,22 @@ Here, then, are some pictures  of what seems to be data 'converging' to a limiti
   \vskip10pt
   \centerline{ $E = 11a$}
  \vskip10pt
- \hskip100pt \includegraphics[width=0.6\textwidth]{bite11.pdf}
+ \hskip100pt \includegraphics[width=0.6\textwidth]{plots/bite11.pdf}
     \vskip10pt
   \centerline{ $E = 37a$}
   \vskip10pt
- \hskip100pt \includegraphics[width=0.6\textwidth]{bite37.pdf}
+ \hskip100pt \includegraphics[width=0.6\textwidth]{plots/bite37.pdf}
     \vskip10pt
        The red curve is the normal distribution with mean $0$ and standard deviation given by that of the data.
    \vskip10pt
     {\bf  Note: } Conditional on the conjecture $LI(E)$ (see section \ref{Fi} below) $\mu_E$ exists (see \ref{S}).
 
      It is interesting  to compare $\mu_E$ to the limiting distributions connected to the bias of nonresidues to residues mod $q$, as in \cite{R-S}. There one has the added feature that these limiting distributions themselves tend to the normal distribution as the modulus q tends to infinity.
-   % \includegraphics[width=0.9\textwidth]{bite389.pdf}
+   % \includegraphics[width=0.9\textwidth]{plots/bite389.pdf}
  %\vskip30pt
   \centerline{ $E = 389a$}
   \vskip10pt
-\hskip100pt  \includegraphics[width=0.6\textwidth]{bite389.pdf}
+\hskip100pt  \includegraphics[width=0.6\textwidth]{plots/bite389.pdf}
 
  %If so, we define the {\bf  mean  value of ${\S}$} and the {\bf standard deviation (of values) of ${\S}$} to be the mean and standard deviation (respectively) of the limiting normal distribution $\mu_{{\S}}$.
 
@@ -352,46 +357,46 @@ distributions of eigenvalues for oscillating membranes, and  to Zeta-functions o
 
  \centerline{ $E = 11a$  between $40$ and $60$}
    \vskip10pt
- \hskip100pt \includegraphics[width=0.6\textwidth]{11a40t60.pdf}
+ \hskip100pt \includegraphics[width=0.6\textwidth]{plots/11a40t60.pdf}
     \newpage
   \centerline{ $E = 11a$  between $60$ and $100$}
    \vskip10pt
- \hskip100pt \includegraphics[width=0.6\textwidth]{11a60t100.pdf}
+ \hskip100pt \includegraphics[width=0.6\textwidth]{plots/11a60t100.pdf}
 
    \vskip10pt
    \centerline{ $E = 11a$  between $990$ and $1010$}
    \vskip10pt
- \hskip100pt \includegraphics[width=0.6\textwidth]{11a990t1010.pdf}
+ \hskip100pt \includegraphics[width=0.6\textwidth]{plots/11a990t1010.pdf}
 
  \newpage
    \centerline{ $E = 37a$  between $40$ and $60$}
 
    \vskip10pt
- \hskip100pt \includegraphics[width=0.6\textwidth]{37a40t60.pdf}
+ \hskip100pt \includegraphics[width=0.6\textwidth]{plots/37a40t60.pdf}
 
    \centerline{ $E = 37a$  between $60$ and $100$}
    \vskip10pt
- \hskip100pt \includegraphics[width=0.6\textwidth]{37a60t100.pdf}
+ \hskip100pt \includegraphics[width=0.6\textwidth]{plots/37a60t100.pdf}
  \newpage
   \centerline{ $E = 37a$  between $990$ and $1010$}
    \vskip10pt
- \hskip100pt \includegraphics[width=0.6\textwidth]{37a990t1010.pdf}
+ \hskip100pt \includegraphics[width=0.6\textwidth]{plots/37a990t1010.pdf}
  \newpage
   \centerline{ $E = 389a$  between $40$ and $60$}
    \vskip10pt
- \hskip100pt \includegraphics[width=0.6\textwidth]{389a40t60.pdf}
+ \hskip100pt \includegraphics[width=0.6\textwidth]{plots/389a40t60.pdf}
 
    \centerline{ $E = 389a$  between $60$ and $100$}
    \vskip10pt
- \hskip100pt \includegraphics[width=0.6\textwidth]{389a60t100.pdf}
+ \hskip100pt \includegraphics[width=0.6\textwidth]{plots/389a60t100.pdf}
 \newpage
   \centerline{ $E = 5077a$  between $40$ and $60$}
    \vskip10pt
- \hskip100pt \includegraphics[width=0.6\textwidth]{5077a40t60.pdf}
+ \hskip100pt \includegraphics[width=0.6\textwidth]{plots/5077a40t60.pdf}
 
    \centerline{ $E = 5077a$  between $60$ and $100$}
    \vskip10pt
- \hskip100pt \includegraphics[width=0.6\textwidth]{507760t100.pdf}
+ \hskip100pt \includegraphics[width=0.6\textwidth]{plots/507760t100.pdf}
 
 
   \section{ To summarize:}  The  Explicit Formula for the `well-done data,' i.e., ${D}_E(X)$,  is then (conjecturally)
@@ -434,7 +439,7 @@ For $p$ a prime, write
 with $\alpha_p= e^{i\theta_p}$ and  $\beta_p= e^{-i\theta_p}$
 and
 \begin{equation}
-\theta_p \in [0, \pi]).
+  \theta_p \in [0, \pi].
 \end{equation}
 
 
@@ -512,7 +517,7 @@ which is $0$ if $n$ is even and $$(-1)^{(n-1)/2}{\frac{2}{\pi}}\big[{\frac{1}{n}
 For $N \ge 1$ let
 
 \begin{equation}
-H_N(X): = \ \sum_{n=1}^Nc_n(H)U_n(\theta)
+H_N(\theta): = \ \sum_{n=1}^Nc_n(H)U_n(\theta)
 \end{equation}
 
 
@@ -536,12 +541,12 @@ Therefore, by formula (\ref{eqnmean}), we would have:
 \end{equation}
 
 
-Now one does have  parity information concerning the arithmetic function $n \mapsto r_E(n)$. For a detailed study of the root numbers of $l$-functions of symmetric powers of an elliptic curve, consult \cite{DMW}.
+Now one does have  parity information concerning the arithmetic function $n \mapsto r_E(n)$. For a detailed study of the root numbers of $L$-functions of symmetric powers of an elliptic curve, consult \cite{DMW}.
  For $n \ge 1$ let $ \nu_E(n) \in \{0,1\}$ be (zero or one) such that  $ \nu_E(n) \equiv r_E(n)$ modulo $2$. Let $s_E(n)$ be the non-negative integer such that:
  $$r_E(n) = \nu_E(n) + 2s_E(n)$$  (for $n\ge 3$, odd).
-Thus if the multiplicities of order of vanishing at the central point $s=1/2$ of the odd symmetric $n$-th power $L$-functions attached to $E$ (for $n \ge 3)$ was never greater than  $1$, and hence entirely dictated by parity, then the conjectured mean, ${\mathcal E}(S_N)$, would be equal to
+Thus if the multiplicity of order of vanishing at the central point $s=1/2$ of the odd symmetric $n$-th power $L$-functions attached to $E$ (for $n \ge 3)$ were never greater than  $1$, and hence entirely dictated by parity, then the conjectured mean, ${\mathcal E}(S_N)$, would be equal to
 \begin{equation}\label{min}
-{\mathcal T}_E^{\{N\}})\ := \ {\frac{8}{3\pi}}(1-2r_E) + {\frac{2}{\pi}} \sum_{k=1}^{N}  (-1)^{k+1}\big[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\big]\big(2\nu_E(2k+1)-1\big).
+{\mathcal T}_E^{\{N\}}\ := \ {\frac{8}{3\pi}}(1-2r_E) + {\frac{2}{\pi}} \sum_{k=1}^{N}  (-1)^{k+1}\big[{\frac{1}{2k+1}} + {\frac{1}{2k+3}}\big]\big(2\nu_E(2k+1)-1\big).
 \end{equation}
 
   Now consider the limit:
@@ -605,7 +610,7 @@ $$=   \lim {\rm sup}_{X\to \infty}{\frac{1}{\log X}}\int_{2\le x \le X; \delta(x
   It is indeed a conjecture, in specific instances interesting to us, that these limits ${\mathcal E} $ and ${\mathcal P}$  exist.
    \vskip20pt
 
-   The standard conjecture (that we have been making all along) is GRH. But here, one includes the further conjecture (given in Sarnak's letter, and the article of Fiorilli) that the the set of nontrivial complex zeroes of the relevant $L$-function $L(E,s)$ with positive imaginary part  is a set of complex numbers that are {\it linearly independent} over ${\Q}$. Such a conjecture Rubenstein and Sarnak refer to in \cite{R-S} as the {it Grand Simplicity Hypothesis} (GSH).  Fiorilli calls his version of it  {\bf Hypothesis LI(E)}.  For recent, somewhat related, work on such linear independence questions, see cite{M-N}.  Fiorilli, following the work of Sarnak,  proves:
+   The standard conjecture (that we have been making all along) is GRH. But here, one includes the further conjecture (given in Sarnak's letter, and the article of Fiorilli) that the the set of nontrivial complex zeroes of the relevant $L$-function $L(E,s)$ with positive imaginary part  is a set of complex numbers that are {\it linearly independent} over ${\Q}$. Such a conjecture Rubenstein and Sarnak refer to in \cite{R-S} as the {\it Grand Simplicity Hypothesis} (GSH).  Fiorilli calls his version of it  {\it Hypothesis LI(E)}.  For recent, somewhat related, work on such linear independence questions, see \cite{M-N}.   Fiorilli, following the work of Sarnak,  proves:
 
    \begin{theorem} Assume GRH and LI(E). Then the following two statements are equivalent:
    \begin{enumerate} \item  The set of (analytic) ranks $\{r_E\}_E$ ranging over all elliptic curves over ${\Q}$ is {it unbounded}.
@@ -647,13 +652,13 @@ Let $\rho= {\frac{1}{2}}+i\gamma$ run through the zeroes in the line $Re(s)= {\f
 
 \begin{theorem}\label{ef}{\bf (Explicit Formula)} $${\frac{1}{X}}\cdot \psi_0(X) \ = \ 1 \ - \ \sum_{|\gamma| \le T}{\frac{X^{i\gamma}}{({\frac{1}{2}}+i\gamma){\sqrt X}}} \ + \ C(X,T)$$
 
-where--following the format of explicit formulas discussed above---we view \begin{itemize} \item  the term on the LHS of the above equation as our `sum of local data'; \item  the first term on the {\rm RHS},---i.e.,  $1$---as the `{\it global term}' corresponding to the pole of $\zeta(s)$ at $s=1$ with residue $1$; it is the {\it mean} of the {\rm LHS}, our sum of local data; \item  the second term on the {\rm RHS}, $\sum_{|\gamma| \le T}{\frac{X^{i\gamma}}{({\frac{1}{2}}+i\gamma){\sqrt X}}}$ as  a cutoff at $T$ of  the `{\it oscillatory term}' while \item  the third term, $C(X,T)$ is a cutoff at $T$ and at $X$ of the `{\it easy\ error term}.'  It converges to zero if the limits are taken in the order $$\lim_{X\to \infty}\lim_{T\to \infty}C(X,T).$$ This $C(X,T)$ has the following shape:
+where---following the format of explicit formulas discussed above---we view \begin{itemize} \item  the term on the LHS of the above equation as our `sum of local data'; \item  the first term on the {\rm RHS},---i.e.,  $1$---as the `{\it global term}' corresponding to the pole of $\zeta(s)$ at $s=1$ with residue $1$; it is the {\it mean} of the {\rm LHS}, our sum of local data; \item  the second term on the {\rm RHS}, $\sum_{|\gamma| \le T}{\frac{X^{i\gamma}}{({\frac{1}{2}}+i\gamma){\sqrt X}}}$ as  a cutoff at $T$ of  the `{\it oscillatory term}' while \item  the third term, $C(X,T)$ is a cutoff at $T$ and at $X$ of the `{\it easy\ error term}.'  It converges to zero if the limits are taken in the order $$\lim_{X\to \infty}\lim_{T\to \infty}C(X,T).$$ This $C(X,T)$ has the following shape:
 
 $$C(X,T): = {\frac{-\log(2\pi)-\log(1-1/X^2)/2}{ X}} + \epsilon(X,T), $$ where:
 
 $$\epsilon(X,T) \ <<\ {\frac{\log X}{X}}\cdot {\rm min}\big(1, {\frac{X}{T\langle X \rangle}}\big)\ + \ {\frac{\log^2(X T) }{T}}.$$\end{itemize}\end{theorem}
 
-Here, $\langle X \rangle$ is the distance between $X$ and the nearest prime power, and with all this, the $<<$ would still need explicitation---even if that word is non-standard.  This result  and its proof is given, for example, as Theorem 12.5 in \cite{MV}.
+Here, $\langle X \rangle$ is the distance between $X$ and the nearest prime power, and with all this, the $<<$ would still need ``explicitation''---even if that word is non-standard.  This result  and its proof is given, for example, as Theorem 12.5 in \cite{MV}.
 
 We should note in passing that there is, of course, a massive literature on this type of formula relating the zeroes of the Riemann zeta function and $\pi(X)$, and relating $\pi(X)$ to the zeroes{\footnote{ For that, see, for example, \cite{G}.}}, in all its variants.
 
@@ -669,11 +674,11 @@ We should note in passing that there is, of course, a massive literature on this
       \centerline{\bf (Graphs of \ \   $X\mapsto {D}_E(X) = {\frac{1}{\log\ X}}\sum_{p \le X}{\frac{a_E(p)\log p}{ p}}$) }
       \vskip40pt
 
-    \includegraphics[width=0.9\textwidth]{even_smoother-rank0-4million.png}
+    \includegraphics[width=0.9\textwidth]{plots/even_smoother-rank0-4million.png}
   \centerline{\bf Rank $r=0$:\ \ \  ${\mathcal E}=$11A.}
    \vskip20pt
-    \includegraphics[width=0.9\textwidth]{even_smoother-rank0-4million.png}
-%  \includegraphics[width=0.9\textwidth]{even_smoother-rank0-4million.png}{0.8}~\label{s11}
+    \includegraphics[width=0.9\textwidth]{plots/even_smoother-rank0-4million.png}
+%  \includegraphics[width=0.9\textwidth]{plots/even_smoother-rank0-4million.png}{0.8}~\label{s11}
 
 
  \vskip40pt
@@ -686,7 +691,7 @@ We should note in passing that there is, of course, a massive literature on this
 
 
 
-     \includegraphics[width=0.9\textwidth]{even_smoother-rank1-4million.png}{1.2}~\label{s37}
+     \includegraphics[width=0.9\textwidth]{plots/even_smoother-rank1-4million.png}{1.2}~\label{s37}
 %
 
    \newpage
@@ -700,7 +705,7 @@ We should note in passing that there is, of course, a massive literature on this
 
 
 
-     \includegraphics[width=0.9\textwidth]{even_smoother-rank2-4million.png}{1.2}~\label{s389}
+     \includegraphics[width=0.9\textwidth]{plots/even_smoother-rank2-4million.png}{1.2}~\label{s389}
 
 
  \vskip20pt
@@ -713,7 +718,7 @@ We should note in passing that there is, of course, a massive literature on this
 
 
 
-     \includegraphics[width=0.9\textwidth]{even_smoother-rank3-4million.png}{0.9}~\label{s5077}
+     \includegraphics[width=0.9\textwidth]{plots/even_smoother-rank3-4million.png}{0.9}~\label{s5077}
 
 
   \vskip10pt
@@ -724,7 +729,7 @@ We should note in passing that there is, of course, a massive literature on this
   \vskip20pt
 
 
-     \includegraphics[width=0.9\textwidth]{smooth-prime_race-rank4-4million.png}{0.9}~\label{sr4}
+     \includegraphics[width=0.9\textwidth]{plots/smooth-prime_race-rank4-4million.png}{0.9}~\label{sr4}
 
  \vskip40pt
 
@@ -735,7 +740,7 @@ We should note in passing that there is, of course, a massive literature on this
  %\vskip20pt
 
 
-     % \includegraphics[width=0.9\textwidth]{smooth-prime_race-rank5-4million.png}{1.2}~\label{sr5}
+     % \includegraphics[width=0.9\textwidth]{plots/smooth-prime_race-rank5-4million.png}{1.2}~\label{sr5}
  \newpage
 
   \centerline{\bf Rank $r=6$.}
@@ -745,7 +750,7 @@ We should note in passing that there is, of course, a massive literature on this
 
 
 
-     \includegraphics[width=0.9\textwidth]{even_smoother-rank6-4million.png}{1.2}~\label{sr6}
+     \includegraphics[width=0.9\textwidth]{plots/even_smoother-rank6-4million.png}{1.2}~\label{sr6}
          \section{The medium-rare data:\   ${\mathcal D}_E(X)$}
        \vskip40pt
 
@@ -756,7 +761,7 @@ We should note in passing that there is, of course, a massive literature on this
 
   \centerline{\bf Rank $r=0$:\ \ \  ${\mathcal E}=$11A.}
    \vskip20pt
-   \includegraphics[width=0.9\textwidth]{illustsmooth-11}{.8}~\label{s11}
+   \includegraphics[width=0.9\textwidth]{plots/illustsmooth-11}{.8}~\label{s11}
   \
 
     \newpage
@@ -768,7 +773,7 @@ We should note in passing that there is, of course, a massive literature on this
 
 
 
-     \includegraphics[width=0.9\textwidth]{smooth-prime_race-37a-4million.png}{1.2}~\label{s37}
+     \includegraphics[width=0.9\textwidth]{plots/smooth-prime_race-37a-4million.png}{1.2}~\label{s37}
 %
 
    \vskip40pt
@@ -780,7 +785,7 @@ We should note in passing that there is, of course, a massive literature on this
   \vskip20pt
 
 
-     \includegraphics[width=0.9\textwidth]{smooth-prime_race-389a-4million.png}{0.9}~\label{s389}
+     \includegraphics[width=0.9\textwidth]{plots/smooth-prime_race-389a-4million.png}{0.9}~\label{s389}
 
 
 \newpage
@@ -793,7 +798,7 @@ We should note in passing that there is, of course, a massive literature on this
 
 
 
-     \includegraphics[width=0.9\textwidth]{smooth-prime_race-5077a-4million}{0.9}~\label{s5077}
+     \includegraphics[width=0.9\textwidth]{plots/smooth-prime_race-5077a-4million}{0.9}~\label{s5077}
 
   \vskip30pt
 
@@ -805,7 +810,7 @@ We should note in passing that there is, of course, a massive literature on this
 
 
 
-     \includegraphics[width=0.9\textwidth]{smooth-prime_race-rank4-4million.png}{0.9}~\label{sr4}
+     \includegraphics[width=0.9\textwidth]{plots/smooth-prime_race-rank4-4million.png}{0.9}~\label{sr4}
 
  \newpage
 
@@ -813,7 +818,7 @@ We should note in passing that there is, of course, a massive literature on this
   \centerline{\bf Rank $r=5$.}
 
 
-     \includegraphics[width=0.9\textwidth]{smooth-prime_race-rank5-4million.png}{0.9}~\label{sr5}
+     \includegraphics[width=0.9\textwidth]{plots/smooth-prime_race-rank5-4million.png}{0.9}~\label{sr5}
 
 
   \vskip30pt
@@ -826,7 +831,7 @@ We should note in passing that there is, of course, a massive literature on this
 
 
 
-     \includegraphics[width=0.9\textwidth]{smooth-prime_race-rank6-4million.png}{1.2}~\label{sr6}
+     \includegraphics[width=0.9\textwidth]{plots/smooth-prime_race-rank6-4million.png}{1.2}~\label{sr6}
       \newpage
 \section{The raw data: $\Delta_E(X)$}
 \vskip40pt
@@ -834,7 +839,7 @@ We should note in passing that there is, of course, a massive literature on this
   \centerline{\bf (Graphs of \ \   $X\mapsto \Delta_E(X)=  {\frac{\log\ X}{\sqrt X}}\#\{ p < X\ | \ a_E(p) > 0\}\ - \ \#\{ p < X\ | \  a_E(p) < 0\})$}  \vskip40pt
 
 
- \centerline{\bf Rank $r=0$:\ \ \  ${\mathcal E}=$11A.}~ \includegraphics[width=0.9\textwidth]{normalized_straight-prime_race-11a-4million.png}{.8}~\label{nr11}
+ \centerline{\bf Rank $r=0$:\ \ \  ${\mathcal E}=$11A.}~ \includegraphics[width=0.9\textwidth]{plots/normalized_straight-prime_race-11a-4million.png}{.8}~\label{nr11}
 
 
 \vskip40pt
@@ -848,7 +853,7 @@ We should note in passing that there is, of course, a massive literature on this
 
 
 
-     \includegraphics[width=0.9\textwidth]{normalized_straight-prime_race-37a-4million.png}{.8}~\label{nr37}
+     \includegraphics[width=0.9\textwidth]{plots/normalized_straight-prime_race-37a-4million.png}{.8}~\label{nr37}
 %
 
   \vskip40pt
@@ -862,7 +867,7 @@ We should note in passing that there is, of course, a massive literature on this
 
 
 
-     \includegraphics[width=0.9\textwidth]{normalized_straight-prime_race-389a-4million.png}{.8}~\label{nr389}
+     \includegraphics[width=0.9\textwidth]{plots/normalized_straight-prime_race-389a-4million.png}{.8}~\label{nr389}
 
 
    \vskip60pt
@@ -873,7 +878,7 @@ We should note in passing that there is, of course, a massive literature on this
 
 
 
-     \includegraphics[width=0.9\textwidth]{normalized_straight-prime_race-5077a-4million.png}{.8}~\label{nr389}
+     \includegraphics[width=0.9\textwidth]{plots/normalized_straight-prime_race-5077a-4million.png}{.8}~\label{nr389}
 
 
 
