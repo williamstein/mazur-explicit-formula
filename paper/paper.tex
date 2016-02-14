@@ -7,6 +7,7 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{sistyle}\SIthousandsep{,}
+\usepackage{hyperref}
 
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
@@ -100,15 +101,20 @@ gegebenen Gr\"{o}sse," published in the
 Monatsberichte der Berliner Akademie,
 November 1859.  For real numbers $X>1$ not equal to a power of a prime number  (and with some minor changes in notation and ordering  of terms) Riemann's formula is:
 
-$${\bf (*)}\ \ \ \sum_{n} {\frac{1}{n}}\pi(X^{{\frac{1}{n}}}) \ \ \    = \ \ \    {\rm Li}(X) \ \ \   + \ \ \  \left\{ \int_X^{\infty}{\frac{1}{x^2-1}}\cdot {\frac{dx}{x\log(x)}} +\log(\xi(0))\right\}\ \ \ \     - \ \ \   \sum_\theta({\rm Li}(X^{{\frac{1}{2}}+i\theta})+ {\rm Li}(X^{{\frac{1}{2}}-i\theta}).$$
 
-Here,  the Riemann Hypothesis is assumed, the $\pm \theta$ are the imaginary parts of the nontrivial zeroes, and  $\xi(0)$ is---it seems--- a scribe's error for  $\zeta(0)=1/2$.
+\begin{align*}
+{\bf (*)}\ \ \ \sum_{n} {\frac{1}{n}}\pi(X^{{\frac{1}{n}}}) \ \ \ &= \\
+  {\rm Li}(X) \ \ \  +& \ \ \  \left\{ \int_X^{\infty}{\frac{1}{x^2-1}}\cdot {\frac{dx}{x\log(x)}} +\log(\xi(0))\right\}\ \ \ \     - \ \ \   \sum_\theta({\rm Li}(X^{{\frac{1}{2}}+i\theta})+ {\rm Li}(X^{{\frac{1}{2}}-i\theta})).
+\end{align*}
+
+
+Here,  the Riemann Hypothesis is assumed, the $\pm \theta$ are the imaginary parts of the nontrivial zeroes, and  $\xi(0)$ is---it seems---a scribe's error for  $\zeta(0)=1/2$. [[William: what is $\xi$?]]
 
 %Riemann obtains his formula by analyzing   $\log\zeta(s)$ which is $\sum_p \log(1+p^{-s)}$  for ${\rm Re}(s) > 1$  and dealing with poles and zeroes the Cauchy integral theorem, dealing
 The three terms on the right correspond to, respectively:  the pole of $\zeta(s)$ at $s=1$, the trivial zeroes of $\zeta(s)$, and the nontrivial zeroes of $\zeta(s)$.
 
 
- Subsequently there have been many versions of Explicit Formulas, one such notable variant  proved by Hans von  Mangoldt, in his 1895 article  ``Zu Riemann's Abhandlung `\"{U}ber die Anzahl der Primzahlen unter einer gegebenen Gr\"{o}sse'", Journal f\"{u}r die reine und angewandte Mathematik.
+ Subsequently, there have been many versions of Explicit Formulas, one such notable variant  proved by Hans von  Mangoldt, in his 1895 article  ``Zu Riemann's Abhandlung `\"{U}ber die Anzahl der Primzahlen unter einer gegebenen Gr\"{o}sse'", Journal f\"{u}r die reine und angewandte Mathematik.
 
  A  cartoon version of the genre of `Explicit Formula' might be described as follows.
 
@@ -117,9 +123,10 @@ The three terms on the right correspond to, respectively:  the pole of $\zeta(s)
 
  \noindent where each  term of the formula  is taken as a function of a `cutoff' real value $X$, and the ordering of the terms is in accord with {\bf(*)} above. We devote this expository  article in honor of Riemann to a discussion of formulas of this type. We celebrate Riemann's formula  by considering some open questions related to the application of the Explicit Formula to the arithmetic of elliptic curves.
 
-  The {\it Sum of Local data} that appears in most of the `Explicit Formulas' of analytic number theory is often given by  i.e., by a partial sum $\nu(X)\cdot\sum_{p<X}G(p)$ of locally defined {\it arithmetically interesting} quantities $G(p)$ attached to prime numbers $p$, summed to up to some cutoff value, $p<X$  (and normalized for convenience by an elementary multiplicative factor $\nu(X)$).
+  The {\it Sum of local data} that appears in most of the `Explicit Formulas' of analytic number theory is often given, i.e., by a partial sum $\nu(X)\cdot\sum_{p<X}G(p)$ of locally defined {\it arithmetically interesting} quantities $G(p)$ attached to prime numbers $p$, summed to up to some cutoff
+value $p<X$  (and normalized for convenience by an elementary multiplicative factor $\nu(X)$).
 
-   Usually the {\it Global datum} is computed by knowing the order of specific zeroes (or poles) at specified values of the complex variable $s$  of relevant (global) $L$-functions.  For example, the formula {(*)} gives the contribution of the pole at $s=1$ of $\zeta(s)$.  Often (perhaps only conjecturally)  the  {\it Global datum} is the 'dominant term'    on the right-hand-side of the equation, giving a good approximation for the {\it Sum of Local data}. Sometimes, as will be the case in a few of the examples to be described below, the roles are reversed and one takes the Global datum as the object being sought.  That is, we view it as ${\rm{\it Global\ datum}}\ = \  {\rm{\it Sum\ of\ local\ data\  }}\ -\  {\rm{\it  Easy\ error\ term}}\ -\  {\rm{\it  Oscillatory\ term}}.$  In some instances, the sought-for Global datum is constant, independent of the cutoff $X$, and also an integer, in which case a close approximation to each of the other three terms (for some specific value of $X$) would give a decisive answer for the value of the Global datum.
+   Usually the {\it Global datum} is computed by knowing the order of specific zeroes (or poles) at specified values of the complex variable $s$  of relevant (global) $L$-functions.  For example, the formula {(*)} gives the contribution of the pole at $s=1$ of $\zeta(s)$.  Often (perhaps only conjecturally)  the  {\it Global datum} is the `dominant term'    on the right-hand-side of the equation, giving a good approximation for the {\it Sum of local data}. Sometimes, as will be the case in a few of the examples to be described below, the roles are reversed and one takes the Global datum as the object being sought.  That is, we view it as ${\rm{\it Global\ datum}}\ = \  {\rm{\it Sum\ of\ local\ data\  }}\ -\  {\rm{\it  Easy\ error\ term}}\ -\  {\rm{\it  Oscillatory\ term}}.$  In some instances, [[william: "we conjecture that..."?]] the sought-for Global datum is constant, independent of the cutoff $X$, and also an integer, in which case a close approximation to each of the other three terms (for some specific value of $X$) would give a decisive answer for the value of the Global datum.
 
 %   and  often he formula expresses this function $\nu(X)\cdot\sum_{p<X}G(p)$ of the variable $X$ as a {\it dominant term}, plus an easily controlled error term, plus an interesting third term that might be called the {\it oscillatory term} that, in most cases, is only conjecturally controllable.
 
@@ -130,10 +137,10 @@ The three terms on the right correspond to, respectively:  the pole of $\zeta(s)
 
 
 
- There are theoretical and computational challenges in working out the  numerical contributions of these terms of the formula---or at least bounds for them---in concrete cases, the Oscillatory Term being, of course, the most intriguing. The Grand Riemann Hypothesis offers us some idea of the behavior of the Oscillatory term, but more recent  finer conjectures and suggestions (offered by a number of people) that propose bounds for Oscillatory terms  (refinements, so to speak, of the classical Riemann Hypothesis)  and that help make Explicit Formulas  even more useful.
+ There are theoretical and computational challenges in working out the  numerical contributions of these terms of the formula---or at least bounds for them---in concrete cases, the Oscillatory Term being, of course, the most intriguing. The Grand Riemann Hypothesis offers us some idea of the behavior of the Oscillatory term, but more recent  finer conjectures and suggestions (offered by a number of people) propose bounds for Oscillatory terms  (refinements, so to speak, of the classical Riemann Hypothesis)  and help make Explicit Formulas  even more useful.
  %We have no new results here, but our aim in this half hour plus ten minutes of discussion, is to offer numerical {\it visualizations} of the analytic formula in various interesting cases to advertise the need for some  precise conjectures and computational projects regarding this problem and to recount some recent work.\ More for the future will be  our plans for a web-accessible resource: a repository of some of the numerics for the cases related to elliptic curves that interest us.
 
-   For this volume in honor of Bernhard Riemann,  we will examine one interesting case  that does depend on these `finer conjectures'  advertise the conjectures themselves, and  the need for  computational projects regarding  such problems.  We restrict ourselves to applications to elliptic curves, but we take this only as a basic (important) example of a fuller story for general motives.  We have  future plans for a web-accessible resource: a repository of some of the numerics for the cases related to elliptic curves that interest us.
+   For this volume in honor of Bernhard Riemann,  we will examine one interesting case  that does depend on these `finer conjectures',  advertise the conjectures themselves, and  the need for  computational projects regarding  such problems.  We restrict ourselves to applications to elliptic curves, but we take this only as a basic (important) example of a fuller story for general motives.  We have  future plans for a web-accessible resource\footnote{See \url{http://wstein.org/papers/2016-explicit/}}: a repository of some of the numerics for the cases related to elliptic curves that interest us.
 
   Specifically we will  focus on {\it issues of bias}  following the classical ``Explicit Formula,'' and the work of:
 Sarnak, \ Granville,\  Rubenstein,\, Martin-Watkins,\ Fiorilli,\ Bober,\ Conrey-Snaith, \ Spicer, and others.
@@ -144,9 +151,9 @@ Sarnak, \ Granville,\  Rubenstein,\, Martin-Watkins,\ Fiorilli,\ Bober,\ Conrey-
 
 
  We offer no new theoretical results but use this occasion to mention some interesting recent work and conjectures  (of other people)  that might warrant more such computations and that raise a host of questions, both theoretical and computational.   For example, to do some systematic numerical computations related to an elliptic curve $E$ attached to a newform $f_E$  (along the lines of what has already been done in this paper)  it would be very useful to have a much larger data set  of the arithmetic function  $$n \mapsto r_E(n)$$
- where $r_E(n)$ is the order of vanishing of the $L$-function of the automorphic forms ${\rm symm}^n f_E$ for odd values of $n$.  Regarding this arithmetic function, aside from having control of the parity of   $r_E(n)$  (e.g., see \cite{DMW}))  hardly anything else is known. Nor do we (at least, the authors of this paper)  yet have enough experience---when $E$ has no complex multiplication---even to formulate a proper conjecture.
+ where $r_E(n)$ is the order of vanishing of the $L$-function of the automorphic forms ${\rm symm}^n f_E$ for odd values of $n$.  Regarding this arithmetic function, aside from having control of the parity of   $r_E(n)$  (e.g., see \cite{DMW})  hardly anything else is known. Nor do we (at least, the authors of this paper)  yet have enough experience---when $E$ has no complex multiplication---even to formulate a proper conjecture.
 
- We might also mention that when making these numerical experiments one seems to be in a situation  that is not entirely dissimilar from the type of slightly annoying mismatch between conjecture and data that one encounters in more traditional studies of Mordell-Weil statistics  that was the subject of the survey article B-M-S-W.  But this may be unavoidable, given that even  the so-called  `easy error term' in the explicit formula will tend to converge  only $O(1/\log X)$ fast.
+ We might also mention that when making these numerical experiments one seems to be in a situation  that is not entirely dissimilar from the type of slightly annoying mismatch between conjecture and data that one encounters in more traditional studies of Mordell-Weil statistics  that was the subject of the survey article \cite{bmsw:bulletins}, and the more recent \cite{ecdb:height}.  But this may be unavoidable, given that even  the so-called  `easy error term' in the explicit formula will tend to converge  only $O(1/\log X)$ fast.
 
  We should say at the outset that for simplicity, and sometimes for necessity, we'll be assuming GRH throughout---without any further mention. In fact, at times we'll also be assuming ({\it with} explicit warning) some further conjectures.
 
@@ -170,7 +177,9 @@ The term on the LHS of {(***)}  cut off at a positive real number $X$ is  a fini
 
 
   \begin{itemize} \item We require the value $G(p)$ to be determined by only {\it local }considerations at the prime~$p$.
-The simplest example of such a {\it Sum\ of\ local\ data}  is given by taking $\nu(X)$ to be the constant $1$, and  $G(p)$ to be  $1$ for all $p$, giving us the classical prime counting function $\pi(X):=\sum_{p\le X}1$. \item The normalizing factors $\nu(X)$ will be elementary smooth functions of the cutoff $X$. We sometimes choose this normalizing factor so that the  resulting  $\delta(X)$ has (conjecturally) finite mean.\end{itemize}
+The simplest example of such a {\it Sum\ of\ local\ data}  is given by taking $\nu(X)$ to be the constant $1$, and  $G(p)$ to be  $1$ for all $p$, giving us the classical prime counting function $\pi(X):=\sum_{p\le X}1$. \item The normalizing factors $\nu(X)$ will be elementary smooth functions of the cutoff $X$. We sometimes choose this normalizing factor so that the  resulting  $\delta(X)$ has (conjecturally) finite mean. [[William: I don't think I understand {\em exactly} what it means for $\delta(X)$ to have finite mean.]]
+
+\end{itemize}
 
 We will be concentrating on  {\it sums\ of\ local\ data}  attached to elliptic curves over ${\Q}$,   $$\delta_E(X):=\nu(X)\sum_{p\le X}g_E(p)$$ where the weighting function $$p \mapsto g_E(p)$$   is a function of $a_E(p)$, the $p$th Fourier coefficient of the eigenform of weight two parametrizing the elliptic curve.
 
@@ -215,9 +224,9 @@ We will be considering more delicate {\it bias questions} by examining a variety
 
 
  For example, to consider  the problem highlighted in our {\it Preface} (above) form  the `sum of local data'
-  $${\frac{\log X}{{\sqrt X}}}\sum_{p\le X}\gamma_E(p)$$  where $\gamma_E(p)=0$ if $p$ is a bad or supersingular prime for $E$ and is otherwise is $+1$ if $E$ has less that $p+1$ rational points over ${\bf F}_p$; and $\gamma_E(p) = -1$ if more.  Then this sum, which will be denoted $\Delta_E(X)$ (and will be called the {\bf raw data}, measures exactly the difference between over-count and under-count, as discussed above.  For some contrast, consider these two variant ways of estimating bias:
+  $${\frac{\log X}{{\sqrt X}}}\sum_{p\le X}\gamma_E(p)$$  where $\gamma_E(p)=0$ if $p$ is a bad or supersingular prime for $E$ and is otherwise is $+1$ if $E$ has less that $p+1$ rational points over ${\bf F}_p$; and $\gamma_E(p) = -1$ if more.  Then this sum, which will be denoted $\Delta_E(X)$ and which we call the {\bf raw data}, measures exactly the difference between over-count and under-count, as discussed above.  For some contrast, consider these two variant ways of estimating bias:
   \begin{itemize}
- \item   $${\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}}$$  whihc we will call  the {\bf medium-rare data}, and \item
+ \item   $${\mathcal D}_E(X):= {\frac{\log\ X}{\sqrt X}}\sum_{p \le X}{\frac{a_E(p)}{\sqrt p}}$$  which we will call  the {\bf medium-rare data}, and \item
   $${D}_E(X):= {\frac{1}{\log\ X}}\sum_{p \le X}{\frac{a_E(p)\log p}{ p}}$$  which we will call the {\bf well-done data}.
   \end{itemize}\vskip10pt
 
@@ -239,7 +248,7 @@ Often, and under GRH, these {\it real,  central, }   zeroes of the relevant $L$-
 
  \section{Some statistics}\label{statdist}
 
- \subsection{Mean and Variance}
+ \subsection{Mean and variance}
 If (GRH plus)  certain interesting conjectures hold---then  each of the three  Sums of Local Data, $${\Delta}_E(X), \ {\mathcal D}_E(X), \ {\rm and} \ D_E(X)$$ will have finite {\it mean}  (relative to the measure $dX/X$ on ${\bf R}^+$), and the value of the mean is equal to the term  {\rm{\it Global\ data}} in their corresponding Explicit Formula. Furthermore, what distinguishes these three formats is that conjecturally{\footnote{ as described in a letter of Sarnak; see subsection{\ref{SL}} below.}}---
    \begin{itemize}
    \item the raw data will have {\it infinite} variance,
@@ -265,6 +274,9 @@ If (GRH plus)  certain interesting conjectures hold---then  each of the three  S
 {\frac{2}{\pi}}- {\frac{16}{3\pi}}r_E \ \ \ + \ \ \  {\frac{4}{\pi}} \sum_{k=1}^{\infty}  (-1)^{k+1}\Bigl({\frac{1}{2k+1}} + {\frac{1}{2k+3}}\Bigr) r_E({2k+1}).
 \end{equation*} where $$r_E(n):= \ r_{f_E}(n)\ = \ {\rm the\ order\ of\ vanishing\ of\ }L(symm^nf_E, s)\ {\rm at}\ s=1/2,$$ with $f_E:=$ the newform of weight two corresponding to the elliptic curve $E$; and where we have normalized things so that $s=1/2$ is the central point. {\bf NOTE:} For a discussion of the numerics of the values $r_E({2k+1})$, see Section {\ref{highord}} below.
    \end{itemize}
+
+[[William: a question related to the raw data that Ralph Greenberg has mentioned to me a few times is: if $E$ and $F$ are elliptic curves such that $\gamma_E(p)=\gamma_F(p)$ for all (or almost all?) $p$, are $E$ and $F$ necessarily isogenous?]]   
+
 % \noindent which leads us to our initial question: \begin{quote} What is the behavior of the function  $$n \mapsto r_ f(n)$$ for fixed $f$ and varying $n$? \end{quote}
   %
  % \subsection{The  `{\it Easy\ error term}'}
@@ -922,6 +934,11 @@ American Mathematical Monthly {\bf 113} 1-33 (2006)
 
      \bibitem{W}\label{W}  Weyl, H.:  Ramifications, old and new, of the eigenvalue problem,  Bull. Amer. Math. Soc. {\bf 56}, Number 2 115-139 (1950)
 \end{thebibliography}
+
+% Barry, I put this in so that we can use my file biblio.bib which has a ton of references.  We can copy bibtex citations from MathSciNet.  Then at the end we can export to the format you have above automatically...
+\bibliographystyle{amsalpha}
+\bibliography{biblio}
+
 
 \end{document}
 
