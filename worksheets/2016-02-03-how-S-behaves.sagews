@@ -15,7 +15,7 @@
 ︠d2216e9b-1885-4e1d-a060-bfc20775afb1as︠
 %auto
 load("../explicit.pyx")
-︡6862e94a-a30d-466c-a3c2-b899c71f05bd︡{"auto":true}︡{"stderr":"Compiling ./../explicit.pyx..."}︡{"stderr":"\n"}︡
+︡5ce9f276-dab6-4987-8c6e-116f4f4acb48︡{"auto":true}︡{"stderr":"Compiling ./../explicit.pyx...\n"}︡
 ︠deda217a-2688-4007-a4e5-bc556b20d7daas︠
 %auto
 def CS(E, xmax=1e4, num_zeros=100):
@@ -31,8 +31,8 @@ def plots(E, xmax=1e4, num_zeros=100, B=0.05):
     print "S(X) and its Cesaro sum: for %s up to X=%s using %s zeros"%(E.cremona_label(), xmax, num_zeros)
     s = stats.TimeSeries(CS(E, xmax, num_zeros))
     show(s.plot() + cesaro(s).plot(color='red', thickness=2), ymax=B, ymin=-B)
-︡0c45b538-234d-4b46-88d0-5f73204f44bd︡{"auto":true}︡
-︠7f3965c1-255f-4fe6-be58-416de943e3d9i︠
+︡a2de3c21-93bb-4b4e-9ff0-b2c4fa527464︡{"auto":true}︡
+︠7f3965c1-255f-4fe6-be58-416de943e3d9︠
 for lbl in ['11', '37a', '389a', '5077a']:
     for xmax, B in [(100,.3), (1000,.06), (10000,.04)]:
         plots(EllipticCurve(lbl), xmax=xmax, num_zeros=1000, B=B)
@@ -43,6 +43,10 @@ for lbl in ['11', '37a', '389a', '5077a']:
     plots(EllipticCurve(lbl), xmax=100000, num_zeros=500, B=0.05)
 ︡efa3a515-137d-42de-b1ea-5825b2ae1870︡{"stdout":"S(X) and its Cesaro sum: for 11a1 up to X=100000 using 500 zeros\n","done":false}︡{"once":false,"done":false,"file":{"show":true,"uuid":"fe968754-e22b-4fc9-95d6-6a529fbae1aa","filename":"/projects/95d92fa7-cb50-414e-a35d-9897eabe44de/.sage/temp/compute4-us/19584/tmp_oXlncZ.svg"}}︡{"html":"<div align='center'></div>","done":false}︡{"stdout":"S(X) and its Cesaro sum: for 37a1 up to X=100000 using 500 zeros","done":false}︡{"stdout":"\n","done":false}︡{"once":false,"done":false,"file":{"show":true,"uuid":"80e1d537-2c36-4ab0-b2b8-dbf7d118d95b","filename":"/projects/95d92fa7-cb50-414e-a35d-9897eabe44de/.sage/temp/compute4-us/19584/tmp_g7WMFH.svg"}}︡{"html":"<div align='center'></div>","done":false}︡{"stdout":"S(X) and its Cesaro sum: for 389a1 up to X=100000 using 500 zeros","done":false}︡{"stdout":"\n","done":false}︡{"once":false,"done":false,"file":{"show":true,"uuid":"8bf26606-b19c-4565-925b-e231f63172a8","filename":"/projects/95d92fa7-cb50-414e-a35d-9897eabe44de/.sage/temp/compute4-us/19584/tmp_KcWftZ.svg"}}︡{"html":"<div align='center'></div>","done":false}︡{"stdout":"S(X) and its Cesaro sum: for 5077a1 up to X=100000 using 500 zeros","done":false}︡{"stdout":"\n","done":false}︡{"once":false,"done":false,"file":{"show":true,"uuid":"e1403f61-802b-4f1c-a82f-ae8c718fb721","filename":"/projects/95d92fa7-cb50-414e-a35d-9897eabe44de/.sage/temp/compute4-us/19584/tmp_NkRnsE.svg"}}︡{"html":"<div align='center'></div>","done":false}︡{"done":true}︡
 ︠c8e11428-588a-4e82-8f00-c4e7b8684c65︠
+
+log(4e6)
+︡2c1cf08a-c24c-4dbf-9241-3495eebcd0a0︡︡{"stdout":"15.2018049190842\n","done":false}︡{"done":true}
+︠e3d2d9aa-6054-496e-bce8-6640cfbacce4︠
 
 
 

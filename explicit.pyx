@@ -213,13 +213,57 @@ class DataPlots(object):
 # Plots of error term got by taking partial sum over zeros
 ############################################################
 
+# Like OscillatoryTerm below, but without dividing by log(X).
+class OscillatoryS:
+    """
+    Compute
+
+       S_E(X) = sum \frac{X^{i\gamma}}{i\gamma}  + \frac{X^{-i\gamma}}{-i\gamma} = sum \frac{2\sin(\log(X)\gamma)}{\gamma}
+
+    Conjecture: S(E,x) is O(1) away from a set of measure 0.
+    """
+    def __init__(self, E, zeros):
+        self.E = E
+        if not isinstance(zeros, list):
+            zeros = E.lseries().zeros(zeros)
+        self.zeros = [float(x) for x in zeros if x>0]  # only include *non-real* zeros.
+
+    def __call__(self, double X):
+        cdef double gamma, result = 0, logX = log(X)
+        for gamma in self.zeros:
+            result += sin(logX*gamma)/gamma   # bottlekneck is evaluation of sin
+        return 2*result
+
+    def eval(self, double X, int num_zeros):
+        """
+        Same as call, but with ability to specify number of zeros to use.
+        """
+        if len(self.zeros) < num_zeros:
+            raise ValueError("only %s zeros were precomputed, but you requested %s zeroes"%(len(self.zeros), num_zeros))
+        cdef double gamma, result = 0, logX = log(X)
+        for gamma in self.zeros[:num_zeros]:
+            result += sin(logX*gamma)/gamma   # bottlekneck is evaluation of sin
+        return 2*result
+
+    def convergence(self, double X):
+        """
+        Return the terms of the series, which gives a sense of how it converges.
+        """
+        cdef double gamma, result = 0, logX = log(X)
+        v = []
+        for gamma in self.zeros:
+            result += 2*sin(logX*gamma)/gamma   # bottlekneck is evaluation of sin
+            v.append(result)
+        return v
+
+
 class OscillatoryTerm(object):
     """
     The Oscillatory Term is a real-valued function of a real variable
 
         S_n(X) = (1/log(X)) * sum(X^(i*gamma_j)/(i*gamma_j) for j<=n)
 
-    where gamma are the imaginary parts of zeros on the critical strip.
+    where the gamma_j are the imaginary parts of zeros on the critical strip.
 
     Return object that when evaluated at a specific number X,
     returns the sequence S_1(X), S_2(X), ..., of partial sums.
@@ -235,7 +279,7 @@ class OscillatoryTerm(object):
         cdef double logX = log(X), running_sum = 0
         result = []
         for i in range(len(self.zeros)):
-            running_sum += cos(logX*self.zeros[i])/self.zeros[i]/logX
+            running_sum += 2*sin(logX*self.zeros[i])/self.zeros[i]/logX
             result.append(running_sum)
         return result
 
@@ -614,7 +658,7 @@ def oscillatory_gibbs(list zeros, int n, double Xmin, double Xmax):
 
       f(X) = 2  * sum sin(gamma*X)/gamma,
 
-    where the sum is over gamma that are the positive imaginary parts 
+    where the sum is over gamma that are the positive imaginary parts
     of the first few zeros of an elliptic curve L-function (the zeros
     in the input list "zeros").
 
