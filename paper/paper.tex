@@ -60,7 +60,7 @@
 \def\GL{\mathrm{GL}}
 \def\PGL{\mathrm{PGL}}
 \def\PSL{\mathrm{PSL}}
-\def\S{\mathcal{S}}
+\def\SS{\mathcal{S}}
 \def\s{S_{\rm Riemann}(X)}
 \def\Z{\bf{Z}}
 \def\Q{\bf{Q}}
@@ -111,7 +111,6 @@ November 1859.  For real numbers $X>1$ not equal to a power of a prime number  (
 
 Here,  the Riemann Hypothesis is assumed,
  the $\pm \theta$ are the imaginary parts of the nontrivial zeroes, and  $\xi(0)$ is---it seems---a scribe's error for  $\zeta(0)=1/2$.%
- % [[William: what is $\xi$?]]
 %Riemann obtains his formula by analyzing   $\log\zeta(s)$ which is $\sum_p \log(1+p^{-s)}$  for ${\rm Re}(s) > 1$  and dealing with poles and zeroes by means of the Cauchy integral theorem
 The three terms on the right correspond to, respectively:  the pole of $\zeta(s)$ at $s=1$, the trivial zeroes of $\zeta(s)$, and the nontrivial zeroes of $\zeta(s)$.
 
@@ -137,7 +136,7 @@ reproduce, which raises questions.]]
    For this volume in honor of Bernhard Riemann,  we will examine one interesting case  that does depend on these `finer conjectures',  advertise the conjectures themselves, and  the need for  computational projects regarding  such problems.  We restrict ourselves to applications to elliptic curves, but we take this only as a basic (important) example of a fuller story for general motives.  We have  future plans for a web-accessible resource\footnote{See \url{http://wstein.org/papers/2016-explicit/}}: a repository of some of the numerics for the cases related to elliptic curves that interest us.
 
   Specifically we will  focus on {\it issues of bias}  following the classical ``Explicit Formula,'' and the work of:
-Sarnak, \ Granville,\  Rubenstein,\, Martin-Watkins,\ Fiorilli,\ Bober,\ Conrey-Snaith, \ Spicer, and others. [[Mestre??]]
+Sarnak, \ Granville,\  Rubenstein,\, Martin-Watkins,\ Fiorilli,\ Bober-Mestre-Odlyzko,\ Conrey-Snaith, \ Spicer, and others.
 
 
  The {\it example problems} we consider are related to the question---given an elliptic curve over the rational numbers and letting  $p$ range through prime numbers---of how often  $p+1$ is an {\it over-count} or an {\it under-count} for the number of rational points on the curve modulo $p$? The rough answer is 50/50, but there can be a `bias' similar to the classical Chebyshev bias  \cite{R-S}. For such finer statistics one resorts to `Explicit Formulas.'  Here, computation can  outstrip theory in that people have algorithms to make precise computations (their correctness being conditional on some conjectures, including the holomorphicity of the $L$-functions in question).
@@ -145,7 +144,8 @@ Sarnak, \ Granville,\  Rubenstein,\, Martin-Watkins,\ Fiorilli,\ Bober,\ Conrey-
 
 
  We offer no new theoretical results but use this occasion to mention some interesting recent work and conjectures  (of other people)  that might warrant more such computations and that raise a host of questions, both theoretical and computational.   For example, to do some systematic numerical computations related to an elliptic curve $E$ attached to a newform $f_E$  (along the lines of what has already been done in this paper)  it would be very useful to have a much larger data set  of the arithmetic function  $$n \mapsto r_E(n)$$
- where $r_E(n)$ is the order of vanishing [[where? at what point?]] of the $L$-function of the automorphic forms ${\rm symm}^n f_E$ for odd values of $n$.  Regarding this arithmetic function, aside from having control of the parity of   $r_E(n)$  (e.g., see \cite{DMW})  hardly anything else is known. Nor do we (at least, the authors of this paper)  yet have enough experience---when $E$ has no complex multiplication---even to formulate a proper conjecture.
+ where $r_E(n)$ is the order of vanishing [[where? at what point?]] of the $L$-function of the automorphic forms ${\rm symm}^n f_E$ for odd values of $n$.  Regarding this arithmetic function, aside from having control of the parity of   $r_E(n)$  (e.g., see \cite{DMW})  hardly anything else is known. Nor do we (at least, the authors of this paper)  yet have enough
+ experience---when $E$ has no complex multiplication---even to formulate a proper conjecture.
 
  We might also mention that when making these numerical experiments one seems to be in a situation  that is not entirely dissimilar from the type of slightly annoying mismatch between conjecture and data that one encounters in more traditional studies of Mordell-Weil statistics  that was the subject of the survey article \cite{bmsw:bulletins}, and the more recent \cite{ecdb:height}.  But this may be unavoidable, given that even  the so-called  `easy error term' in the explicit formula will tend to converge  only $O(1/\log X)$ fast.
 
@@ -156,7 +156,8 @@ Sarnak, \ Granville,\  Rubenstein,\, Martin-Watkins,\ Fiorilli,\ Bober,\ Conrey-
 
     $${D}_E(X):= {\frac{1}{\log\ X}}\sum_{p \le X}{\frac{a_p(E)\log p}{ p}}$$
 
-    which fits into this Explicit Formula  ([[don't use loc. cit and explicitly site sarnak's letter.]] loc. cit.: Formula (vi) of the appendix.{\footnote{ There is a sign typo there: $r_E$ should be $-r_E$.}}) dependent on GRH together with some other conjectures  ( for these, see *** below)
+    which fits into this Explicit Formula (see \cite[Formula (vi) of the appendix]{S}).{\footnote{ There is a sign typo there: $r_E$ should be $-r_E$.}}) dependent on GRH together with some other conjectures
+(for these, see *** below).
 
     $${\bf (*)}\ \ \ {D}_E(X) = -r_E \ \ \  +\ \ \  c(E)/\log\ X  +o(1/\log X)   \ \ \  +\ \ \
      {\frac{1}{\log X}}\lim_{T\to \infty}S_E(X;T).$$
@@ -212,7 +213,8 @@ Curve & Rank & Negative $a_E(p)$ for $p<10^9$ & Positive $a_E(p)$ for $p<10^9$ &
 
 
 To deal with the more delicate structure of these statistics, consider the following `Sum of local data'
-  $${\frac{\log X}{{\sqrt X}}}\sum_{p\le X}\gamma_E(p)$$  where $\gamma_E(p)=0$ if $p$ is a bad or supersingular prime for $E$ and is otherwise is $+1$ if $E$ has less that $p+1$ rational points over ${\bf F}_p$; and $\gamma_E(p) = -1$ if $E$ has more that $p+1$ points.  Then this sum, which will be denoted $\Delta_E(X)$, measures exactly the difference between over-count and under-count{\footnote{  Ralph Greenberg has raised the following question: if $E$ and $F$ are elliptic curves such that $\gamma_E(p)=\gamma_F(p)$ for all (or almost all?) $p$, are $E$ and $F$ necessarily isogenous?}}. % For some contrast, consider these two variant sums of local data, and their corresponding Explicit formulas, as  proved in \cite{S}
+  $${\frac{\log X}{{\sqrt X}}}\sum_{p\le X}\gamma_E(p)$$  where $\gamma_E(p)=0$ if $p$ is a bad or supersingular prime for $E$ and is otherwise is $+1$ if $E$ has less that $p+1$ rational points over ${\bf F}_p$; and $\gamma_E(p) = -1$ if $E$ has more that $p+1$ points.  Then this sum, which will be denoted $\Delta_E(X)$, measures exactly the difference between over-count and under-count{\footnote{  Ralph Greenberg has raised the following question: if $E$ and $F$ are elliptic curves such that $\gamma_E(p)=\gamma_F(p)$ for all (or almost all?) $p$, are $E$ and $F$ necessarily isogenous?  TODO: I asked Ralph and he said that there is now a paper by some Koreans about this, with a nice conditional answer, evidently
+  following approach that I suggested.}}. % For some contrast, consider these two variant sums of local data, and their corresponding Explicit formulas, as  proved in \cite{S}
 
  The  mean of $\Delta_E(X)$ is  (conjecturally) \begin{equation*}
 {\frac{2}{\pi}}- {\frac{16}{3\pi}}r_E \ \ \ + \ \ \  {\frac{4}{\pi}} \sum_{k=1}^{\infty}  (-1)^{k+1}\Bigl({\frac{1}{2k+1}} + {\frac{1}{2k+3}}\Bigr) r_E({2k+1}).
@@ -244,8 +246,8 @@ To deal with the more delicate structure of these statistics, consider the follo
 %%%%
 \subsection{Distributions of values }
 
-Let ${\R}_{>0}$ be the multiplicative group of positive real numbers, and ${\R}$ the additive group of reals. For $I \subset {\R}_{>0}$ a Haar measurable set, let $|I|$ denote a Haar measure.  Let ${\S}:{\R}_{>0} \to {\R}$ be a real-valued Lebesgue-integrable function.  Fixing $I \subset {\R}_{>0}$ a subset  of finite measure,  for every measurable subset $J\subset {\R}$, form the probability measure on ${\R}$
-$$J\mapsto \mu_{{\S},I}(J): = {\frac{|I\cap {\S}^{-1}(J)|}{|I|}}.$$  So, $\mu_{{\S},I}(J)$ is the {\it probability that the function ${\S}$ achieves a value in the range $J$ over the gamut of arguments in $I$.}   Say that ${\S}$ has a {\bf distribution of values} if, for $X > 0$ setting $I_X= (0,X]$, the limit  $$\mu_{{\S}}:= \lim_{X \to \infty}\mu_{{\S},I_X}$$ exists. These  definitions are particularly relevant to the oscillatory terms ${\S}(X):= S_E(X)$ that we are currently studying. The data seems to indicate convergence to a limiting distribution (the  mean  value being $0$) with a strikingly small (variance, or equivalently: strikingly small) standard deviation of values.
+Let ${\R}_{>0}$ be the multiplicative group of positive real numbers, and ${\R}$ the additive group of reals. For $I \subset {\R}_{>0}$ a Haar measurable set, let $|I|$ denote a Haar measure.  Let ${\SS}:{\R}_{>0} \to {\R}$ be a real-valued Lebesgue-integrable function.  Fixing $I \subset {\R}_{>0}$ a subset  of finite measure,  for every measurable subset $J\subset {\R}$, form the probability measure on ${\R}$
+$$J\mapsto \mu_{{\SS},I}(J): = {\frac{|I\cap {\SS}^{-1}(J)|}{|I|}}.$$  So, $\mu_{{\SS},I}(J)$ is the {\it probability that the function ${\SS}$ achieves a value in the range $J$ over the gamut of arguments in $I$.}   Say that ${\SS}$ has a {\bf distribution of values} if, for $X > 0$ setting $I_X= (0,X]$, the limit  $$\mu_{{\SS}}:= \lim_{X \to \infty}\mu_{{\SS},I_X}$$ exists. These  definitions are particularly relevant to the oscillatory terms ${\SS}(X):= S_E(X)$ that we are currently studying. The data seems to indicate convergence to a limiting distribution (the  mean  value being $0$) with a strikingly small (variance, or equivalently: strikingly small) standard deviation of values.
 \vskip20pt
 Here, then, are some pictures  of what seems to be data `converging' to a limiting  distribution $\mu_E$ of the values of the oscillatory terms $S_E(X)$ for a few elliptic curves $E$:
   \vskip10pt
@@ -268,7 +270,7 @@ Here, then, are some pictures  of what seems to be data `converging' to a limiti
   \vskip10pt
 \hskip100pt \includegraphics[width=0.6\textwidth]{plots/bite389.pdf}
 
- %If so, we define the {\bf  mean  value of ${\S}$} and the {\bf standard deviation (of values) of ${\S}$} to be the mean and standard deviation (respectively) of the limiting normal distribution $\mu_{{\S}}$.
+ %If so, we define the {\bf  mean  value of ${\SS}$} and the {\bf standard deviation (of values) of ${\SS}$} to be the mean and standard deviation (respectively) of the limiting normal distribution $\mu_{{\SS}}$.
 
    {\bf Definition:}  The {\bf bite}, $\beta_E$, of the oscillatory term $S_E(X)$ is the standard deviation of the   distribution $\mu_E$ of values of $S_E(X)$.
 
@@ -552,8 +554,23 @@ $$=   \lim {\rm sup}_{X\to \infty}{\frac{1}{\log X}}\int_{2\le x \le X; \delta(x
    \begin{theorem} Assume GRH and LI(E). Then the following two statements are equivalent:
    \begin{enumerate} \item  The set of (analytic) ranks $\{r_E\}_E$ ranging over all elliptic curves over ${\Q}$ is {it unbounded}.
    \item  The  l.u.b of the set of  {\it percentages of positive support}  $\{{\mathcal P}_E\}_E$ is equal to $1$.\end{enumerate}\end{theorem}
-\item{\it The relationship between bias and bounding the rank: the work of Bober}  In \cite{B}, Jonathan Bober  establishes a conditional upper bound on the ranks of various known elliptic curves of (relatively) high Mordell-Weil rank, notably Noam Elkies'  elliptic curve $E_{28}$ for which $28$ linearly independent rational points have been found; Bober shows, conditional on the Birch-Swinnerton-Dyer conjecture and GRH, that the Mordell-Weil rank of $E_{28}$ is either $28$ or $30$. He does this by a nice `bias' computation using the Explicit Formula.
-\item{\it The work of Spicer} [[just point to Wei Ho et al.]]
+\item{\it The relationship between bias and bounding the rank: the
+work of Bober}  In \cite{B}, Jonathan Bober  builds on work
+of Odlyzko and Mestre to establish a conditional
+upper bound on the ranks of various known elliptic curves of
+(relatively) high Mordell-Weil rank, notably Noam Elkies'  elliptic
+curve $E_{28}$ for which $28$ linearly independent rational points
+have been found; Bober shows, conditional on the Birch-Swinnerton-Dyer
+conjecture and GRH, that the Mordell-Weil rank of $E_{28}$ is either
+$28$ or $30$ (subsequently, Jamie Weigandt used the same approach to
+verify that the rank is indeed 28). He does this by a nice `bias'
+computation using the
+Explicit Formula.
+
+\item Simon Spicer has further built on
+Bober's work to create an algorithm for quickly bounding the analytic
+ranks, which is used on hundreds of millions of elliptic
+curves in \cite[\S 2.3]{ecdb:height}.
 
 \centerline{to be inserted}
 \vskip10pt
@@ -790,7 +807,6 @@ to get information about this?]]
 
 
     \includegraphics[width=0.9\textwidth]{plots/normalized_straight-prime_race-5077a-4million.png}{.8}~\label{nr389}
-
 
 
 
