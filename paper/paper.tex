@@ -105,15 +105,18 @@ November 1859.  For real numbers $X>1$ not equal to a power of a prime number  (
 
 \begin{align*}
 {\bf (*)}\ \ \ \sum_{n} {\frac{1}{n}}\pi(X^{{\frac{1}{n}}}) \ \ \ &= \\
-  {\rm Li}(X) \ \ \  +& \ \ \  \left\{ \int_X^{\infty}{\frac{1}{x^2-1}}\cdot {\frac{dx}{x\log(x)}} +\log(\xi(0))\right\}\ \ \ \     - \ \ \   \sum_\theta({\rm Li}(X^{{\frac{1}{2}}+i\theta})+ {\rm Li}(X^{{\frac{1}{2}}-i\theta})).
+  {\rm Li}(X) \ \ \  +& \ \ \  \left\{ \int_X^{\infty}{\frac{1}{x^2-1}}\cdot {\frac{dx}{x\log(x)}} +\log(\xi(0))\right\}\ \ \ \     - \ \ \
+  \sum_\theta\left({\rm Li}(X^{{\frac{1}{2}}+i\theta})+ {\rm Li}(X^{{\frac{1}{2}}-i\theta})\right).
 \end{align*}
 
 
 Here,  the Riemann Hypothesis is assumed,
- the $\pm \theta$ are the imaginary parts of the nontrivial zeroes, and  $\xi(0)$ is---it seems---a scribe's error for  $\zeta(0)=1/2$.%
+ the $\pm \theta$ are the imaginary parts of the nontrivial zeroes, and  $\xi(0)$ is---it seems---a scribe's error for  $\zeta(0)=1/2$.
 %Riemann obtains his formula by analyzing   $\log\zeta(s)$ which is $\sum_p \log(1+p^{-s)}$  for ${\rm Re}(s) > 1$  and dealing with poles and zeroes by means of the Cauchy integral theorem
-  The three terms on the right correspond to, respectively:  the pole of $\zeta(s)$ at $s=1$, the trivial zeroes of $\zeta(s)$, and the nontrivial zeroes of $\zeta(s)$.
+The three terms on the right correspond to, respectively:  the pole of $\zeta(s)$ at $s=1$, the trivial zeroes of $\zeta(s)$, and the nontrivial zeroes of $\zeta(s)$.
 
+[[William: we need to address the fact that the above
+formula is somehow nonsense, right?     See worksheets/2016-06-08-150036-very-explicit-zeta-formula.sagews]]
 
  Subsequently, there have been many versions of Explicit Formulas, one such notable variant  proved by Hans von  Mangoldt, in his 1895 article  ``Zu Riemann's Abhandlung `\"{U}ber die Anzahl der Primzahlen unter einer gegebenen Gr\"{o}sse'", Journal f\"{u}r die reine und angewandte Mathematik.
 
@@ -142,9 +145,12 @@ value $p<X$  (and normalized for convenience by an elementary (continuous) multi
 
     $$ {\mathcal D}_E(X)  \ = \ 1-2r_E  \ +\  {\rm{\it  Easy\  error\ term}}\ +\  \sum_{|\gamma| \le T}{\frac{X^{i\gamma}}{{\frac{1}{2}}+i\gamma}}$$
 
+[[TODO: explain $T$, e.g., take limit as $T\to\infty$
+or make error term depend on $T$.]]
+
      Here, the `global datum'  is $1-2r_E$ where  $r_E$ is the analytic rank of $E$  (i.e., the order of vanishing of  $L(E,s)$ at the central point; conjecturally this will be the Mordell-Weil rank of $E$). The summation is taken for $\gamma$ ranging over the imaginary parts of the nontrivial zeroes of the $L$-function attached to $E$.
 
-   The   values of  ${\mathcal D}_E(X)$ achieve a  limiting distribution $\mu_E$ (with respect to multiplicative Haar measure $dx/x$) with {\it mean} $M$ equal to $1- 2r_E$  and variation  $V$  equal to $$\lim_{T \to \infty} \sum_{|\gamma | \le T}{\frac{1}{{\frac{1}{4}} + \gamma^2}}.$$
+   The   values of  ${\mathcal D}_E(X)$ achieve a  limiting distribution $\mu_E$ (with respect to multiplicative Haar measure $dx/x$) with {\it mean} $M$ equal to $1- 2r_E$  and variance  $V$  equal to $$\lim_{T \to \infty} \sum_{|\gamma | \le T}{\frac{1}{{\frac{1}{4}} + \gamma^2}}.$$
 
    Under further conjectures (\cite{S})  the measure $\mu_E$  is symmetric
 about its mean $1-2r_E$, it is smooth, and has support all of $(-\infty, +\infty)$. It is natural to view this in the context of Chebyshev biases; i.e., to interpret---when $r_E$ is positive---the minus sign in $-r_E$ as a measure of the bias that the values $a_p(E)$ have to being negative. This type of {\it bias} in the arithmetic statistics of elliptic curves  hearkens back to the early work of Birch and Swinnerton-Dyer \cite{S}, and in the context we are considering was  first written down by Peter Sarnak  in the spirit of the classical Chebyschev bias, and 'prime races.'   An `Explicit Formula' account of this in the context of  prime numbers in different arithmetic progressions can be found in {\cite{GM}}.  See also \cite{R-S}, \cite{S}
@@ -193,9 +199,8 @@ p \ \mapsto\ \theta_p
 \end{equation}
 
 To have some vocabulary to deal with its statistics, consider
-
-$$U_n(\theta) : = {\frac {\sin(n+1)\theta}{\sin\theta}}$$  so we have:
-
+$$U_n(\theta) : = {\frac {\sin((n+1)\theta)}{\sin(\theta)}},$$
+so we have:
   $$\frac{a_E(p)}{\sqrt p} = U_1(\theta_{E,p}).$$  Note that the set $\{U_n\}$ for $n=0,1,2,\dots$ forms an orthonormal basis of the Hilbert space $L^2[0,\pi]$  with the
  inner product
 
@@ -461,7 +466,12 @@ of the finitely many possible linear combinations, and ask
 about the behavior of $\Phi$.  Is there some clever algorithm
 to get information about this?]]
 \end{itemize}\end{itemize}
+
+
+
 \end{document}
+
+
   \centerline{ $E = 11a$}
  \vskip10pt
  \includegraphics[width=0.9\textwidth]{plots/OSC11.pdf}
